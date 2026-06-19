@@ -65,6 +65,8 @@ Układ nagłówka karty: ikona (indigo, lewy górny róg) + pill (prawy górny r
 
 - **Karta 1 — Delivery** (card)
   Ikona: `user` — człowiek
+  Dobrze zdefiniowana roadmapa z podziałem na priorytety
+  Zróżnicowany stack technologiczny (PHP Laravel, .NET, React)
   4 zespoły dev o różnym setupie bez dedykowanych Scrum Masterów
   Product Ownerzy wąskim gardłem
   Brak Business Analityków
