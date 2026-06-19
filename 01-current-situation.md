@@ -95,15 +95,27 @@ Układ nagłówka karty: ikona (indigo, lewy górny róg) + pill (prawy górny r
 
 ---
 
-## Slajd 2 — Kierunek strategiczny (Pattern 2 · Single-statement / bg-indigo)
+## Slajd 2 — Interactions (bg-soft)
 
-**Pill (section label):** Strategic direction
+**Pill (section label):** Interactions
 
-**Heading:** Nie pytanie <span indigo-glow>czy</span> AI — pytanie jak to <span indigo-glow>poukładać</span>.
+**Heading:** Cztery obszary muszą <span indigo>współpracować</span>, żeby dać efektywność.
 
-**Dwa punkty pod nagłówkiem:**
+**Wizualizacja — diagram Venna (4 kółka):**
 
-- **Wewnętrznie** — AI w procesach Product & Tech: governance, narzędzia, QA, PO. To jest priorytet i temat tej współpracy.
-- **Produktowo** — AI OS, agenty, AR w konfiguratorze. Wymaga najpierw fundamentu: event-driven architecture i uporządkowane dane.
+Cztery zachodzące na siebie koła ułożone symetrycznie (góra-lewo, góra-prawo, dół-lewo, dół-prawo), wszystkie częściowo przenikające się w centrum.
+
+- Koło 1 (góra-lewo): **UX/UI**
+- Koło 2 (góra-prawo): **Product Ownership**
+- Koło 3 (dół-lewo): **Development**
+- Koło 4 (dół-prawo): **QA**
+
+W centrum przecięcia wszystkich czterech kół: napis **Efektywność** (bold, kolor indigo)
+
+Całość otoczona dużym okręgiem z etykietą: **AI** (pill lub napis na obwodzie — symbolizuje że AI oplata i wspiera wszystkie 4 obszary)
+
+**Kolory kół:** wszystkie w odcieniach indigo z różną przezroczystością (np. `rgba(91,78,230, 0.15–0.25)`) żeby przenikanie było widoczne. Obwód każdego koła w `--indigo`.
+
+**Uwaga do layoutu:** diagram zajmuje prawą lub dolną część slajdu, heading i pill po lewej/górze.
 
 **Podpis:** Zaczynamy od środka — żeby skalowanie na zewnątrz miało podstawy.
