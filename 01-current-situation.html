@@ -275,7 +275,24 @@
 <!-- ═══════════════════════════════════════════════
      SLIDE 2 — Interactions / Venn diagram
      ═══════════════════════════════════════════════ -->
-<section class="slide bg-soft fade-in" data-slide="2">
+<style>
+  /* Venn animations — triggered when slide2 gets .venn-play */
+  .venn-uxui      { opacity:0; transform:translate(-60px,-60px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .venn-po        { opacity:0; transform:translate( 60px,-60px); transition: opacity 0.6s ease 0.2s, transform 0.6s ease 0.2s; }
+  .venn-dev       { opacity:0; transform:translate(-60px, 60px); transition: opacity 0.6s ease 0.4s, transform 0.6s ease 0.4s; }
+  .venn-qa        { opacity:0; transform:translate( 60px, 60px); transition: opacity 0.6s ease 0.6s, transform 0.6s ease 0.6s; }
+  .venn-center    { opacity:0; transform:scale(0.6);              transition: opacity 0.5s ease 1.0s, transform 0.5s ease 1.0s; }
+  .venn-ai        { opacity:0;                                    transition: opacity 0.6s ease 1.4s; }
+
+  .venn-play .venn-uxui,
+  .venn-play .venn-po,
+  .venn-play .venn-dev,
+  .venn-play .venn-qa   { opacity:1; transform:translate(0,0); }
+  .venn-play .venn-center { opacity:1; transform:scale(1); }
+  .venn-play .venn-ai     { opacity:1; }
+</style>
+
+<section class="slide bg-soft" data-slide="2" id="slide2">
   <div class="chrome-top">
     <div class="chrome-tag"><span class="chrome-tag-dot"></span> Interactions</div>
     <div class="chrome-num">02 / 02</div>
@@ -284,43 +301,55 @@
   <div class="flex-1 flex items-center max-w-7xl mx-auto w-full gap-16 pt-10">
 
     <!-- LEFT: heading -->
-    <div style="flex: 0 0 38%;">
+    <div style="flex: 0 0 36%;">
       <span class="pill pill-ind mb-6" style="display:inline-flex;">Interactions</span>
-      <h2 class="h-display mt-4" style="font-size: clamp(1.9rem, 3.5vw, 3rem); color: var(--ink); line-height: 1.05;">
+      <h2 class="h-display mt-4" style="font-size: clamp(1.8rem, 3.2vw, 2.8rem); color: var(--ink); line-height: 1.05;">
         Cztery obszary muszą <span class="ind">współpracować</span>, żeby dać efektywność.
       </h2>
-      <p style="margin-top: 1.5rem; font-size: 0.9rem; color: var(--ink-mute); line-height: 1.65;">
+      <p style="margin-top: 1.5rem; font-size: 0.88rem; color: var(--ink-mute); line-height: 1.65;">
         UX/UI, Product Ownership, Development i QA przenikają się w centrum. AI oplata i wspiera wszystkie cztery.
       </p>
     </div>
 
     <!-- RIGHT: Venn SVG -->
     <div style="flex: 1; display:flex; justify-content:center; align-items:center;">
-      <svg viewBox="0 0 420 420" xmlns="http://www.w3.org/2000/svg" style="width:min(78vh,680px);height:min(78vh,680px);">
+      <svg id="venn-svg" viewBox="0 0 420 420" xmlns="http://www.w3.org/2000/svg" style="width:min(76vh,660px);height:min(76vh,660px); overflow:visible;">
 
-        <!-- Outer AI circle -->
-        <circle cx="210" cy="210" r="195" fill="none" stroke="var(--indigo)" stroke-width="1.5" stroke-dasharray="6 4" opacity="0.5"/>
-        <text x="210" y="22" text-anchor="middle" font-family="Onest,sans-serif" font-size="13" font-weight="600" fill="var(--indigo)" letter-spacing="0.08em">AI</text>
+        <!-- Outer AI circle — animates last -->
+        <g class="venn-ai">
+          <circle cx="210" cy="210" r="195" fill="none" stroke="var(--indigo)" stroke-width="1.5" stroke-dasharray="6 4" opacity="0.6"/>
+          <text x="210" y="15" text-anchor="middle" font-family="Onest,sans-serif" font-size="11" font-weight="700" fill="var(--indigo)" letter-spacing="0.12em">AI</text>
+        </g>
 
-        <!-- 4 Venn circles -->
-        <!-- UX/UI — top left -->
-        <circle cx="165" cy="165" r="105" fill="rgba(91,78,230,0.12)" stroke="var(--indigo)" stroke-width="1.5"/>
-        <!-- Product Ownership — top right -->
-        <circle cx="255" cy="165" r="105" fill="rgba(91,78,230,0.12)" stroke="var(--indigo)" stroke-width="1.5"/>
-        <!-- Development — bottom left -->
-        <circle cx="165" cy="255" r="105" fill="rgba(91,78,230,0.12)" stroke="var(--indigo)" stroke-width="1.5"/>
-        <!-- QA — bottom right -->
-        <circle cx="255" cy="255" r="105" fill="rgba(91,78,230,0.12)" stroke="var(--indigo)" stroke-width="1.5"/>
+        <!-- UX/UI — slides in from top-left -->
+        <g class="venn-uxui">
+          <circle cx="165" cy="165" r="105" fill="rgba(91,78,230,0.13)" stroke="var(--indigo)" stroke-width="1.5"/>
+          <text x="108" y="105" text-anchor="middle" font-family="Onest,sans-serif" font-size="11" font-weight="700" fill="var(--ink)">UX/UI</text>
+        </g>
 
-        <!-- Labels -->
-        <text x="102" y="122" text-anchor="middle" font-family="Onest,sans-serif" font-size="13" font-weight="600" fill="var(--ink)">UX/UI</text>
-        <text x="318" y="122" text-anchor="middle" font-family="Onest,sans-serif" font-size="13" font-weight="600" fill="var(--ink)">Product</text>
-        <text x="318" y="138" text-anchor="middle" font-family="Onest,sans-serif" font-size="13" font-weight="600" fill="var(--ink)">Ownership</text>
-        <text x="102" y="308" text-anchor="middle" font-family="Onest,sans-serif" font-size="13" font-weight="600" fill="var(--ink)">Development</text>
-        <text x="318" y="308" text-anchor="middle" font-family="Onest,sans-serif" font-size="13" font-weight="600" fill="var(--ink)">QA</text>
+        <!-- Product Ownership — slides in from top-right -->
+        <g class="venn-po">
+          <circle cx="255" cy="165" r="105" fill="rgba(91,78,230,0.13)" stroke="var(--indigo)" stroke-width="1.5"/>
+          <text x="312" y="98" text-anchor="middle" font-family="Onest,sans-serif" font-size="11" font-weight="700" fill="var(--ink)">Product</text>
+          <text x="312" y="112" text-anchor="middle" font-family="Onest,sans-serif" font-size="11" font-weight="700" fill="var(--ink)">Ownership</text>
+        </g>
 
-        <!-- Center label -->
-        <text x="210" y="205" text-anchor="middle" font-family="Onest,sans-serif" font-size="15" font-weight="700" fill="var(--indigo)">Efektywność</text>
+        <!-- Development — slides in from bottom-left -->
+        <g class="venn-dev">
+          <circle cx="165" cy="255" r="105" fill="rgba(91,78,230,0.13)" stroke="var(--indigo)" stroke-width="1.5"/>
+          <text x="108" y="325" text-anchor="middle" font-family="Onest,sans-serif" font-size="11" font-weight="700" fill="var(--ink)">Development</text>
+        </g>
+
+        <!-- QA — slides in from bottom-right, red -->
+        <g class="venn-qa">
+          <circle cx="255" cy="255" r="105" fill="rgba(220,38,38,0.1)" stroke="#dc2626" stroke-width="1.5"/>
+          <text x="312" y="325" text-anchor="middle" font-family="Onest,sans-serif" font-size="11" font-weight="700" fill="#dc2626">QA</text>
+        </g>
+
+        <!-- Center label — appears after all circles -->
+        <g class="venn-center" style="transform-origin: 210px 210px;">
+          <text x="210" y="206" text-anchor="middle" font-family="Onest,sans-serif" font-size="13" font-weight="700" fill="var(--indigo)">Efektywność</text>
+        </g>
 
       </svg>
     </div>
@@ -338,6 +367,13 @@
     current = Math.max(0, Math.min(n, total - 1));
     slides[current].classList.add('active');
     document.getElementById('progress').style.width = ((current + 1) / total * 100) + '%';
+    // Trigger Venn animation when slide 2 becomes active
+    if (current === 1) {
+      const s2 = document.getElementById('slide2');
+      s2.classList.remove('venn-play');
+      void s2.offsetWidth; // reflow to restart animation
+      setTimeout(() => s2.classList.add('venn-play'), 50);
+    }
   }
 
   document.addEventListener('keydown', e => {
