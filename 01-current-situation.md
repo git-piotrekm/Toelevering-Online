@@ -51,3 +51,37 @@ Priorytetem na tę chwilę jest obszar nr 1 — podniesienie efektywności dzia�
 ---
 
 # PREZENTACJA
+
+---
+
+## Slajd 1 — Sytuacja zastana (Pattern 4 · Three-column grid / bg-soft)
+
+**Pill (section label):** Where we are
+
+**Heading:** AI już działa. Brakuje <span indigo>fundamentów</span>.
+
+**Trzy karty:**
+
+- **Karta 1 — Delivery** (card-soft)
+  4 zespoły dev + PO przeciążeni bez BA i business ownerów. Refinement tylko 1 sprint do przodu. Scrum bez Scrum Masterów.
+
+- **Karta 2 — QA** (card-ind)
+  Największa luka. Brak strategii testowej, brak testów integracyjnych. Bugi wykrywane przez klientów — nie przez zespół.
+
+- **Karta 3 — AI** (card-dark)
+  ~80% kodu front-end przez AI. Trzy różne narzędzia, zero governance, brak polityki tokenów i review dla kodu generowanego przez AI.
+
+---
+
+## Slajd 2 — Kierunek strategiczny (Pattern 2 · Single-statement / bg-indigo)
+
+**Pill (section label):** Strategic direction
+
+**Heading:** Nie pytanie <span indigo-glow>czy</span> AI — pytanie jak to <span indigo-glow>poukładać</span>.
+
+**Dwa punkty pod nagłówkiem:**
+
+- **Wewnętrznie** — AI w procesach Product & Tech: governance, narzędzia, QA, PO. To jest priorytet i temat tej współpracy.
+- **Produktowo** — AI OS, agenty, AR w konfiguratorze. Wymaga najpierw fundamentu: event-driven architecture i uporządkowane dane.
+
+**Podpis:** Zaczynamy od środka — żeby skalowanie na zewnątrz miało podstawy.
