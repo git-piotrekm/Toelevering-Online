@@ -277,12 +277,12 @@
      ═══════════════════════════════════════════════ -->
 <style>
   /* Venn animations — triggered when slide2 gets .venn-play */
-  .venn-uxui      { opacity:0; transform:translate(-60px,-60px); transition: opacity 0.6s ease, transform 0.6s ease; }
-  .venn-po        { opacity:0; transform:translate( 60px,-60px); transition: opacity 0.6s ease 0.2s, transform 0.6s ease 0.2s; }
-  .venn-dev       { opacity:0; transform:translate(-60px, 60px); transition: opacity 0.6s ease 0.4s, transform 0.6s ease 0.4s; }
-  .venn-qa        { opacity:0; transform:translate( 60px, 60px); transition: opacity 0.6s ease 0.6s, transform 0.6s ease 0.6s; }
-  .venn-center    { opacity:0; transform:scale(0.6);              transition: opacity 0.5s ease 1.0s, transform 0.5s ease 1.0s; }
-  .venn-ai        { opacity:0;                                    transition: opacity 0.6s ease 1.4s; }
+  .venn-uxui      { opacity:0; transform:translate(-60px,-60px); transition: opacity 1.0s ease, transform 1.0s ease; }
+  .venn-po        { opacity:0; transform:translate( 60px,-60px); transition: opacity 1.0s ease 0.5s, transform 1.0s ease 0.5s; }
+  .venn-dev       { opacity:0; transform:translate(-60px, 60px); transition: opacity 1.0s ease 1.0s, transform 1.0s ease 1.0s; }
+  .venn-qa        { opacity:0; transform:translate( 60px, 60px); transition: opacity 1.0s ease 1.5s, transform 1.0s ease 1.5s; }
+  .venn-center    { opacity:0; transform:scale(0.6);              transition: opacity 0.8s ease 2.2s, transform 0.8s ease 2.2s; }
+  .venn-ai        { opacity:0;                                    transition: opacity 1.0s ease 3.0s; }
 
   .venn-play .venn-uxui,
   .venn-play .venn-po,
@@ -313,37 +313,39 @@
 
     <!-- RIGHT: Venn SVG -->
     <div style="flex: 1; display:flex; justify-content:center; align-items:center;">
-      <svg id="venn-svg" viewBox="0 0 420 420" xmlns="http://www.w3.org/2000/svg" style="width:min(76vh,660px);height:min(76vh,660px); overflow:visible;">
+      <svg id="venn-svg" viewBox="0 -20 420 450" xmlns="http://www.w3.org/2000/svg" style="width:min(76vh,660px);height:min(76vh,660px); overflow:visible;">
 
         <!-- Outer AI circle — animates last -->
         <g class="venn-ai">
           <circle cx="210" cy="210" r="195" fill="none" stroke="var(--indigo)" stroke-width="1.5" stroke-dasharray="6 4" opacity="0.6"/>
-          <text x="210" y="15" text-anchor="middle" font-family="Onest,sans-serif" font-size="11" font-weight="700" fill="var(--indigo)" letter-spacing="0.12em">AI</text>
+          <!-- AI label above the circle, not overlapping -->
+          <rect x="188" y="-18" width="44" height="22" rx="11" fill="var(--bg-soft)" stroke="var(--indigo)" stroke-width="1.5"/>
+          <text x="210" y="-3" text-anchor="middle" font-family="Onest,sans-serif" font-size="13" font-weight="700" fill="var(--indigo)" letter-spacing="0.1em">AI</text>
         </g>
 
         <!-- UX/UI — slides in from top-left -->
         <g class="venn-uxui">
           <circle cx="165" cy="165" r="105" fill="rgba(91,78,230,0.13)" stroke="var(--indigo)" stroke-width="1.5"/>
-          <text x="108" y="105" text-anchor="middle" font-family="Onest,sans-serif" font-size="11" font-weight="700" fill="var(--ink)">UX/UI</text>
+          <text x="128" y="118" text-anchor="middle" font-family="Onest,sans-serif" font-size="11" font-weight="700" fill="var(--ink)">UX/UI</text>
         </g>
 
         <!-- Product Ownership — slides in from top-right -->
         <g class="venn-po">
           <circle cx="255" cy="165" r="105" fill="rgba(91,78,230,0.13)" stroke="var(--indigo)" stroke-width="1.5"/>
-          <text x="312" y="98" text-anchor="middle" font-family="Onest,sans-serif" font-size="11" font-weight="700" fill="var(--ink)">Product</text>
-          <text x="312" y="112" text-anchor="middle" font-family="Onest,sans-serif" font-size="11" font-weight="700" fill="var(--ink)">Ownership</text>
+          <text x="292" y="111" text-anchor="middle" font-family="Onest,sans-serif" font-size="11" font-weight="700" fill="var(--ink)">Product</text>
+          <text x="292" y="125" text-anchor="middle" font-family="Onest,sans-serif" font-size="11" font-weight="700" fill="var(--ink)">Ownership</text>
         </g>
 
         <!-- Development — slides in from bottom-left -->
         <g class="venn-dev">
           <circle cx="165" cy="255" r="105" fill="rgba(91,78,230,0.13)" stroke="var(--indigo)" stroke-width="1.5"/>
-          <text x="108" y="325" text-anchor="middle" font-family="Onest,sans-serif" font-size="11" font-weight="700" fill="var(--ink)">Development</text>
+          <text x="128" y="312" text-anchor="middle" font-family="Onest,sans-serif" font-size="11" font-weight="700" fill="var(--ink)">Development</text>
         </g>
 
         <!-- QA — slides in from bottom-right, red -->
         <g class="venn-qa">
           <circle cx="255" cy="255" r="105" fill="rgba(220,38,38,0.1)" stroke="#dc2626" stroke-width="1.5"/>
-          <text x="312" y="325" text-anchor="middle" font-family="Onest,sans-serif" font-size="11" font-weight="700" fill="#dc2626">QA</text>
+          <text x="292" y="312" text-anchor="middle" font-family="Onest,sans-serif" font-size="11" font-weight="700" fill="#dc2626">QA</text>
         </g>
 
         <!-- Center label — appears after all circles -->
