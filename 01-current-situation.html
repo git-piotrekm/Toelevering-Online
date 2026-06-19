@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sytuacja zastana — Toelevering Online</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@100..900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg-soft: #f1f1f7;
+    --bg-card: #ffffff;
+    --indigo: #5b4ee6;
+    --indigo-dark: #4a3fd1;
+    --indigo-soft: #ede9fe;
+    --indigo-glow: #8b85f0;
+    --ink: #1a1a2e;
+    --ink-2: #2d2d44;
+    --ink-mute: #6b6987;
+    --ink-soft: #a4a3bd;
+    --rule: #e6e5ee;
+    --rule-strong: #d4d3e0;
+    --dark-card: #1a1a2e;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Onest', system-ui, -apple-system, sans-serif;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow: hidden;
+    height: 100vh;
+    margin: 0;
+    letter-spacing: -0.015em;
+  }
+  .mono { font-family: 'JetBrains Mono', monospace; letter-spacing: 0; }
+  .h-display { font-family: 'Onest', sans-serif; font-weight: 700; letter-spacing: -0.035em; line-height: 0.98; }
+  .h-display-md { font-family: 'Onest', sans-serif; font-weight: 600; letter-spacing: -0.025em; line-height: 1.0; }
+
+  .slide {
+    position: absolute; inset: 0;
+    padding: clamp(2rem, 5vw, 5rem);
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 320ms cubic-bezier(0.2, 0.7, 0.3, 1);
+    overflow: hidden;
+    background: var(--bg);
+  }
+  .slide.active { opacity: 1; pointer-events: auto; }
+  .slide.bg-soft { background: var(--bg-soft); }
+  .slide.bg-dark { background: var(--dark-card); color: #ffffff; }
+  .slide.bg-indigo { background: var(--indigo); color: #ffffff; }
+
+  .chrome-top {
+    position: absolute;
+    top: 1.75rem;
+    left: 2rem; right: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 10;
+  }
+  .chrome-tag {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-family: 'Onest', sans-serif;
+    font-size: 0.8rem;
+    color: var(--ink-mute);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  .chrome-tag-dot { width: 7px; height: 7px; background: var(--indigo); border-radius: 50%; }
+  .chrome-num { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--ink-mute); }
+  .slide.bg-dark .chrome-tag,
+  .slide.bg-dark .chrome-num,
+  .slide.bg-indigo .chrome-tag,
+  .slide.bg-indigo .chrome-num { color: rgba(255,255,255,0.7); }
+  .slide.bg-dark .chrome-tag-dot { background: var(--indigo-glow); }
+  .slide.bg-indigo .chrome-tag-dot { background: #ffffff; }
+
+  .nav-hint {
+    position: fixed;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    color: var(--ink-mute);
+    text-transform: uppercase;
+    z-index: 50;
+    background: #ffffff;
+    padding: 0.55rem 1.1rem;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    box-shadow: 0 2px 8px rgba(91, 78, 230, 0.06);
+  }
+  .progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    background: var(--indigo);
+    z-index: 60;
+    transition: width 320ms cubic-bezier(0.2, 0.7, 0.3, 1);
+  }
+
+  .ind { color: var(--indigo); }
+  .ind-glow { color: var(--indigo-glow); }
+  .ink-mute { color: var(--ink-mute); }
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.4rem 0.95rem;
+    border-radius: 999px;
+    font-family: 'Onest', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: -0.005em;
+  }
+  .pill::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0.85;
+  }
+  .pill-ind { color: var(--indigo); background: var(--indigo-soft); }
+  .pill-ink { color: var(--ink); background: var(--bg-soft); }
+  .pill-on-dark { color: #ffffff; background: rgba(255,255,255,0.12); }
+  .pill-on-indigo { color: #ffffff; background: rgba(255,255,255,0.18); }
+
+  .card { background: var(--bg-card); border: 1px solid var(--rule); border-radius: 24px; padding: 2rem; }
+  .card-soft { background: var(--bg-soft); border-radius: 24px; padding: 2rem; }
+  .card-ind { background: var(--indigo); color: #ffffff; border-radius: 24px; padding: 2rem; }
+  .card-dark { background: var(--dark-card); color: #ffffff; border-radius: 24px; padding: 2rem; }
+
+  .fade-in > * {
+    opacity: 0;
+    transform: translateY(12px);
+    animation: rise 700ms cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
+  }
+  .fade-in > *:nth-child(1) { animation-delay: 60ms; }
+  .fade-in > *:nth-child(2) { animation-delay: 180ms; }
+  .fade-in > *:nth-child(3) { animation-delay: 280ms; }
+  .fade-in > *:nth-child(4) { animation-delay: 380ms; }
+  .fade-in > *:nth-child(5) { animation-delay: 480ms; }
+  @keyframes rise { to { opacity: 1; transform: translateY(0); } }
+
+  .deck-logo { display: inline-flex; align-items: center; }
+  .deck-logo svg { height: 100%; width: auto; display: inline-block; fill: currentColor; }
+</style>
+</head>
+<body>
+
+<svg style="display:none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <symbol id="logo-ams" viewBox="0 0 510 74">
+      <path d="M0,0v73.5h509.6V0H0z M504.9,68.8H4.7V4.7h500.2V68.8z"/>
+      <path d="M358.5,54.8h5.9c0.2,0,0.3-0.1,0.4-0.2c0.1-0.1,0.2-0.3,0.2-0.4l-0.1-20.1c0-0.1,0-0.2,0.1-0.2c0.1,0,0.1,0,0.2,0.1l9.7,20.3c0.2,0.3,0.4,0.5,0.7,0.5h6c0.2,0,0.3-0.1,0.4-0.2c0.1-0.1,0.2-0.3,0.2-0.4V20.1c-0.3-0.2-0.3-0.3-0.4-0.4c-0.1-0.1-0.3-0.2-0.4-0.2h-5.8c-0.2,0-0.3,0.1-0.4,0.2c-0.1,0.1-0.2,0.3-0.2,0.4l0.1,19.9c0,0.1,0,0.2-0.1,0.2c-0.1,0-0.1,0-0.2-0.1l-9.7-20.2c-0.1-0.3-0.4-0.5-0.7-0.5h-5.9c-0.2,0-0.3,0.1-0.4,0.2c-0.1,0.1-0.2,0.3-0.2,0.4v34.2c0,0.2,0.1,0.3,0.2,0.4C358.2,54.7,358.4,54.8,358.5,54.8z"/>
+      <path d="M49.2,54.9h5.9c0.2,0,0.3-0.1,0.4-0.2c0.1-0.1,0.2-0.3,0.2-0.4v-22c0-0.1,0-0.2,0.1-0.2c0.1,0,0.1,0,0.2,0.1l4,7.5c0.1,0.3,0.4,0.4,0.8,0.4h1.7c0.3,0,0.6-0.1,0.8-0.4l4.1-7.5c0.1-0.1,0.1-0.2,0.2-0.2c0.1,0,0.1,0.1,0.1,0.2v22c0,0.2,0.1,0.3,0.2,0.4c0.1,0.1,0.3,0.2,0.4,0.2h5.9c0.2,0,0.3-0.1,0.4-0.2c0.1-0.1,0.2-0.3,0.2-0.4V20.1c0.1-0.2,0-0.3-0.1-0.4c-0.1-0.1-0.3-0.2-0.4-0.2h-5.8c-0.3,0-0.6,0.1-0.8,0.4l-5.8,10.6c-0.1,0.1-0.2,0.1-0.3,0l-5.8-10.6c-0.2-0.3-0.4-0.4-0.8-0.4h-5.8c-0.2,0-0.3,0.1-0.4,0.2c-0.1,0.1-0.2,0.3-0.2,0.4v34.2c0,0.2,0.1,0.3,0.2,0.4C48.9,54.8,49.1,54.9,49.2,54.9z"/>
+      <path d="M18.6,54.9h6.1c0.4,0,0.6-0.2,0.7-0.5l1.2-5L31.5,29c0-0.1,0.1-0.2,0.2-0.2s0.1,0,0.1,0.2l4.7,20.4l1.2,5c0.1,0.3,0.3,0.5,0.7,0.5h6.2c0.4,0,0.6-0.2,0.6-0.5L45,54.2L35.9,20c-0.1-0.3-0.3-0.5-0.7-0.5h-7.3c-0.4,0-0.6,0.2-0.7,0.5l-9.1,34.2C18,54.6,18.2,54.9,18.6,54.9z"/>
+      <path d="M83.6,37.2c1.3,0.9,2.9,1.8,4.9,2.8c1.6,0.8,2.9,1.5,3.7,2s1.4,1,1.8,1.6c0.4,0.6,0.7,1.2,0.7,2c0,1-0.4,1.9-1,2.6c-0.7,0.7-1.7,1-3,1c-1.4,0-2.6-0.4-3.4-1.2c-0.9-0.8-1.3-1.8-1.3-3v-1c0-0.2-0.1-0.3-0.2-0.4c-0.1-0.1-0.3-0.2-0.4-0.2h-5.8c-0.2,0-0.3,0.1-0.4,0.2C79,43.7,79,43.9,79,44v1.4c0,2,0.5,3.7,1.4,5.2s2.3,2.7,4,3.5c1.7,0.8,3.7,1.2,6,1.2c3.4,0,6.2-0.9,8.3-2.7c2.1-1.8,3.1-4.2,3.1-7.3c0-1.7-0.4-3.2-1.1-4.4c-0.7-1.2-1.7-2.2-2.8-3c-1.1-0.8-2.6-1.7-4.6-2.9l-1.1-0.6c-1.7-0.8-2.9-1.5-3.8-2s-1.5-1.1-1.9-1.7c-0.4-0.6-0.6-1.2-0.6-2c0-1.1,0.3-2,1-2.6c0.7-0.6,1.6-0.9,2.8-0.9c1.4,0,2.5,0.4,3.4,1.2c0.8,0.8,1.3,1.8,1.3,3v0.9c0,0.2,0.1,0.3,0.2,0.4c0.1,0.1,0.4,0.3,0.5,0.3h5.8c0.2,0,0.3-0.1,0.4-0.2c0.1-0.1,0.2-0.3,0.2-0.4v-1c0-2-0.5-3.8-1.5-5.4c-1-1.6-2.3-2.8-4.1-3.6c-1.8-0.9-3.8-1.3-6-1.3c-3.3,0-5.9,0.9-8,2.6s-3,4.1-3,7.1c0,2,0.4,3.6,1.4,5C81.2,35.2,82.3,36.3,83.6,37.2z"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="progress-bar" id="progress" style="width: 0%"></div>
+<div class="nav-hint">← → navigate · space next · esc reset</div>
+
+<!-- ═══════════════════════════════════════════════
+     SLIDE 1 — Three-column grid / bg-soft
+     ═══════════════════════════════════════════════ -->
+<section class="slide bg-soft active fade-in" data-slide="1">
+  <div class="chrome-top">
+    <div class="chrome-tag"><span class="chrome-tag-dot"></span> Where we are</div>
+    <div class="chrome-num">01 / 02</div>
+  </div>
+
+  <div class="flex-1 flex flex-col justify-center max-w-7xl mx-auto w-full pt-12">
+
+    <div class="mb-8">
+      <span class="pill pill-ind mb-4">Sytuacja zastana</span>
+      <h2 class="h-display mt-4" style="font-size: clamp(2.4rem, 5vw, 4.2rem); color: var(--ink);">
+        AI już działa. Brakuje <span class="ind">fundamentów</span>.
+      </h2>
+    </div>
+
+    <div class="grid grid-cols-3 gap-5 flex-1" style="max-height: 56vh;">
+
+      <!-- Karta 1: Delivery -->
+      <div class="card flex flex-col gap-4">
+        <div>
+          <span class="pill pill-ink" style="font-size: 0.72rem;">Delivery</span>
+        </div>
+        <h3 style="font-size: 1.25rem; font-weight: 700; letter-spacing: -0.025em; color: var(--ink); line-height: 1.2;">
+          PO przeciążeni,<br>Scrum bez struktury
+        </h3>
+        <ul style="font-size: 0.88rem; color: var(--ink-mute); line-height: 1.65; list-style: none; padding: 0; margin: 0; flex: 1;">
+          <li style="padding: 0.35rem 0; border-bottom: 1px solid var(--rule);">4 zespoły dev + PO bez BA i business ownerów</li>
+          <li style="padding: 0.35rem 0; border-bottom: 1px solid var(--rule);">Refinement tylko 1 sprint do przodu</li>
+          <li style="padding: 0.35rem 0;">Scrum bez Scrum Masterów — różna dojrzałość</li>
+        </ul>
+      </div>
+
+      <!-- Karta 2: QA -->
+      <div class="card-ind flex flex-col gap-4">
+        <div>
+          <span class="pill pill-on-indigo" style="font-size: 0.72rem;">QA — największa luka</span>
+        </div>
+        <h3 style="font-size: 1.25rem; font-weight: 700; letter-spacing: -0.025em; color: #fff; line-height: 1.2;">
+          Bugi wykrywają<br>klienci, nie zespół
+        </h3>
+        <ul style="font-size: 0.88rem; color: rgba(255,255,255,0.8); line-height: 1.65; list-style: none; padding: 0; margin: 0; flex: 1;">
+          <li style="padding: 0.35rem 0; border-bottom: 1px solid rgba(255,255,255,0.15);">Brak strategii testowej i testów integracyjnych</li>
+          <li style="padding: 0.35rem 0; border-bottom: 1px solid rgba(255,255,255,0.15);">Konfigurator łączy PIM, sklep i logistykę</li>
+          <li style="padding: 0.35rem 0;">Hotfixy przerywają sprinty</li>
+        </ul>
+      </div>
+
+      <!-- Karta 3: AI -->
+      <div class="card-dark flex flex-col gap-4">
+        <div>
+          <span class="pill pill-on-dark" style="font-size: 0.72rem;">AI — stan obecny</span>
+        </div>
+        <h3 style="font-size: 1.25rem; font-weight: 700; letter-spacing: -0.025em; color: #fff; line-height: 1.2;">
+          ~80% kodu z AI,<br>zero governance
+        </h3>
+        <ul style="font-size: 0.88rem; color: rgba(255,255,255,0.7); line-height: 1.65; list-style: none; padding: 0; margin: 0; flex: 1;">
+          <li style="padding: 0.35rem 0; border-bottom: 1px solid rgba(255,255,255,0.1);">3 różne narzędzia — Claude Code, Cursor, Junie</li>
+          <li style="padding: 0.35rem 0; border-bottom: 1px solid rgba(255,255,255,0.1);">Brak polityki tokenów i review dla kodu AI</li>
+          <li style="padding: 0.35rem 0;">Ogromne PR-y trudne do review przez ludzi</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     SLIDE 2 — Single-statement / bg-indigo
+     ═══════════════════════════════════════════════ -->
+<section class="slide bg-indigo fade-in" data-slide="2">
+  <div class="chrome-top">
+    <div class="chrome-tag"><span class="chrome-tag-dot"></span> Strategic direction</div>
+    <div class="chrome-num">02 / 02</div>
+  </div>
+
+  <div class="flex-1 flex flex-col justify-center max-w-5xl mx-auto w-full">
+
+    <span class="pill pill-on-indigo mb-8 w-fit">Kierunek strategiczny</span>
+
+    <h2 class="h-display mb-10" style="font-size: clamp(2.8rem, 6vw, 5.5rem); color: #fff; line-height: 1.0;">
+      Nie pytanie <span class="ind-glow">czy</span> AI —<br>
+      pytanie jak to <span class="ind-glow">poukładać</span>.
+    </h2>
+
+    <div class="grid grid-cols-2 gap-5" style="max-width: 860px;">
+
+      <div style="background: rgba(255,255,255,0.1); border-radius: 20px; padding: 1.75rem;">
+        <div class="mono" style="font-size: 0.65rem; letter-spacing: 0.12em; color: rgba(255,255,255,0.5); text-transform: uppercase; margin-bottom: 0.75rem;">Priorytet teraz</div>
+        <div style="font-weight: 700; font-size: 1.05rem; color: #fff; margin-bottom: 0.5rem;">Wewnętrznie</div>
+        <div style="font-size: 0.88rem; color: rgba(255,255,255,0.75); line-height: 1.6;">AI w procesach Product & Tech: governance, narzędzia, QA, PO. To jest temat tej współpracy z AS.</div>
+      </div>
+
+      <div style="background: rgba(255,255,255,0.06); border-radius: 20px; padding: 1.75rem;">
+        <div class="mono" style="font-size: 0.65rem; letter-spacing: 0.12em; color: rgba(255,255,255,0.35); text-transform: uppercase; margin-bottom: 0.75rem;">Kolejny krok</div>
+        <div style="font-weight: 700; font-size: 1.05rem; color: rgba(255,255,255,0.75); margin-bottom: 0.5rem;">Produktowo</div>
+        <div style="font-size: 0.88rem; color: rgba(255,255,255,0.5); line-height: 1.6;">AI OS, agenty, AR w konfiguratorze. Wymaga najpierw fundamentu: event-driven architecture.</div>
+      </div>
+
+    </div>
+
+    <p style="margin-top: 2.5rem; font-size: 0.95rem; color: rgba(255,255,255,0.55); font-style: italic;">
+      Zaczynamy od środka — żeby skalowanie na zewnątrz miało podstawy.
+    </p>
+
+  </div>
+
+  <!-- AS logo bottom right -->
+  <div style="position: absolute; bottom: 1.75rem; right: 2rem; color: rgba(255,255,255,0.35); height: 22px;">
+    <svg style="height:100%;width:auto;fill:currentColor;"><use href="#logo-ams"/></svg>
+  </div>
+</section>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  let current = 0;
+
+  function goTo(n) {
+    slides[current].classList.remove('active');
+    current = Math.max(0, Math.min(n, total - 1));
+    slides[current].classList.add('active');
+    document.getElementById('progress').style.width = ((current + 1) / total * 100) + '%';
+  }
+
+  document.addEventListener('keydown', e => {
+    if (['ArrowRight','Space','PageDown'].includes(e.code)) { e.preventDefault(); goTo(current + 1); }
+    if (['ArrowLeft','PageUp'].includes(e.code)) { e.preventDefault(); goTo(current - 1); }
+    if (e.code === 'Home') goTo(0);
+    if (e.code === 'End') goTo(total - 1);
+    if (e.code === 'Escape') goTo(0);
+  });
+
+  document.addEventListener('click', e => {
+    e.clientX > window.innerWidth * 0.3 ? goTo(current + 1) : goTo(current - 1);
+  });
+
+  goTo(0);
+</script>
+</body>
+</html>
