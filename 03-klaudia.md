@@ -1,0 +1,7 @@
+# Klaudia
+
+# NOTATKI
+
+---
+
+# PREZENTACJA
