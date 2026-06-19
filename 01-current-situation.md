@@ -65,12 +65,13 @@ Układ nagłówka karty: ikona (indigo, lewy górny róg) + pill (prawy górny r
 
 - **Karta 1 — Delivery** (card)
   Ikona: `user` — człowiek
-  Dobrze zdefiniowana roadmapa z podziałem na priorytety
+  Dobrze zdefiniowna roadmapa z podziałem na priorytety 
   Zróżnicowany stack technologiczny (PHP Laravel, .NET, React)
   4 zespoły dev o różnym setupie bez dedykowanych Scrum Masterów
   Product Ownerzy wąskim gardłem
   Brak Business Analityków
   Refinement tylko 1 sprint do przodu
+
 
 - **Karta 2 — Kontrola Jakości QA** (card)
   Ikona: `bug-ant` — robak (ciało + głowa + czułki + 6 nóg + linia środkowa)
@@ -117,5 +118,3 @@ Całość otoczona dużym okręgiem z etykietą: **AI** (pill lub napis na obwod
 **Kolory kół:** wszystkie w odcieniach indigo z różną przezroczystością (np. `rgba(91,78,230, 0.15–0.25)`) żeby przenikanie było widoczne. Obwód każdego koła w `--indigo`.
 
 **Uwaga do layoutu:** diagram zajmuje prawą lub dolną część slajdu, heading i pill po lewej/górze.
-
-**Podpis:** Zaczynamy od środka — żeby skalowanie na zewnątrz miało podstawy.
