@@ -58,7 +58,7 @@ Priorytetem na tę chwilę jest obszar nr 1 — podniesienie efektywności dzia�
 
 **Pill (section label):** Where we are
 
-**Heading:** AI już działa. Brakuje <span indigo>fundamentów</span>.
+**Heading:** Dojrzały zespoł z moliwością <span indigo> zwiększenia efektywności </span>.
 
 **Trzy karty:**
 
@@ -69,14 +69,14 @@ Priorytetem na tę chwilę jest obszar nr 1 — podniesienie efektywności dzia�
   Brak Business Analityków
   Refinement tylko 1 sprint do przodu
 
-- **Karta 2 — QA** (card-ind)
+- **Karta 2 — Kontrola Jakości QA** (card-ind)
   Ikona (biała, góra karty): `bug-ant` — robak, symbol błędu
   Brak dedykowanych QA
   Brak strategii testowej
   Brak testów integracyjnych
   Potencjalne bugi wykrywane przez klientów/partnerów
 
-- **Karta 3 — AI** (card-dark)
+- **Karta 3 — Implementacja AI ** (card-dark)
   Ikona (indigo-glow, góra karty): `cpu-chip` — chip/robot, AI bez nadzoru
   Brak osoby odpowiedzialnej za wdrożenia pracy wspomaganej AI
   Inicjatywy oddolne wdrażania narzędzi AI
