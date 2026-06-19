@@ -273,48 +273,58 @@
 </section>
 
 <!-- ═══════════════════════════════════════════════
-     SLIDE 2 — Single-statement / bg-indigo
+     SLIDE 2 — Interactions / Venn diagram
      ═══════════════════════════════════════════════ -->
-<section class="slide bg-indigo fade-in" data-slide="2">
+<section class="slide bg-soft fade-in" data-slide="2">
   <div class="chrome-top">
-    <div class="chrome-tag"><span class="chrome-tag-dot"></span> Strategic direction</div>
+    <div class="chrome-tag"><span class="chrome-tag-dot"></span> Interactions</div>
     <div class="chrome-num">02 / 02</div>
   </div>
 
-  <div class="flex-1 flex flex-col justify-center max-w-5xl mx-auto w-full">
+  <div class="flex-1 flex items-center max-w-7xl mx-auto w-full gap-16 pt-10">
 
-    <span class="pill pill-on-indigo mb-8 w-fit">Kierunek strategiczny</span>
-
-    <h2 class="h-display mb-10" style="font-size: clamp(2.8rem, 6vw, 5.5rem); color: #fff; line-height: 1.0;">
-      Nie pytanie <span class="ind-glow">czy</span> AI —<br>
-      pytanie jak to <span class="ind-glow">poukładać</span>.
-    </h2>
-
-    <div class="grid grid-cols-2 gap-5" style="max-width: 860px;">
-
-      <div style="background: rgba(255,255,255,0.1); border-radius: 20px; padding: 1.75rem;">
-        <div class="mono" style="font-size: 0.65rem; letter-spacing: 0.12em; color: rgba(255,255,255,0.5); text-transform: uppercase; margin-bottom: 0.75rem;">Priorytet teraz</div>
-        <div style="font-weight: 700; font-size: 1.05rem; color: #fff; margin-bottom: 0.5rem;">Wewnętrznie</div>
-        <div style="font-size: 0.88rem; color: rgba(255,255,255,0.75); line-height: 1.6;">AI w procesach Product & Tech: governance, narzędzia, QA, PO. To jest temat tej współpracy z AS.</div>
-      </div>
-
-      <div style="background: rgba(255,255,255,0.06); border-radius: 20px; padding: 1.75rem;">
-        <div class="mono" style="font-size: 0.65rem; letter-spacing: 0.12em; color: rgba(255,255,255,0.35); text-transform: uppercase; margin-bottom: 0.75rem;">Kolejny krok</div>
-        <div style="font-weight: 700; font-size: 1.05rem; color: rgba(255,255,255,0.75); margin-bottom: 0.5rem;">Produktowo</div>
-        <div style="font-size: 0.88rem; color: rgba(255,255,255,0.5); line-height: 1.6;">AI OS, agenty, AR w konfiguratorze. Wymaga najpierw fundamentu: event-driven architecture.</div>
-      </div>
-
+    <!-- LEFT: heading -->
+    <div style="flex: 0 0 38%;">
+      <span class="pill pill-ind mb-6" style="display:inline-flex;">Interactions</span>
+      <h2 class="h-display mt-4" style="font-size: clamp(1.9rem, 3.5vw, 3rem); color: var(--ink); line-height: 1.05;">
+        Cztery obszary muszą <span class="ind">współpracować</span>, żeby dać efektywność.
+      </h2>
+      <p style="margin-top: 1.5rem; font-size: 0.9rem; color: var(--ink-mute); line-height: 1.65;">
+        UX/UI, Product Ownership, Development i QA przenikają się w centrum. AI oplata i wspiera wszystkie cztery.
+      </p>
     </div>
 
-    <p style="margin-top: 2.5rem; font-size: 0.95rem; color: rgba(255,255,255,0.55); font-style: italic;">
-      Zaczynamy od środka — żeby skalowanie na zewnątrz miało podstawy.
-    </p>
+    <!-- RIGHT: Venn SVG -->
+    <div style="flex: 1; display:flex; justify-content:center; align-items:center;">
+      <svg viewBox="0 0 420 420" xmlns="http://www.w3.org/2000/svg" style="width:min(55vh,520px);height:min(55vh,520px);">
 
-  </div>
+        <!-- Outer AI circle -->
+        <circle cx="210" cy="210" r="195" fill="none" stroke="var(--indigo)" stroke-width="1.5" stroke-dasharray="6 4" opacity="0.5"/>
+        <text x="210" y="22" text-anchor="middle" font-family="Onest,sans-serif" font-size="13" font-weight="600" fill="var(--indigo)" letter-spacing="0.08em">AI</text>
 
-  <!-- AS logo bottom right -->
-  <div style="position: absolute; bottom: 1.75rem; right: 2rem; color: rgba(255,255,255,0.35); height: 22px;">
-    <svg style="height:100%;width:auto;fill:currentColor;"><use href="#logo-ams"/></svg>
+        <!-- 4 Venn circles -->
+        <!-- UX/UI — top left -->
+        <circle cx="165" cy="165" r="105" fill="rgba(91,78,230,0.12)" stroke="var(--indigo)" stroke-width="1.5"/>
+        <!-- Product Ownership — top right -->
+        <circle cx="255" cy="165" r="105" fill="rgba(91,78,230,0.12)" stroke="var(--indigo)" stroke-width="1.5"/>
+        <!-- Development — bottom left -->
+        <circle cx="165" cy="255" r="105" fill="rgba(91,78,230,0.12)" stroke="var(--indigo)" stroke-width="1.5"/>
+        <!-- QA — bottom right -->
+        <circle cx="255" cy="255" r="105" fill="rgba(91,78,230,0.12)" stroke="var(--indigo)" stroke-width="1.5"/>
+
+        <!-- Labels -->
+        <text x="102" y="122" text-anchor="middle" font-family="Onest,sans-serif" font-size="13" font-weight="600" fill="var(--ink)">UX/UI</text>
+        <text x="318" y="122" text-anchor="middle" font-family="Onest,sans-serif" font-size="13" font-weight="600" fill="var(--ink)">Product</text>
+        <text x="318" y="138" text-anchor="middle" font-family="Onest,sans-serif" font-size="13" font-weight="600" fill="var(--ink)">Ownership</text>
+        <text x="102" y="308" text-anchor="middle" font-family="Onest,sans-serif" font-size="13" font-weight="600" fill="var(--ink)">Development</text>
+        <text x="318" y="308" text-anchor="middle" font-family="Onest,sans-serif" font-size="13" font-weight="600" fill="var(--ink)">QA</text>
+
+        <!-- Center label -->
+        <text x="210" y="205" text-anchor="middle" font-family="Onest,sans-serif" font-size="15" font-weight="700" fill="var(--indigo)">Efektywność</text>
+
+      </svg>
+    </div>
+
   </div>
 </section>
 
