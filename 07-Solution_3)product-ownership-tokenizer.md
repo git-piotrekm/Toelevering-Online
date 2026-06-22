@@ -45,3 +45,72 @@ Produkt mostkujący product/business i developerów, skracający pętlę między
 ---
 
 # PREZENTACJA
+
+---
+
+## Slajd 1 — Title (bg-dark)
+
+**Pill:** Tokenizer
+
+**Heading:** From idea to ready-to-build. In minutes, not hours.
+
+**Subtitle:** The AI-native product workspace that bridges product ownership and development — shortening the loop between input, test and user feedback.
+
+**Footer:** Amsterdam Standard · AI Hub
+
+---
+
+## Slajd 2 — The Problem (bg-soft)
+
+**Pill:** Context
+
+**Heading:** AI accelerated code. The bottleneck moved upstream.
+
+**Body:** When developers ship at AI speed, the constraint shifts to product clarity. Overloaded product owners — without business analysts, without the right tooling — become the bottleneck. The gains from AI-accelerated development disappear before they reach end users.
+
+**Trzy karty (Goal cards):**
+
+- **Goal 01 — Bridge the gap**
+  Connect product intent to developer-ready tickets — without translation loss between business and engineering.
+
+- **Goal 02 — Shorten the loop**
+  Reduce cycle time between input, test and feedback so AI-accelerated development delivers end-to-end — not just at the code layer.
+
+- **Goal 03 — Unblock developers**
+  Clarity in hours, not days — so fast code generation is matched by equally fast, well-defined input.
+
+---
+
+## Slajd 3 — Features (white)
+
+**Pill:** Available now
+
+**Heading:** A complete workflow, ready to use.
+
+**Cztery karty (2×2 grid):**
+
+- **AI Assistant — Toki** (karta biała)
+  In-product AI companion. Search tasks, refine requirements, create and edit tickets — all through natural conversation. Task-aware on every detail page, with structured question flows for guided enrichment.
+
+- **Quality — Task Enrichment** (karta lawendowa)
+  AI identifies what's missing or unclear in a task, generates structured acceptance criteria, and pulls context from attachments and codebase analysis. Output: a task that's truly ready to build.
+
+- **Collaboration — Live Refinement** (karta indigo)
+  Run refinement sessions inside Tokenizer. Conversation is captured live, transcribed in real time, and decisions are applied directly to tasks — no notes lost after the call. Also analyzes existing transcripts to extract tasks.
+
+- **Developer Handoff — Open in IDE** (karta ciemna)
+  One click from a clarified task to the developer's IDE of choice — Cursor, VS Code, or any supported environment — complete with a ready-to-use prompt. Each person picks their own tool. Zero friction from ticket to code.
+
+---
+
+## Slajd 4 — Roadmap (bg-indigo)
+
+**Pill:** Coming in V2
+
+**Heading:** We're just getting started.
+
+**Body:** The roadmap closes the full loop — connecting product delivery with stakeholder input, risk intelligence, and long-term strategic direction.
+
+**Funkcje V2 (pills):** Feedback module · Cycles · Risks plugin · RFP plugin · Stakeholder bots · Goals support
+
+**Blok datowy:** Sep '26 — Tokenizer goes live for clients in September 2026. You'd be among the first to onboard.
