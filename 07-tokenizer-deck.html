@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tokenizer — Product Overview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@100..900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:           #ffffff;
+      --bg-soft:      #f1f1f7;
+      --bg-card:      #ffffff;
+      --indigo:       #5b4ee6;
+      --indigo-dark:  #4a3fd1;
+      --indigo-soft:  #ede9fe;
+      --indigo-glow:  #8b85f0;
+      --ink:          #1a1a2e;
+      --ink-mute:     #6b6987;
+      --ink-soft:     #a4a3bd;
+      --rule:         #e6e5ee;
+      --rule-strong:  #d4d3e0;
+      --dark-card:    #1a1a2e;
+    }
+
+    html, body {
+      height: 100%; width: 100%;
+      overflow: hidden;
+      background: #080812;
+      font-family: 'Onest', sans-serif;
+      color: var(--ink);
+    }
+
+    /* ── Progress & nav ───────────────────────── */
+    .progress-bar {
+      position: fixed; top: 0; left: 0;
+      height: 2px; background: var(--indigo);
+      z-index: 1000; transition: width 0.4s ease;
+      box-shadow: 0 0 10px rgba(91,78,230,0.6);
+    }
+    .nav-hint {
+      position: fixed; bottom: 1.4rem; left: 50%;
+      transform: translateX(-50%);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: rgba(255,255,255,0.15);
+      z-index: 1000; pointer-events: none; white-space: nowrap;
+    }
+
+    /* ── Deck ─────────────────────────────────── */
+    .deck { position: relative; width: 100vw; height: 100vh; }
+
+    /* ── Slide base ───────────────────────────── */
+    .slide {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      padding: clamp(2rem, 4.5vw, 4.5rem);
+      background: var(--bg);
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.42s ease;
+    }
+    .slide.active { opacity: 1; pointer-events: all; }
+
+    .bg-soft   { background: var(--bg-soft); }
+    .bg-indigo { background: var(--indigo); }
+    .bg-dark   { background: var(--dark-card); }
+
+    /* ── Chrome ───────────────────────────────── */
+    .chrome-top {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: clamp(1.25rem, 2.2vh, 2.2rem);
+      flex-shrink: 0;
+    }
+    .chrome-tag {
+      display: flex; align-items: center; gap: 0.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.64rem; text-transform: uppercase; letter-spacing: 0.13em;
+      color: var(--ink-soft);
+    }
+    .chrome-tag-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--indigo); flex-shrink: 0;
+    }
+    .chrome-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.64rem; letter-spacing: 0.06em;
+      color: var(--ink-soft);
+    }
+    .bg-dark   .chrome-tag,  .bg-dark   .chrome-num { color: rgba(255,255,255,0.28); }
+    .bg-dark   .chrome-tag-dot  { background: var(--indigo-glow); }
+    .bg-indigo .chrome-tag,  .bg-indigo .chrome-num { color: rgba(255,255,255,0.42); }
+    .bg-indigo .chrome-tag-dot  { background: rgba(255,255,255,0.65); }
+
+    /* ── Slide body ───────────────────────────── */
+    .slide-body {
+      flex: 1; display: flex; flex-direction: column;
+      overflow: hidden;
+    }
+    .slide-body.center { justify-content: center; }
+
+    /* ── Pills ────────────────────────────────── */
+    .pill {
+      display: inline-flex; align-items: center; gap: 0.38rem;
+      padding: 0.28rem 0.8rem; border-radius: 999px;
+      font-size: 0.78rem; font-weight: 500; letter-spacing: 0.01em;
+    }
+    .pill::before {
+      content: ''; width: 5px; height: 5px;
+      border-radius: 50%; flex-shrink: 0;
+    }
+    .pill-ind         { background: var(--indigo-soft); color: var(--indigo); }
+    .pill-ind::before { background: var(--indigo); }
+    .pill-on-dark         { background: rgba(255,255,255,0.1);  color: rgba(255,255,255,0.78); }
+    .pill-on-dark::before { background: var(--indigo-glow); }
+    .pill-on-indigo         { background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.9); }
+    .pill-on-indigo::before { background: rgba(255,255,255,0.72); }
+    .pill-lg  { padding: 0.38rem 1.05rem; font-size: 0.87rem; }
+    .pill-row { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+    /* ── Typography ───────────────────────────── */
+    .h-display {
+      font-weight: 700; letter-spacing: -0.036em; line-height: 1.04;
+      font-size: clamp(2.8rem, 5.8vw, 5.5rem);
+    }
+    .h-display-md {
+      font-weight: 700; letter-spacing: -0.03em; line-height: 1.07;
+      font-size: clamp(2rem, 3.8vw, 3.5rem);
+    }
+    .h-section {
+      font-weight: 700; letter-spacing: -0.024em; line-height: 1.12;
+      font-size: clamp(1.6rem, 2.8vw, 2.4rem);
+    }
+    .body-lg {
+      font-size: clamp(0.95rem, 1.4vw, 1.12rem);
+      line-height: 1.66; color: var(--ink-mute);
+    }
+    .mono  { font-family: 'JetBrains Mono', monospace; }
+
+    .ind   { color: var(--indigo); }
+    .glow  { color: var(--indigo-glow); }
+    .white { color: #ffffff; }
+
+    /* ── Utilities ────────────────────────────── */
+    .w-fit    { width: fit-content; }
+    .flex     { display: flex; }
+    .flex-col { flex-direction: column; }
+    .flex-1   { flex: 1; }
+    .mb-4  { margin-bottom: 1rem; }
+    .mb-5  { margin-bottom: 1.25rem; }
+    .mb-6  { margin-bottom: 1.5rem; }
+    .mb-8  { margin-bottom: 2rem; }
+    .mb-10 { margin-bottom: 2.5rem; }
+    .mb-12 { margin-bottom: 3rem; }
+    .mt-4  { margin-top: 1rem; }
+    .mt-6  { margin-top: 1.5rem; }
+    .mt-10 { margin-top: 2.5rem; }
+
+    /* ── Cards ────────────────────────────────── */
+    .card {
+      background: var(--bg-card); border: 1px solid var(--rule);
+      border-radius: 24px; padding: clamp(1.1rem, 1.8vw, 1.6rem);
+      display: flex; flex-direction: column;
+    }
+    .card-soft {
+      background: var(--bg-soft);
+      border-radius: 24px; padding: clamp(1.1rem, 1.8vw, 1.6rem);
+      display: flex; flex-direction: column;
+    }
+    .card-ind {
+      background: var(--indigo); color: #fff;
+      border-radius: 24px; padding: clamp(1.1rem, 1.8vw, 1.6rem);
+      display: flex; flex-direction: column;
+    }
+    .card-dark {
+      background: var(--dark-card); color: #fff;
+      border-radius: 24px; padding: clamp(1.1rem, 1.8vw, 1.6rem);
+      display: flex; flex-direction: column;
+    }
+    .card-elevated {
+      background: var(--bg-card);
+      border-radius: 24px; padding: clamp(1.1rem, 1.8vw, 1.5rem);
+      box-shadow: 0 4px 24px rgba(26,26,46,0.08);
+      display: flex; flex-direction: column;
+    }
+
+    /* Card icon */
+    .card-icon {
+      width: 2.2rem; height: 2.2rem; border-radius: 10px;
+      background: var(--indigo-soft);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 0.8rem; flex-shrink: 0;
+    }
+    .card-icon svg { width: 1.1rem; height: 1.1rem; color: var(--indigo); }
+    .card-ind  .card-icon { background: rgba(255,255,255,0.14); }
+    .card-ind  .card-icon svg { color: #fff; }
+    .card-dark .card-icon { background: rgba(255,255,255,0.07); }
+    .card-dark .card-icon svg { color: var(--indigo-glow); }
+
+    .card-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.12em;
+      color: var(--ink-soft); margin-bottom: 0.32rem;
+    }
+    .card-ind  .card-tag  { color: rgba(255,255,255,0.42); }
+    .card-dark .card-tag  { color: rgba(255,255,255,0.32); }
+
+    .card-title {
+      font-size: clamp(0.9rem, 1.25vw, 1.05rem);
+      font-weight: 600; letter-spacing: -0.01em; line-height: 1.22;
+      margin-bottom: 0.45rem; color: var(--ink);
+    }
+    .card-ind  .card-title { color: #fff; }
+    .card-dark .card-title { color: #fff; }
+
+    .card-body {
+      font-size: clamp(0.76rem, 0.95vw, 0.86rem);
+      line-height: 1.6; color: var(--ink-mute);
+    }
+    .card-ind  .card-body { color: rgba(255,255,255,0.7); }
+    .card-dark .card-body { color: rgba(255,255,255,0.52); }
+
+    /* ── Split (slide 2) ──────────────────────── */
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(2rem, 4vw, 4.5rem);
+      align-items: center;
+      flex: 1;
+    }
+    .split-col { display: flex; flex-direction: column; gap: 0.85rem; }
+
+    /* ── 2×2 grid (slide 3) ───────────────────── */
+    .grid-2x2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: clamp(0.65rem, 1vw, 0.9rem);
+      flex: 1;
+    }
+
+    /* ── Metric box (slide 4) ─────────────────── */
+    .metric-box {
+      display: flex; align-items: center; gap: 1.4rem;
+      background: rgba(255,255,255,0.11);
+      border-radius: 20px; padding: 1.15rem 1.6rem;
+      border: 1px solid rgba(255,255,255,0.1);
+      width: fit-content;
+    }
+    .metric-num {
+      font-size: clamp(2.4rem, 3.8vw, 3.2rem);
+      font-weight: 700; letter-spacing: -0.05em;
+      color: #fff; flex-shrink: 0;
+    }
+    .metric-label {
+      font-size: clamp(0.78rem, 1vw, 0.88rem);
+      color: rgba(255,255,255,0.5); line-height: 1.56; max-width: 22rem;
+    }
+
+    /* ── Animations ───────────────────────────── */
+    .slide.active.fade-in > * { animation: rise 0.72s ease both; }
+    .slide.active.fade-in > *:nth-child(1) { animation-delay:   0ms; }
+    .slide.active.fade-in > *:nth-child(2) { animation-delay:  75ms; }
+    .slide.active.fade-in > *:nth-child(3) { animation-delay: 150ms; }
+    .slide.active.fade-in > *:nth-child(4) { animation-delay: 225ms; }
+    .slide.active.fade-in > *:nth-child(5) { animation-delay: 300ms; }
+    .slide.active.fade-in > *:nth-child(6) { animation-delay: 375ms; }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="progress-bar" id="progress"></div>
+  <div class="nav-hint">← → navigate &nbsp;·&nbsp; space to advance</div>
+
+  <div class="deck" id="deck">
+
+    <!-- ════════════════════════════════════════
+         SLIDE 1 · Title · bg-dark
+    ════════════════════════════════════════ -->
+    <section class="slide bg-dark active fade-in" data-slide="1">
+      <div class="chrome-top">
+        <div class="chrome-tag"><span class="chrome-tag-dot"></span>Product Overview</div>
+        <div class="chrome-num">01 / 04</div>
+      </div>
+      <div class="slide-body center">
+
+        <span class="pill pill-on-dark w-fit mb-8">Tokenizer</span>
+
+        <h1 class="h-display white mb-4">
+          From idea to<br>
+          <span class="glow">ready-to-build</span>.<br>
+          In minutes, not hours.
+        </h1>
+
+        <p class="body-lg mt-6"
+           style="color: rgba(255,255,255,0.46); max-width: 44rem; line-height: 1.68;">
+          The AI-native product workspace that bridges product ownership and development —
+          shortening the loop between input, test and user feedback.
+        </p>
+
+        <p class="mono mt-10"
+           style="font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase;
+                  color: rgba(255,255,255,0.13);">
+          Amsterdam Standard · AI Hub
+        </p>
+
+      </div>
+    </section>
+
+
+    <!-- ════════════════════════════════════════
+         SLIDE 2 · Problem · bg-soft
+    ════════════════════════════════════════ -->
+    <section class="slide bg-soft" data-slide="2">
+      <div class="chrome-top">
+        <div class="chrome-tag"><span class="chrome-tag-dot"></span>The Problem</div>
+        <div class="chrome-num">02 / 04</div>
+      </div>
+      <div class="slide-body">
+
+        <span class="pill pill-ind w-fit mb-6">Context</span>
+
+        <div class="split">
+
+          <div>
+            <h2 class="h-display-md mb-6">
+              AI accelerated code.<br>
+              The bottleneck<br>
+              <span class="ind">moved upstream</span>.
+            </h2>
+            <p class="body-lg" style="max-width: 32rem;">
+              When developers ship at AI speed, the constraint shifts to product clarity.
+              Overloaded product owners — without business analysts, without the right
+              tooling — become the bottleneck. The gains from AI-accelerated development
+              disappear before they reach end users.
+            </p>
+          </div>
+
+          <div class="split-col">
+
+            <div class="card-elevated">
+              <div class="card-tag">Goal 01</div>
+              <div class="card-title">Bridge the gap</div>
+              <div class="card-body">
+                Connect product intent to developer-ready tickets — without translation
+                loss between business and engineering.
+              </div>
+            </div>
+
+            <div class="card-elevated">
+              <div class="card-tag">Goal 02</div>
+              <div class="card-title">Shorten the loop</div>
+              <div class="card-body">
+                Reduce cycle time between input, test and feedback so AI-accelerated
+                development delivers end-to-end — not just at the code layer.
+              </div>
+            </div>
+
+            <div class="card-elevated">
+              <div class="card-tag">Goal 03</div>
+              <div class="card-title">Unblock developers</div>
+              <div class="card-body">
+                Clarity in hours, not days — so fast code generation is matched by
+                equally fast, well-defined input.
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ════════════════════════════════════════
+         SLIDE 3 · Features today · white
+    ════════════════════════════════════════ -->
+    <section class="slide" data-slide="3">
+      <div class="chrome-top">
+        <div class="chrome-tag"><span class="chrome-tag-dot"></span>Features</div>
+        <div class="chrome-num">03 / 04</div>
+      </div>
+      <div class="slide-body">
+
+        <span class="pill pill-ind w-fit mb-4">Available now</span>
+        <h2 class="h-section mb-5">
+          A complete workflow, <span class="ind">ready to use</span>.
+        </h2>
+
+        <div class="grid-2x2">
+
+          <!-- Toki · card white -->
+          <div class="card">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+              </svg>
+            </div>
+            <div class="card-tag">AI Assistant</div>
+            <div class="card-title">Toki</div>
+            <div class="card-body">
+              In-product AI companion. Search tasks, refine requirements, create and edit
+              tickets — all through natural conversation. Task-aware on every detail page,
+              with structured question flows for guided enrichment.
+            </div>
+          </div>
+
+          <!-- Task Enrichment · card-soft lavender -->
+          <div class="card-soft">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 11 12 14 22 4"/>
+                <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+              </svg>
+            </div>
+            <div class="card-tag">Quality</div>
+            <div class="card-title">Task Enrichment</div>
+            <div class="card-body">
+              AI identifies what's missing or unclear in a task, generates structured
+              acceptance criteria, and pulls context from attachments and codebase analysis.
+              Output: a task that's truly ready to build.
+            </div>
+          </div>
+
+          <!-- Live Refinement · card-ind indigo -->
+          <div class="card-ind">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                <line x1="12" y1="19" x2="12" y2="23"/>
+                <line x1="8"  y1="23" x2="16" y2="23"/>
+              </svg>
+            </div>
+            <div class="card-tag">Collaboration</div>
+            <div class="card-title">Live Refinement</div>
+            <div class="card-body">
+              Run refinement sessions inside Tokenizer. Conversation is captured live,
+              transcribed in real time, and decisions are applied directly to tasks —
+              no notes lost after the call. Also analyzes existing transcripts to extract tasks.
+            </div>
+          </div>
+
+          <!-- Open in IDE · card-dark near-black -->
+          <div class="card-dark">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="16 18 22 12 16 6"/>
+                <polyline points="8 6 2 12 8 18"/>
+              </svg>
+            </div>
+            <div class="card-tag">Developer Handoff</div>
+            <div class="card-title">Open in IDE</div>
+            <div class="card-body">
+              One click from a clarified task to the developer's IDE of choice —
+              Cursor, VS Code, or any supported environment — complete with a
+              ready-to-use prompt. Each person picks their own tool. Zero friction
+              from ticket to code.
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ════════════════════════════════════════
+         SLIDE 4 · Roadmap · bg-indigo
+    ════════════════════════════════════════ -->
+    <section class="slide bg-indigo" data-slide="4">
+      <div class="chrome-top">
+        <div class="chrome-tag"><span class="chrome-tag-dot"></span>Roadmap</div>
+        <div class="chrome-num">04 / 04</div>
+      </div>
+      <div class="slide-body center">
+
+        <span class="pill pill-on-indigo w-fit mb-8">Coming in V2</span>
+
+        <h2 class="h-display white mb-4">
+          We're just<br>getting started.
+        </h2>
+
+        <p class="body-lg mb-10"
+           style="color: rgba(255,255,255,0.54); max-width: 40rem; line-height: 1.68;">
+          The roadmap closes the full loop — connecting product delivery with
+          stakeholder input, risk intelligence, and long-term strategic direction.
+        </p>
+
+        <div class="pill-row mb-12">
+          <span class="pill pill-on-indigo pill-lg">Feedback module</span>
+          <span class="pill pill-on-indigo pill-lg">Cycles</span>
+          <span class="pill pill-on-indigo pill-lg">Risks plugin</span>
+          <span class="pill pill-on-indigo pill-lg">RFP plugin</span>
+          <span class="pill pill-on-indigo pill-lg">Stakeholder bots</span>
+          <span class="pill pill-on-indigo pill-lg">Goals support</span>
+        </div>
+
+        <div class="metric-box">
+          <div class="metric-num">Sep '26</div>
+          <div class="metric-label">
+            Tokenizer goes live for clients in September 2026.
+            You'd be among the first to onboard.
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    const slides   = document.querySelectorAll('.slide');
+    const progress = document.getElementById('progress');
+    const total    = slides.length;
+    let   current  = 0;
+
+    function go(n) {
+      slides[current].classList.remove('active', 'fade-in');
+      current = Math.max(0, Math.min(total - 1, n));
+      const s = slides[current];
+      s.classList.add('active');
+      void s.offsetWidth;
+      s.classList.add('fade-in');
+      progress.style.width = ((current + 1) / total * 100) + '%';
+    }
+
+    document.addEventListener('keydown', e => {
+      if (['ArrowRight', ' ', 'PageDown'].includes(e.key)) { e.preventDefault(); go(current + 1); }
+      if (['ArrowLeft', 'PageUp'].includes(e.key))         { e.preventDefault(); go(current - 1); }
+      if (e.key === 'Home')   go(0);
+      if (e.key === 'End')    go(total - 1);
+      if (e.key === 'Escape') go(0);
+    });
+
+    document.addEventListener('click', e => {
+      if (e.clientX / window.innerWidth > 0.3) go(current + 1);
+      else go(current - 1);
+    });
+
+    progress.style.width = (1 / total * 100) + '%';
+  </script>
+
+</body>
+</html>
