@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI Scan — Business Scan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@100..900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:           #ffffff;
+    --bg-soft:      #f1f1f7;
+    --bg-card:      #ffffff;
+    --indigo:       #5b4ee6;
+    --indigo-dark:  #4a3fd1;
+    --indigo-soft:  #ede9fe;
+    --indigo-glow:  #8b85f0;
+    --ink:          #1a1a2e;
+    --ink-mute:     #6b6987;
+    --ink-soft:     #a4a3bd;
+    --rule:         #e6e5ee;
+    --rule-strong:  #d4d3e0;
+    --dark-card:    #1a1a2e;
+  }
+
+  html, body {
+    height: 100%; width: 100%;
+    overflow: hidden;
+    background: #080812;
+    font-family: 'Onest', sans-serif;
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Progress & nav ── */
+  .progress-bar {
+    position: fixed; top: 0; left: 0;
+    height: 2px; background: var(--indigo);
+    z-index: 1000; transition: width 0.4s ease;
+    box-shadow: 0 0 10px rgba(91,78,230,0.6);
+  }
+  .nav-hint {
+    position: fixed; bottom: 1.4rem; left: 50%;
+    transform: translateX(-50%);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: rgba(255,255,255,0.15);
+    z-index: 1000; pointer-events: none; white-space: nowrap;
+  }
+
+  /* ── Deck ── */
+  .deck { position: relative; width: 100vw; height: 100vh; }
+
+  /* ── Slide base ── */
+  .slide {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    padding: clamp(2rem, 4.5vw, 4.5rem);
+    background: var(--bg);
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.42s ease;
+  }
+  .slide.active { opacity: 1; pointer-events: all; }
+  .bg-soft   { background: var(--bg-soft); }
+  .bg-dark   { background: var(--dark-card); }
+
+  /* ── Chrome ── */
+  .chrome-top {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: clamp(1.25rem, 2.2vh, 2.2rem);
+    flex-shrink: 0;
+  }
+  .chrome-tag {
+    display: flex; align-items: center; gap: 0.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.64rem; text-transform: uppercase; letter-spacing: 0.13em;
+    color: var(--ink-soft);
+  }
+  .chrome-tag-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--indigo); flex-shrink: 0;
+  }
+  .chrome-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.64rem; letter-spacing: 0.06em;
+    color: var(--ink-soft);
+  }
+  .bg-dark .chrome-tag, .bg-dark .chrome-num { color: rgba(255,255,255,0.28); }
+  .bg-dark .chrome-tag-dot { background: var(--indigo-glow); }
+
+  /* ── Slide body ── */
+  .slide-body { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+  .slide-body.center { justify-content: center; }
+
+  /* ── Pills ── */
+  .pill {
+    display: inline-flex; align-items: center; gap: 0.38rem;
+    padding: 0.28rem 0.8rem; border-radius: 999px;
+    font-size: 0.78rem; font-weight: 500; letter-spacing: 0.01em;
+  }
+  .pill::before { content: ''; width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+  .pill-ind         { background: var(--indigo-soft); color: var(--indigo); }
+  .pill-ind::before { background: var(--indigo); }
+  .pill-on-dark         { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.78); }
+  .pill-on-dark::before { background: var(--indigo-glow); }
+
+  /* ── Typography ── */
+  .h-display    { font-weight: 700; letter-spacing: -0.036em; line-height: 1.04; font-size: clamp(2.8rem, 5.8vw, 5.5rem); }
+  .h-display-md { font-weight: 700; letter-spacing: -0.03em;  line-height: 1.07; font-size: clamp(2rem, 3.8vw, 3.5rem); }
+  .h-section    { font-weight: 700; letter-spacing: -0.024em; line-height: 1.12; font-size: clamp(1.6rem, 2.8vw, 2.4rem); }
+  .body-lg { font-size: clamp(0.95rem, 1.4vw, 1.12rem); line-height: 1.66; color: var(--ink-mute); }
+  .mono  { font-family: 'JetBrains Mono', monospace; }
+  .ind   { color: var(--indigo); }
+  .glow  { color: var(--indigo-glow); }
+  .white { color: #ffffff; }
+  .w-fit { width: fit-content; }
+
+  /* ── Cards ── */
+  .card {
+    background: var(--bg-card); border: 1px solid var(--rule);
+    border-radius: 24px; padding: clamp(1.1rem, 1.8vw, 1.6rem);
+    display: flex; flex-direction: column;
+  }
+  .card-soft {
+    background: var(--bg-soft);
+    border-radius: 24px; padding: clamp(1.1rem, 1.8vw, 1.6rem);
+    display: flex; flex-direction: column;
+  }
+  .card-ind {
+    background: var(--indigo); color: #fff;
+    border-radius: 24px; padding: clamp(1.1rem, 1.8vw, 1.6rem);
+    display: flex; flex-direction: column;
+  }
+  .card-dark {
+    background: var(--dark-card); color: #fff;
+    border-radius: 24px; padding: clamp(1.1rem, 1.8vw, 1.6rem);
+    display: flex; flex-direction: column;
+  }
+  .card-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.12em;
+    color: var(--ink-soft); margin-bottom: 0.32rem;
+  }
+  .card-ind  .card-tag { color: rgba(255,255,255,0.42); }
+  .card-dark .card-tag { color: rgba(255,255,255,0.32); }
+  .card-title {
+    font-size: clamp(0.9rem, 1.25vw, 1.05rem);
+    font-weight: 600; letter-spacing: -0.01em; line-height: 1.22;
+    margin-bottom: 0.45rem; color: var(--ink);
+  }
+  .card-ind  .card-title { color: #fff; }
+  .card-dark .card-title { color: #fff; }
+  .card-body { font-size: clamp(0.76rem, 0.95vw, 0.86rem); line-height: 1.6; color: var(--ink-mute); }
+  .card-ind  .card-body { color: rgba(255,255,255,0.7); }
+  .card-dark .card-body { color: rgba(255,255,255,0.52); }
+
+  /* ── Split layout ── */
+  .split {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: clamp(2rem, 4vw, 4.5rem);
+    align-items: center; flex: 1;
+  }
+  .split-col { display: flex; flex-direction: column; gap: 0.85rem; }
+
+  /* ── Step flow (slide 1) ── */
+  .step-flow {
+    display: flex; align-items: center;
+    gap: 0; margin-bottom: 1.8rem;
+  }
+  .step-node {
+    flex: 1; display: flex; flex-direction: column; align-items: center;
+    gap: 0.7rem; text-align: center;
+  }
+  .step-icon {
+    width: 64px; height: 64px; border-radius: 18px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.6rem;
+    background: var(--indigo-soft);
+  }
+  .step-icon.accent { background: var(--indigo); }
+  .step-label {
+    font-size: 0.82rem; font-weight: 600; letter-spacing: -0.015em;
+    color: var(--ink); line-height: 1.3;
+  }
+  .step-arrow {
+    font-size: 1.2rem; color: var(--indigo); opacity: 0.35;
+    flex-shrink: 0; margin: 0 0.5rem; padding-bottom: 1.8rem;
+  }
+
+  /* ── Funnel (slide 2) ── */
+  .funnel {
+    display: flex; align-items: flex-end; gap: 0;
+    margin-bottom: 0.75rem;
+  }
+  .funnel-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
+  .funnel-bar {
+    width: 100%; border-radius: 12px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 0.2rem; padding: 0.8rem 0.5rem;
+  }
+  .funnel-num { font-weight: 700; letter-spacing: -0.05em; line-height: 1; }
+  .funnel-sub { font-size: 0.65rem; letter-spacing: 0.04em; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; }
+  .funnel-arrow { font-size: 1.2rem; color: var(--indigo); opacity: 0.3; flex-shrink:0; padding-bottom: 1.2rem; }
+  .funnel-desc { font-size: 0.7rem; color: var(--ink-mute); text-align: center; line-height: 1.4; }
+
+  /* ── Timeline (slide 3) ── */
+  .timeline {
+    display: flex; align-items: flex-start; gap: 0;
+    margin-bottom: 1.5rem;
+  }
+  .tl-step { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 0.6rem; text-align: center; }
+  .tl-icon {
+    width: 56px; height: 56px; border-radius: 16px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  .tl-icon.accent { background: var(--indigo); border-color: var(--indigo); }
+  .tl-label { font-size: 0.85rem; font-weight: 600; color: #fff; letter-spacing: -0.01em; }
+  .tl-week { font-size: 0.65rem; color: rgba(255,255,255,0.3); font-family: 'JetBrains Mono', monospace; }
+  .tl-arrow { font-size: 1.1rem; color: var(--indigo-glow); opacity: 0.35; flex-shrink:0; padding-bottom: 2.2rem; }
+
+  /* ── Outcome strip ── */
+  .outcome-row { display: flex; flex-direction: column; gap: 0.5rem; }
+  .outcome-item {
+    display: flex; align-items: flex-start; gap: 0.65rem;
+    padding: 0.8rem 1rem; border-radius: 14px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.08);
+    font-size: 0.85rem; font-weight: 500; color: rgba(255,255,255,0.78);
+    line-height: 1.45; letter-spacing: -0.01em;
+  }
+  .outcome-item::before { content: '✓'; font-weight: 700; color: var(--indigo-glow); flex-shrink:0; }
+
+  /* ── Model cells (slide 3) ── */
+  .model-row { display: flex; gap: 0.75rem; margin-top: 1.2rem; }
+  .model-cell {
+    flex: 1; padding: 1rem 1.1rem; border-radius: 14px;
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08);
+  }
+  .model-cell.accent { background: rgba(91,78,230,0.18); border-color: rgba(91,78,230,0.3); }
+  .model-tag { font-family: 'JetBrains Mono', monospace; font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 0.35rem; }
+  .model-title { font-size: 0.9rem; font-weight: 600; color: #fff; margin-bottom: 0.2rem; }
+  .model-cell.accent .model-title { color: var(--indigo-glow); }
+  .model-desc { font-size: 0.76rem; color: rgba(255,255,255,0.42); line-height: 1.5; }
+
+  /* ── Efekt box ── */
+  .efekt-box {
+    border-left: 3px solid var(--indigo);
+    padding: 0.8rem 1rem;
+    background: var(--indigo-soft);
+    border-radius: 0 12px 12px 0;
+  }
+  .efekt-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.12em;
+    color: var(--indigo); margin-bottom: 0.3rem;
+  }
+  .efekt-box p { font-size: 0.84rem; color: var(--ink-mute); line-height: 1.6; }
+
+  /* ── Bullet list ── */
+  .exec-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+  .exec-list li {
+    display: flex; align-items: flex-start; gap: 0.65rem;
+    font-size: clamp(0.82rem, 1.05vw, 0.93rem); line-height: 1.55; color: var(--ink-mute);
+  }
+  .exec-list li::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--indigo); flex-shrink: 0; margin-top: 0.55em; }
+
+  /* ── Animations ── */
+  .slide.active.fade-in > * { animation: rise 0.72s ease both; }
+  .slide.active.fade-in > *:nth-child(1) { animation-delay:   0ms; }
+  .slide.active.fade-in > *:nth-child(2) { animation-delay:  75ms; }
+  .slide.active.fade-in > *:nth-child(3) { animation-delay: 150ms; }
+  .slide.active.fade-in > *:nth-child(4) { animation-delay: 225ms; }
+  .slide.active.fade-in > *:nth-child(5) { animation-delay: 300ms; }
+  @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ── Priority matrix (slide 1) ── */
+  .matrix-dot {
+    opacity: 0;
+    transform-box: fill-box;
+    transform-origin: center;
+    transform: scale(0);
+  }
+  .slide.active .matrix-dot {
+    animation: dotPop 0.5s cubic-bezier(0.34,1.56,0.64,1) forwards;
+  }
+  @keyframes dotPop {
+    0%   { opacity: 0; transform: scale(0); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+  .slide.active .matrix-dot.sweet { animation-name: dotPopPulse; }
+  @keyframes dotPopPulse {
+    0%   { opacity: 0; transform: scale(0); }
+    70%  { opacity: 1; transform: scale(1.25); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+  .matrix-sweet-ring {
+    opacity: 0;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+  .slide.active .matrix-sweet-ring {
+    animation: ringPulse 2.4s ease-in-out 1.6s infinite;
+  }
+  @keyframes ringPulse {
+    0%,100% { opacity: 0.5; transform: scale(1); }
+    50%     { opacity: 0.1; transform: scale(1.35); }
+  }
+  .slide.active .matrix-axis-grow { animation: axisGrow 0.7s ease forwards; }
+  @keyframes axisGrow { from { stroke-dashoffset: 300; } to { stroke-dashoffset: 0; } }
+
+  /* ── AMS logo ── */
+  .deck-logo { display: inline-flex; align-items: center; }
+  .deck-logo svg { height: 100%; width: auto; fill: currentColor; }
+</style>
+</head>
+<body>
+
+<svg style="display:none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <symbol id="logo-ams" viewBox="0 0 510 74">
+      <path d="M0,0v73.5h509.6V0H0z M504.9,68.8H4.7V4.7h500.2V68.8z"/>
+      <path d="M358.5,54.8h5.9c0.2,0,0.3-0.1,0.4-0.2c0.1-0.1,0.2-0.3,0.2-0.4l-0.1-20.1c0-0.1,0-0.2,0.1-0.2c0.1,0,0.1,0,0.2,0.1l9.7,20.3c0.2,0.3,0.4,0.5,0.7,0.5h6c0.2,0,0.3-0.1,0.4-0.2c0.1-0.1,0.2-0.3,0.2-0.4V20.1c-0.3-0.2-0.3-0.3-0.4-0.4c-0.1-0.1-0.3-0.2-0.4-0.2h-5.8c-0.2,0-0.3,0.1-0.4,0.2c-0.1,0.1-0.2,0.3-0.2,0.4l0.1,19.9c0,0.1,0,0.2-0.1,0.2c-0.1,0-0.1,0-0.2-0.1l-9.7-20.2c-0.1-0.3-0.4-0.5-0.7-0.5h-5.9c-0.2,0-0.3,0.1-0.4,0.2c-0.1,0.1-0.2,0.3-0.2,0.4v34.2c0,0.2,0.1,0.3,0.2,0.4C358.2,54.7,358.4,54.8,358.5,54.8z"/>
+      <path d="M411.6,54.9h6.1c0.4,0,0.6-0.2,0.7-0.5l1.2-5l4.9-20.4c0-0.1,0.1-0.2,0.1-0.2c0.1,0,0.1,0,0.2,0.2l4.7,20.4l1.2,5c0.1,0.3,0.3,0.5,0.7,0.5h6.2c0.4,0,0.5-0.2,0.5-0.5v-0.2L428.9,20c-0.1-0.3-0.3-0.5-0.7-0.5h-7.3c-0.4,0-0.6,0.2-0.7,0.5l-9.1,34.2C411,54.6,411.2,54.9,411.6,54.9z"/>
+      <path d="M469.3,54.8h10.8c2.3,0,4.2-0.4,6-1.3c1.7-0.8,3.1-2,4-3.6c0.9-1.5,1.4-3.4,1.4-5.4V29.8c0.1-2.1-0.4-3.9-1.4-5.5c-0.9-1.5-2.3-2.8-4-3.6c-1.7-0.8-3.7-1.3-6-1.3h-10.8c-0.2,0-0.3,0.1-0.4,0.2c-0.1,0.1-0.2,0.3-0.2,0.4v34.2c0,0.2,0.1,0.3,0.2,0.4C469,54.7,469.2,54.8,469.3,54.8z M475.9,25.9c0-0.2,0.1-0.3,0.2-0.3h4.1c1.3,0,2.3,0.5,3.1,1.3c0.8,0.9,1.2,2.1,1.2,3.6v13.3h-0.1c0,1.5-0.4,2.7-1.2,3.6c-0.8,0.9-1.8,1.3-3,1.3h-4.1c-0.2,0-0.2-0.1-0.2-0.2V25.9z"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="progress-bar" id="progress"></div>
+<div class="nav-hint">← → nawigacja · spacja dalej</div>
+
+<div class="deck" id="deck">
+
+  <!-- ════════════════════════════════════════
+       SLAJD 1 · AI Opportunity Scan · bg-dark
+  ════════════════════════════════════════ -->
+  <section class="slide bg-dark active fade-in" data-slide="1">
+    <div class="chrome-top">
+      <div class="chrome-tag"><span class="chrome-tag-dot"></span>Skan AI — Business Scan</div>
+      <div class="chrome-num">01 / 03</div>
+    </div>
+    <div class="slide-body">
+      <div class="split" style="align-items: center; gap: clamp(2.5rem,5vw,5rem);">
+
+        <!-- LEFT — heading + context -->
+        <div>
+          <span class="pill pill-on-dark w-fit" style="margin-bottom:1.1rem;">AI Business Scan</span>
+          <h1 class="white" style="font-weight:700;letter-spacing:-0.035em;line-height:1.02;font-size:clamp(1.9rem,3.6vw,3.1rem);margin-bottom:1rem;">
+            Znajdźmy obszary,<br>
+            gdzie AI przyniesie <span class="glow">największą wartość</span>.
+          </h1>
+          <p style="font-size:0.9rem;color:rgba(255,255,255,0.48);max-width:30rem;line-height:1.65;margin-bottom:1.5rem;">
+            W trakcie kilkugodzinnych warsztatów z poszczególnymi działami analizujemy procesy, identyfikujemy obszary do automatyzacji i szukamy zastosowań AI o największym potencjale biznesowym.
+          </p>
+
+          <!-- Priority matrix: Korzyści (Y) × Skomplikowanie/trudność (X) -->
+          <div style="max-width:27rem;">
+            <div class="mono" style="font-size:0.56rem;letter-spacing:0.13em;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:0.5rem;">Macierz priorytetyzacji projektów</div>
+            <svg viewBox="0 0 360 250" style="width:100%;display:block;overflow:visible;max-height:30vh;">
+
+              <!-- Quick-wins quadrant highlight (top-left: high benefit, low complexity) -->
+              <rect x="48" y="14" width="140" height="103" rx="8" fill="rgba(139,133,240,0.10)"/>
+
+              <!-- Grid lines -->
+              <line x1="118" y1="14" x2="118" y2="220" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+              <line x1="188" y1="14" x2="188" y2="220" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+              <line x1="258" y1="14" x2="258" y2="220" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+              <line x1="48" y1="65"  x2="328" y2="65"  stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+              <line x1="48" y1="117" x2="328" y2="117" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+              <line x1="48" y1="169" x2="328" y2="169" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+
+              <!-- Axes -->
+              <defs>
+                <marker id="axArrow" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto" markerUnits="userSpaceOnUse">
+                  <path d="M0,0 L7,4 L0,8 Z" fill="rgba(255,255,255,0.4)"/>
+                </marker>
+              </defs>
+              <!-- Y axis (Korzyści) -->
+              <line class="matrix-axis-grow" x1="48" y1="220" x2="48" y2="8"
+                    stroke="rgba(255,255,255,0.4)" stroke-width="1.6"
+                    stroke-dasharray="300" marker-end="url(#axArrow)"/>
+              <!-- X axis (Skomplikowanie) -->
+              <line class="matrix-axis-grow" x1="48" y1="220" x2="334" y2="220"
+                    stroke="rgba(255,255,255,0.4)" stroke-width="1.6"
+                    stroke-dasharray="300" marker-end="url(#axArrow)"/>
+
+              <!-- Axis labels -->
+              <text x="28" y="114" text-anchor="middle" transform="rotate(-90 28 114)" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(255,255,255,0.55)" letter-spacing="1">KORZYŚCI</text>
+              <text x="191" y="240" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(255,255,255,0.55)" letter-spacing="1">SKOMPLIKOWANIE / TRUDNOŚĆ</text>
+
+              <!-- Quick-wins label -->
+              <text x="56" y="30" font-family="JetBrains Mono,monospace" font-size="8" fill="var(--indigo-glow)" letter-spacing="1">QUICK WINS</text>
+
+              <!-- Pulsing ring around best project -->
+              <circle class="matrix-sweet-ring" cx="95" cy="55" r="13" fill="none" stroke="var(--indigo-glow)" stroke-width="1.5"/>
+
+              <!-- Project dots — staggered pop-in -->
+              <!-- sweet spot: high benefit, low complexity -->
+              <circle class="matrix-dot sweet" cx="95"  cy="55"  r="8"   fill="var(--indigo-glow)" style="animation-delay:0.3s;"/>
+              <circle class="matrix-dot sweet" cx="150" cy="78"  r="7"   fill="var(--indigo-glow)" style="animation-delay:0.45s;"/>
+              <!-- mid -->
+              <circle class="matrix-dot" cx="135" cy="120" r="6.5" fill="rgba(255,255,255,0.75)" style="animation-delay:0.6s;"/>
+              <circle class="matrix-dot" cx="205" cy="100" r="6.5" fill="rgba(255,255,255,0.75)" style="animation-delay:0.72s;"/>
+              <circle class="matrix-dot" cx="225" cy="150" r="6"   fill="rgba(255,255,255,0.55)" style="animation-delay:0.84s;"/>
+              <!-- low benefit / high complexity -->
+              <circle class="matrix-dot" cx="285" cy="180" r="5.5" fill="rgba(255,255,255,0.4)"  style="animation-delay:0.96s;"/>
+              <circle class="matrix-dot" cx="265" cy="125" r="5.5" fill="rgba(255,255,255,0.5)"  style="animation-delay:1.08s;"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- RIGHT — vertical card flow -->
+        <div style="display:flex;flex-direction:column;gap:0;">
+
+          <!-- Card 1 — warsztaty / ludzie -->
+          <div class="card-dark" style="border-radius:18px;padding:1rem 1.2rem;border:1px solid rgba(255,255,255,0.08);">
+            <div style="display:flex;align-items:center;gap:0.9rem;">
+              <div class="card-icon" style="background:rgba(255,255,255,0.07);flex-shrink:0;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                  <circle cx="9" cy="7" r="4"/>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+              </div>
+              <div style="flex:1;">
+                <div class="mono" style="font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.28);margin-bottom:0.2rem;">01</div>
+                <div style="font-size:0.95rem;font-weight:600;color:#fff;letter-spacing:-0.015em;">Warsztaty z działami</div>
+                <div style="font-size:0.78rem;color:rgba(255,255,255,0.45);line-height:1.5;margin-top:0.15rem;">Kilkugodzinne sesje ze sprzedażą, operacjami, logistyką i obsługą klienta</div>
+              </div>
+              <!-- Time badge -->
+              <div style="display:flex;flex-direction:column;align-items:center;gap:0.3rem;flex-shrink:0;padding-left:0.5rem;">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--indigo-glow)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"/>
+                  <polyline points="12 6 12 12 16 14"/>
+                </svg>
+                <div style="font-family:'Onest',sans-serif;font-weight:700;font-size:1.05rem;color:#fff;letter-spacing:-0.02em;line-height:1;">2–4 H</div>
+                <div class="mono" style="font-size:0.5rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--indigo-glow);">GODZINY</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Arrow -->
+          <div style="display:flex;justify-content:center;padding:0.3rem 0;color:var(--indigo-glow);opacity:0.5;font-size:1rem;">↓</div>
+
+          <!-- Card 2 — identyfikacja / żarówka -->
+          <div class="card-dark" style="border-radius:18px;padding:1rem 1.2rem;border:1px solid rgba(91,78,230,0.3);background:rgba(91,78,230,0.1);">
+            <div style="display:flex;align-items:center;gap:0.9rem;">
+              <div class="card-icon" style="background:rgba(91,78,230,0.25);flex-shrink:0;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--indigo-glow);">
+                  <line x1="12" y1="2" x2="12" y2="6"/>
+                  <line x1="12" y1="18" x2="12" y2="22"/>
+                  <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/>
+                  <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/>
+                  <line x1="2" y1="12" x2="6" y2="12"/>
+                  <line x1="18" y1="12" x2="22" y2="12"/>
+                  <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"/>
+                  <line x1="16.24" y1="7.76" x2="19.07" y2="4.93"/>
+                </svg>
+              </div>
+              <div>
+                <div class="mono" style="font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.28);margin-bottom:0.2rem;">02</div>
+                <div style="font-size:0.95rem;font-weight:600;color:#fff;letter-spacing:-0.015em;">Identyfikacja możliwości AI</div>
+                <div style="font-size:0.78rem;color:rgba(255,255,255,0.45);line-height:1.5;margin-top:0.15rem;">Mapowanie procesów, szukanie obszarów do automatyzacji o największym potencjale</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Arrow -->
+          <div style="display:flex;justify-content:center;padding:0.3rem 0;color:var(--indigo-glow);opacity:0.5;font-size:1rem;">↓</div>
+
+          <!-- Card 3 — lista priorytetów / target -->
+          <div style="background:var(--indigo);border-radius:18px;padding:1rem 1.2rem;">
+            <div style="display:flex;align-items:center;gap:0.9rem;margin-bottom:0.9rem;">
+              <div class="card-icon" style="background:rgba(255,255,255,0.15);flex-shrink:0;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#fff;">
+                  <polyline points="9 11 12 14 22 4"/>
+                  <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+                </svg>
+              </div>
+              <div>
+                <div class="mono" style="font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:0.2rem;">03</div>
+                <div style="font-size:0.95rem;font-weight:600;color:#fff;letter-spacing:-0.015em;">Lista inicjatyw z priorytetami</div>
+              </div>
+            </div>
+
+            <!-- Sub-points with icons -->
+            <div style="display:flex;flex-direction:column;gap:0.5rem;border-top:1px solid rgba(255,255,255,0.15);padding-top:0.85rem;">
+
+              <!-- Opis projektu -->
+              <div style="display:flex;align-items:center;gap:0.7rem;">
+                <div style="width:1.6rem;height:1.6rem;border-radius:8px;background:rgba(255,255,255,0.13);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                    <line x1="8" y1="13" x2="16" y2="13"/>
+                    <line x1="8" y1="17" x2="13" y2="17"/>
+                  </svg>
+                </div>
+                <span style="font-size:0.82rem;color:rgba(255,255,255,0.92);font-weight:500;">Opis projektu</span>
+              </div>
+
+              <!-- Obszar -->
+              <div style="display:flex;align-items:center;gap:0.7rem;">
+                <div style="width:1.6rem;height:1.6rem;border-radius:8px;background:rgba(255,255,255,0.13);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+                    <polyline points="2 17 12 22 22 17"/>
+                    <polyline points="2 12 12 17 22 12"/>
+                  </svg>
+                </div>
+                <span style="font-size:0.82rem;color:rgba(255,255,255,0.92);font-weight:500;">Obszar</span>
+              </div>
+
+              <!-- Cel biznesowy -->
+              <div style="display:flex;align-items:center;gap:0.7rem;">
+                <div style="width:1.6rem;height:1.6rem;border-radius:8px;background:rgba(255,255,255,0.13);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <circle cx="12" cy="12" r="6"/>
+                    <circle cx="12" cy="12" r="2"/>
+                  </svg>
+                </div>
+                <span style="font-size:0.82rem;color:rgba(255,255,255,0.92);font-weight:500;">Cel biznesowy</span>
+              </div>
+
+              <!-- Priorytet -->
+              <div style="display:flex;align-items:center;gap:0.7rem;">
+                <div style="width:1.6rem;height:1.6rem;border-radius:8px;background:rgba(255,255,255,0.13);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/>
+                    <line x1="4" y1="22" x2="4" y2="15"/>
+                  </svg>
+                </div>
+                <span style="font-size:0.82rem;color:rgba(255,255,255,0.92);font-weight:500;">Priorytet</span>
+              </div>
+
+              <!-- Korzyści -->
+              <div style="display:flex;align-items:center;gap:0.7rem;">
+                <div style="width:1.6rem;height:1.6rem;border-radius:8px;background:rgba(255,255,255,0.13);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
+                    <polyline points="17 6 23 6 23 12"/>
+                  </svg>
+                </div>
+                <span style="font-size:0.82rem;color:rgba(255,255,255,0.92);font-weight:500;">Korzyści</span>
+              </div>
+
+              <!-- Skomplikowanie / trudność -->
+              <div style="display:flex;align-items:center;gap:0.7rem;">
+                <div style="width:1.6rem;height:1.6rem;border-radius:8px;background:rgba(255,255,255,0.13);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                    <line x1="12" y1="9" x2="12" y2="13"/>
+                    <line x1="12" y1="17" x2="12.01" y2="17"/>
+                  </svg>
+                </div>
+                <span style="font-size:0.82rem;color:rgba(255,255,255,0.92);font-weight:500;">Skomplikowanie / trudność</span>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       SLAJD 2 · Business Case & ROI · bg-soft
+  ════════════════════════════════════════ -->
+  <section class="slide bg-soft" data-slide="2">
+    <div class="chrome-top">
+      <div class="chrome-tag"><span class="chrome-tag-dot"></span>Business Case &amp; ROI</div>
+      <div class="chrome-num">02 / 03</div>
+    </div>
+    <div class="slide-body" style="display:flex;flex-direction:column;">
+
+      <!-- HEADING + DESCRIPTION — top, constrained to half width -->
+      <div style="margin-bottom:1.8rem;max-width:50%;">
+        <span class="pill pill-ind w-fit" style="margin-bottom:0.8rem;">Business Case &amp; ROI</span>
+        <h2 class="h-display-md" style="margin-bottom:0.9rem;">
+          Wybór inicjatyw o <span class="ind">najwyższej wartości</span> biznesowej.
+        </h2>
+        <p style="font-size:0.82rem;color:var(--ink-mute);line-height:1.7;">
+          Wspólnie z zarządem wybieramy <strong>najbardziej perspektywiczne inicjatywy</strong> spośród wszystkich zebranych pomysłów. Dla każdego wybranego projektu przygotowujemy <strong>wstępną estymację kosztów</strong>, <strong>ocenę wykonalności technicznej</strong> oraz <strong>przewidywany ROI</strong> — tak, żeby każda decyzja inwestycyjna opierała się na <strong>realnych liczbach</strong>, a nie intuicji.
+        </p>
+      </div>
+
+      <!-- FUNNEL AREA — 3-row grid: each funnel band shares its row with its annotation -->
+      <div style="height:34vh;max-height:300px;margin-top:1.6rem;display:grid;grid-template-columns:40% 60%;grid-template-rows:1fr 1fr 1fr;column-gap:2.5rem;row-gap:0.4rem;min-height:0;">
+
+        <!-- ── ROW 1 ── -->
+        <!-- Funnel band 1 -->
+        <div style="background:#e8e7f5;clip-path:polygon(0 0, 100% 0, 88% 100%, 12% 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;">
+          <div style="font-family:'Onest',sans-serif;font-weight:700;font-size:1.7rem;color:var(--indigo);line-height:1;">20+</div>
+          <div class="mono" style="font-size:0.6rem;color:var(--ink-mute);letter-spacing:0.1em;margin-top:0.25rem;">POMYSŁÓW Z WARSZTATÓW</div>
+          <div class="mono" style="font-size:0.58rem;color:var(--ink-soft);letter-spacing:0.06em;margin-top:0.1rem;">(ze wszystkich działów)</div>
+        </div>
+        <!-- Annotation 1 -->
+        <div style="display:flex;align-items:center;">
+          <div style="display:flex;align-items:flex-start;gap:0.7rem;">
+            <div style="width:2px;align-self:stretch;background:var(--rule-strong);border-radius:2px;flex-shrink:0;"></div>
+            <div>
+              <div class="mono" style="font-size:0.54rem;letter-spacing:0.11em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:0.2rem;">Etap 1 · Warsztaty</div>
+              <div style="font-size:0.88rem;font-weight:700;color:var(--ink);letter-spacing:-0.015em;margin-bottom:0.18rem;">Identyfikacja pomysłów</div>
+              <div style="font-size:0.76rem;color:var(--ink-mute);line-height:1.55;">Kilkugodzinne sesje z każdym działem — mapowanie <strong>obecnych procesów</strong> i szukanie obszarów do automatyzacji.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── ROW 2 ── -->
+        <!-- Funnel band 2 -->
+        <div style="background:#c9c5f5;clip-path:polygon(12% 0, 88% 0, 76% 100%, 24% 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;">
+          <div style="font-family:'Onest',sans-serif;font-weight:700;font-size:1.6rem;color:var(--indigo-dark);line-height:1;">5</div>
+          <div class="mono" style="font-size:0.6rem;color:var(--indigo-dark);letter-spacing:0.1em;margin-top:0.25rem;">KANDYDATÓW</div>
+          <div class="mono" style="font-size:0.58rem;color:var(--indigo-glow);letter-spacing:0.06em;margin-top:0.1rem;">(wybór z zarządem)</div>
+        </div>
+        <!-- Annotation 2 — zarząd -->
+        <div style="display:flex;align-items:center;">
+          <div style="display:flex;align-items:flex-start;gap:0.7rem;">
+            <div style="width:2px;align-self:stretch;background:var(--rule-strong);border-radius:2px;flex-shrink:0;"></div>
+            <div>
+              <div class="mono" style="font-size:0.54rem;letter-spacing:0.11em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:0.2rem;">Etap 2 · Konsultacja z zarządem</div>
+              <div style="font-size:0.88rem;font-weight:700;color:var(--ink);letter-spacing:-0.015em;margin-bottom:0.18rem;">Wybór inicjatyw</div>
+              <div style="font-size:0.76rem;color:var(--ink-mute);line-height:1.55;">Selekcjonujemy <strong>5 najlepszych kandydatów</strong> na podstawie <strong>potencjału biznesowego</strong> i wykonalności technicznej.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── ROW 3 ── -->
+        <!-- Funnel band 3 -->
+        <div style="background:var(--indigo);clip-path:polygon(24% 0, 76% 0, 64% 100%, 36% 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;">
+          <div style="font-family:'Onest',sans-serif;font-weight:700;font-size:1.5rem;color:#fff;line-height:1;">2–3</div>
+          <div class="mono" style="font-size:0.58rem;color:rgba(255,255,255,0.85);letter-spacing:0.1em;margin-top:0.25rem;">PROJEKTY DO ANALIZY</div>
+          <div class="mono" style="font-size:0.56rem;color:rgba(255,255,255,0.55);letter-spacing:0.06em;margin-top:0.1rem;">(estymacja + ROI)</div>
+        </div>
+        <!-- Annotation 3 — ROI -->
+        <div style="display:flex;align-items:center;">
+          <div style="display:flex;align-items:flex-start;gap:0.7rem;">
+            <div style="width:2px;align-self:stretch;background:var(--rule-strong);border-radius:2px;flex-shrink:0;"></div>
+            <div>
+              <div class="mono" style="font-size:0.54rem;letter-spacing:0.11em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:0.2rem;">Etap 3 · Estymacja &amp; kalkulacja ROI</div>
+              <div style="font-size:0.88rem;font-weight:700;color:var(--ink);letter-spacing:-0.015em;margin-bottom:0.18rem;">2–3 projekty do wdrożenia</div>
+              <div style="font-size:0.76rem;color:var(--ink-mute);line-height:1.55;">Szacujemy <strong>koszty i nakład pracy</strong>, liczymy <strong>zwrot z inwestycji</strong> — rekomendacja <strong>Go / No</strong> dla każdego projektu.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- TOOLBAR — full-width bottom strip: "Nasze narzędzia" + two feature cards -->
+      <div style="margin-top:1.6rem;padding-top:1.3rem;border-top:1px solid var(--rule);">
+        <div class="mono" style="font-size:0.58rem;letter-spacing:0.13em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:0.85rem;">Nasze narzędzia</div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.1rem;">
+
+          <!-- ROI Calculator -->
+          <div style="background:#fff;border:1px solid var(--rule);border-radius:16px;padding:1.1rem 1.3rem;display:flex;align-items:center;gap:1.1rem;">
+            <div style="width:2.8rem;height:2.8rem;border-radius:13px;background:var(--indigo-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--indigo)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="5" x2="5" y2="19"/>
+                <circle cx="6.5" cy="6.5" r="2.5"/>
+                <circle cx="17.5" cy="17.5" r="2.5"/>
+              </svg>
+            </div>
+            <div>
+              <div style="font-size:1rem;font-weight:700;color:var(--ink);letter-spacing:-0.02em;margin-bottom:0.2rem;">ROI Calculator</div>
+              <div style="font-size:0.78rem;color:var(--ink-mute);line-height:1.5;">Liczy <strong>zwrot z inwestycji</strong> względem rzeczywistej bazy kosztowej.</div>
+            </div>
+          </div>
+
+          <!-- Estimation Calculator -->
+          <div style="background:#fff;border:1px solid var(--rule);border-radius:16px;padding:1.1rem 1.3rem;display:flex;align-items:center;gap:1.1rem;">
+            <div style="width:2.8rem;height:2.8rem;border-radius:13px;background:var(--indigo-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--indigo)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="4" y="2" width="16" height="20" rx="2"/>
+                <line x1="8" y1="6" x2="16" y2="6"/>
+                <line x1="8" y1="14" x2="8" y2="14"/>
+                <line x1="12" y1="14" x2="12" y2="14"/>
+                <line x1="16" y1="14" x2="16" y2="18"/>
+                <line x1="8" y1="18" x2="12" y2="18"/>
+              </svg>
+            </div>
+            <div>
+              <div style="font-size:1rem;font-weight:700;color:var(--ink);letter-spacing:-0.02em;margin-bottom:0.2rem;">Estimation Calculator</div>
+              <div style="font-size:0.78rem;color:var(--ink-mute);line-height:1.5;">Szacuje <strong>nakład pracy i koszty</strong> na bazie dziesiątek projektów AI.</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       SLAJD 3 · Proof of Concept · bg-dark
+  ════════════════════════════════════════ -->
+  <section class="slide bg-dark" data-slide="3">
+    <div class="chrome-top">
+      <div class="chrome-tag"><span class="chrome-tag-dot"></span>Proof of Concept · AI Hub</div>
+      <div class="chrome-num">03 / 03</div>
+    </div>
+    <div class="slide-body">
+      <div class="split" style="align-items: center;">
+
+        <!-- LEFT -->
+        <div>
+          <span class="pill pill-on-dark w-fit" style="margin-bottom:1.4rem;">AI Hub · Amsterdam Standard</span>
+          <h2 class="h-display-md white" style="margin-bottom:1.2rem;">
+            Od pomysłu do<br>działającego rozwiązania<br>w <span class="glow">2–4 tygodnie</span>.
+          </h2>
+          <p style="font-size:clamp(0.88rem,1.15vw,1rem);color:rgba(255,255,255,0.5);line-height:1.68;margin-bottom:1.4rem;">
+            Po wyborze projektu angażujemy specjalistów AI Hub — samodzielnie lub wspólnie z zespołem klienta. Organizacja zdobywa gotowe rozwiązanie i praktyczne know-how.
+          </p>
+          <div class="outcome-row">
+            <div class="outcome-item">Zweryfikowany biznesowo projekt AI</div>
+            <div class="outcome-item">Realne dane dotyczące ROI</div>
+            <div class="outcome-item">Gotowość do dalszego skalowania rozwiązania</div>
+          </div>
+        </div>
+
+        <!-- RIGHT — timeline + model -->
+        <div style="display:flex;flex-direction:column;">
+          <div class="mono" style="font-size:0.6rem;letter-spacing:0.13em;text-transform:uppercase;color:rgba(255,255,255,0.28);margin-bottom:1rem;">Oś czasu realizacji</div>
+          <div class="timeline">
+            <div class="tl-step">
+              <div class="tl-icon">📅</div>
+              <div class="tl-label">Analiza</div>
+              <div class="tl-week">Tydzień 1</div>
+            </div>
+            <div class="tl-arrow">→</div>
+            <div class="tl-step">
+              <div class="tl-icon accent">⚙️</div>
+              <div class="tl-label">Budowa</div>
+              <div class="tl-week">Tydzień 2–3</div>
+            </div>
+            <div class="tl-arrow">→</div>
+            <div class="tl-step">
+              <div class="tl-icon">🧪</div>
+              <div class="tl-label">Testy</div>
+              <div class="tl-week">Tydzień 3–4</div>
+            </div>
+            <div class="tl-arrow">→</div>
+            <div class="tl-step">
+              <div class="tl-icon accent">📈</div>
+              <div class="tl-label">Wyniki</div>
+              <div class="tl-week">Tydzień 4+</div>
+            </div>
+          </div>
+
+          <div style="height:1px;background:rgba(255,255,255,0.07);margin:0.2rem 0 1rem;"></div>
+
+          <div class="model-row">
+            <div class="model-cell">
+              <div class="model-tag">Model A</div>
+              <div class="model-title">Samodzielna realizacja</div>
+              <div class="model-desc">AS dostarcza gotowe rozwiązanie end-to-end</div>
+            </div>
+            <div class="model-cell accent">
+              <div class="model-tag">Model B</div>
+              <div class="model-title">Współpraca z zespołem</div>
+              <div class="model-desc">Know-how pozostaje w organizacji klienta</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</div><!-- /deck -->
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  const bar = document.getElementById('progress');
+  let cur = 0;
+
+  function go(i) {
+    i = Math.max(0, Math.min(total - 1, i));
+    slides[cur].classList.remove('active', 'fade-in');
+    cur = i;
+    void slides[cur].offsetWidth;
+    slides[cur].classList.add('active', 'fade-in');
+    bar.style.width = ((cur + 1) / total * 100) + '%';
+  }
+
+  bar.style.width = (1 / total * 100) + '%';
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); go(cur + 1); }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); go(cur - 1); }
+    else if (e.key === 'Home') go(0);
+    else if (e.key === 'End') go(total - 1);
+  });
+  document.addEventListener('click', e => {
+    if (e.clientX > window.innerWidth * 0.3) go(cur + 1); else go(cur - 1);
+  });
+</script>
+</body>
+</html>
