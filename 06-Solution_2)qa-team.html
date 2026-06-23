@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<!--
+  ============================================================
+  KYLN DECK STYLE — QA Process & Team
+  Solution #2 for Toelevering Online
+  ============================================================
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>QA Process &amp; Team — Toelevering Online</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@100..900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg-soft: #f1f1f7;
+    --bg-card: #ffffff;
+    --indigo: #5b4ee6;
+    --indigo-dark: #4a3fd1;
+    --indigo-soft: #ede9fe;
+    --indigo-glow: #8b85f0;
+    --ink: #1a1a2e;
+    --ink-2: #2d2d44;
+    --ink-mute: #6b6987;
+    --ink-soft: #a4a3bd;
+    --rule: #e6e5ee;
+    --rule-strong: #d4d3e0;
+    --dark-card: #1a1a2e;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Onest', system-ui, -apple-system, sans-serif;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow: hidden;
+    height: 100vh;
+    margin: 0;
+    letter-spacing: -0.015em;
+  }
+  .mono { font-family: 'JetBrains Mono', monospace; letter-spacing: 0; }
+
+  .h-display { font-family: 'Onest', sans-serif; font-weight: 700; letter-spacing: -0.035em; line-height: 0.98; }
+  .h-display-md { font-family: 'Onest', sans-serif; font-weight: 600; letter-spacing: -0.025em; line-height: 1.0; }
+  .h-bold { font-weight: 700; letter-spacing: -0.025em; }
+
+  .slide {
+    position: absolute; inset: 0;
+    padding: clamp(2rem, 5vw, 5rem);
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 320ms cubic-bezier(0.2, 0.7, 0.3, 1);
+    overflow: hidden;
+    background: var(--bg);
+  }
+  .slide.active { opacity: 1; pointer-events: auto; }
+  .slide.bg-soft { background: var(--bg-soft); }
+  .slide.bg-dark { background: var(--dark-card); color: #ffffff; }
+  .slide.bg-indigo { background: var(--indigo); color: #ffffff; }
+
+  .chrome-top {
+    position: absolute;
+    top: 1.75rem;
+    left: 2rem; right: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 10;
+  }
+  .chrome-tag {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-family: 'Onest', sans-serif;
+    font-size: 0.8rem;
+    color: var(--ink-mute);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  .chrome-tag-dot { width: 7px; height: 7px; background: var(--indigo); border-radius: 50%; }
+  .chrome-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--ink-mute);
+  }
+  .slide.bg-dark .chrome-tag,
+  .slide.bg-dark .chrome-num,
+  .slide.bg-indigo .chrome-tag,
+  .slide.bg-indigo .chrome-num { color: rgba(255,255,255,0.7); }
+  .slide.bg-dark .chrome-tag-dot { background: var(--indigo-glow); }
+  .slide.bg-indigo .chrome-tag-dot { background: #ffffff; }
+
+  .nav-hint {
+    position: fixed;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    color: var(--ink-mute);
+    text-transform: uppercase;
+    z-index: 50;
+    background: #ffffff;
+    padding: 0.55rem 1.1rem;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    box-shadow: 0 2px 8px rgba(91, 78, 230, 0.06);
+  }
+  .progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    background: var(--indigo);
+    z-index: 60;
+    transition: width 320ms cubic-bezier(0.2, 0.7, 0.3, 1);
+  }
+
+  .ind { color: var(--indigo); }
+  .ink-mute { color: var(--ink-mute); }
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.4rem 0.95rem;
+    border-radius: 999px;
+    font-family: 'Onest', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: -0.005em;
+  }
+  .pill::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0.85;
+  }
+  .pill-ind { color: var(--indigo); background: var(--indigo-soft); }
+  .pill-ink { color: var(--ink); background: var(--bg-soft); }
+  .pill-on-dark { color: #ffffff; background: rgba(255,255,255,0.12); }
+  .pill-on-indigo { color: #ffffff; background: rgba(255,255,255,0.18); }
+
+  .card { background: var(--bg-card); border: 1px solid var(--rule); border-radius: 24px; padding: 2rem; }
+  .card-soft { background: var(--bg-soft); border-radius: 24px; padding: 2rem; }
+  .card-ind { background: var(--indigo); color: #ffffff; border-radius: 24px; padding: 2rem; }
+  .card-dark { background: var(--dark-card); color: #ffffff; border-radius: 24px; padding: 2rem; }
+  .card-elevated {
+    background: var(--bg-card);
+    border: 1px solid var(--rule);
+    border-radius: 24px;
+    padding: 2rem;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.02), 0 10px 30px rgba(26, 26, 46, 0.05);
+  }
+
+  .strike { position: relative; color: var(--ink-mute); }
+  .strike::after {
+    content: '';
+    position: absolute;
+    left: -2px; right: -2px;
+    top: 52%;
+    height: 2px;
+    background: var(--indigo);
+    transform: rotate(-1.5deg);
+    opacity: 0.85;
+  }
+  .strike-on-dark { color: rgba(255,255,255,0.5); }
+  .strike-on-dark::after { background: var(--indigo-glow); }
+
+  .stat-num {
+    font-family: 'Onest', sans-serif;
+    font-weight: 700;
+    font-size: clamp(5.5rem, 13vw, 12rem);
+    line-height: 0.9;
+    letter-spacing: -0.06em;
+  }
+  .stat-sub {
+    font-family: 'Onest', sans-serif;
+    font-size: 0.95rem;
+    color: var(--ink-mute);
+    line-height: 1.5;
+    font-weight: 500;
+  }
+  .card-dark .stat-sub { color: rgba(255,255,255,0.7); }
+
+  .hl {
+    background-image: linear-gradient(transparent 62%, rgba(91, 78, 230, 0.22) 62%, rgba(91, 78, 230, 0.22) 92%, transparent 92%);
+    padding: 0 0.05em;
+  }
+
+  .fade-in > * {
+    opacity: 0;
+    transform: translateY(12px);
+    animation: rise 700ms cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
+  }
+  .fade-in > *:nth-child(1) { animation-delay: 60ms; }
+  .fade-in > *:nth-child(2) { animation-delay: 180ms; }
+  .fade-in > *:nth-child(3) { animation-delay: 280ms; }
+  .fade-in > *:nth-child(4) { animation-delay: 380ms; }
+  .fade-in > *:nth-child(5) { animation-delay: 480ms; }
+  .fade-in > *:nth-child(6) { animation-delay: 580ms; }
+  .fade-in > *:nth-child(7) { animation-delay: 680ms; }
+  @keyframes rise { to { opacity: 1; transform: translateY(0); } }
+
+  .deck-logo { display: inline-flex; align-items: center; }
+  .deck-logo svg { height: 100%; width: auto; display: inline-block; fill: currentColor; }
+</style>
+</head>
+<body>
+
+<svg style="display:none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <symbol id="logo-ams" viewBox="0 0 510 74">
+      <path d="M0,0v73.5h509.6V0H0z M504.9,68.8H4.7V4.7h500.2V68.8z"/>
+      <path d="M358.5,54.8h5.9c0.2,0,0.3-0.1,0.4-0.2c0.1-0.1,0.2-0.3,0.2-0.4l-0.1-20.1c0-0.1,0-0.2,0.1-0.2c0.1,0,0.1,0,0.2,0.1l9.7,20.3c0.2,0.3,0.4,0.5,0.7,0.5h6c0.2,0,0.3-0.1,0.4-0.2c0.1-0.1,0.2-0.3,0.2-0.4V20.1c-0.3-0.2-0.3-0.3-0.4-0.4c-0.1-0.1-0.3-0.2-0.4-0.2h-5.8c-0.2,0-0.3,0.1-0.4,0.2c-0.1,0.1-0.2,0.3-0.2,0.4l0.1,19.9c0,0.1,0,0.2-0.1,0.2c-0.1,0-0.1,0-0.2-0.1l-9.7-20.2c-0.1-0.3-0.4-0.5-0.7-0.5h-5.9c-0.2,0-0.3,0.1-0.4,0.2c-0.1,0.1-0.2,0.3-0.2,0.4v34.2c0,0.2,0.1,0.3,0.2,0.4C358.2,54.7,358.4,54.8,358.5,54.8z"/>
+      <path d="M49.2,54.9h5.9c0.2,0,0.3-0.1,0.4-0.2c0.1-0.1,0.2-0.3,0.2-0.4v-22c0-0.1,0-0.2,0.1-0.2c0.1,0,0.1,0,0.2,0.1l4,7.5c0.1,0.3,0.4,0.4,0.8,0.4h1.7c0.3,0,0.6-0.1,0.8-0.4l4.1-7.5c0.1-0.1,0.1-0.2,0.2-0.2c0.1,0,0.1,0.1,0.1,0.2v22c0,0.2,0.1,0.3,0.2,0.4c0.1,0.1,0.3,0.2,0.4,0.2h5.9c0.2,0,0.3-0.1,0.4-0.2c0.1-0.1,0.2-0.3,0.2-0.4V20.1c0.1-0.2,0-0.3-0.1-0.4c-0.1-0.1-0.3-0.2-0.4-0.2h-5.8c-0.3,0-0.6,0.1-0.8,0.4l-5.8,10.6c-0.1,0.1-0.2,0.1-0.3,0l-5.8-10.6c-0.2-0.3-0.4-0.4-0.8-0.4h-5.8c-0.2,0-0.3,0.1-0.4,0.2c-0.1,0.1-0.2,0.3-0.2,0.4v34.2c0,0.2,0.1,0.3,0.2,0.4C48.9,54.8,49.1,54.9,49.2,54.9z"/>
+      <path d="M18.6,54.9h6.1c0.4,0,0.6-0.2,0.7-0.5l1.2-5L31.5,29c0-0.1,0.1-0.2,0.2-0.2s0.1,0,0.1,0.2l4.7,20.4l1.2,5c0.1,0.3,0.3,0.5,0.7,0.5h6.2c0.4,0,0.6-0.2,0.6-0.5L45,54.2L35.9,20c-0.1-0.3-0.3-0.5-0.7-0.5h-7.3c-0.4,0-0.6,0.2-0.7,0.5l-9.1,34.2C18,54.6,18.2,54.9,18.6,54.9z"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="progress-bar" id="progress" style="width: 0%"></div>
+<div class="nav-hint">← → navigate · space next · esc reset</div>
+
+<!-- ============================================================
+     SLIDE 01 — QA PROCESS: 5 STAGES + TEAM ENTRY
+     ============================================================ -->
+<section class="slide active fade-in" data-slide="1">
+  <div class="chrome-top">
+    <div class="chrome-tag"><span class="chrome-tag-dot"></span> QA Process &amp; Team</div>
+    <div class="chrome-num">01 / 04</div>
+  </div>
+
+  <div class="flex-1 flex flex-col justify-center max-w-[1400px] mx-auto w-full">
+    <div class="flex items-center gap-3 mb-4 flex-wrap">
+      <span class="pill pill-ind">How we build QA</span>
+      <span class="mono text-xs ink-mute">5 stages · measurement from day one</span>
+    </div>
+    <h2 class="h-display text-[clamp(2rem,4.6vw,4.4rem)] mb-3">
+      We build QA in five stages — with <span class="ind">measurement from day one</span>.
+    </h2>
+    <p class="text-lg ink-mute mb-8 max-w-5xl leading-snug">
+      Before we change anything, we measure 2–3 key KPIs of the current process. These are the baseline: after implementation we show the difference in numbers, not statements. Right now bugs reach production after a few days, sprints break, and when the configurator connects to shop, logistics and PIM — one failure means a customer can't place an order. That changes.
+    </p>
+
+    <!-- 5-stage strip -->
+    <div class="grid grid-cols-5 gap-3 mb-3">
+      <div class="card" style="padding:1.4rem;">
+        <div class="mono text-xs ink-mute tracking-[0.1em] mb-2">01 · DISCOVERY</div>
+        <h3 class="h-display text-2xl mb-2">Baseline</h3>
+        <div style="height:1px;background:var(--rule);" class="my-2"></div>
+        <p class="text-sm leading-snug">Process assessment, scope and complexity review. <strong>Measure 2–3 KPIs</strong> of the current state and scaling risks.</p>
+      </div>
+      <div class="card-soft" style="padding:1.4rem;">
+        <div class="mono text-xs ind tracking-[0.1em] mb-2">02 · STRATEGY</div>
+        <h3 class="h-display text-2xl mb-2">Test strategy</h3>
+        <div style="height:1px;background:var(--rule-strong);" class="my-2"></div>
+        <p class="text-sm leading-snug">Test pyramid and quadrants, branch and environment strategy. Focus on configurator ↔ shop ↔ logistics ↔ PIM integration.</p>
+      </div>
+      <div class="card-soft" style="padding:1.4rem;">
+        <div class="mono text-xs ind tracking-[0.1em] mb-2">03 · IMPLEMENTATION</div>
+        <h3 class="h-display text-2xl mb-2">Process in team</h3>
+        <div style="height:1px;background:var(--rule-strong);" class="my-2"></div>
+        <p class="text-sm leading-snug">Early exploratory tests, QA in refinement, acceptance criteria and testable stories from the start — not just happy path.</p>
+      </div>
+      <div class="card-ind" style="padding:1.4rem;">
+        <div class="mono text-xs tracking-[0.1em] mb-2" style="color:rgba(255,255,255,0.85);">04 · AI AUTOMATION</div>
+        <h3 class="h-display text-2xl mb-2">Safety net</h3>
+        <div class="my-2" style="height:1px;background:rgba(255,255,255,0.3);"></div>
+        <p class="text-sm leading-snug">Regression in CI/CD generated and maintained with <strong>Playwright + Cursor</strong>. More coverage, less manual work.</p>
+      </div>
+      <div class="card-dark" style="padding:1.4rem;">
+        <div class="mono text-xs tracking-[0.1em] mb-2" style="color:var(--indigo-glow);">05 · MEASUREMENT</div>
+        <h3 class="h-display text-2xl mb-2">KPIs after</h3>
+        <div class="my-2" style="height:1px;background:rgba(255,255,255,0.2);"></div>
+        <p class="text-sm leading-snug">Re-measure the same KPIs. <strong>Before / after comparison</strong> and continuous improvement on data.</p>
+      </div>
+    </div>
+
+    <!-- team-entry band -->
+    <div class="grid grid-cols-5 gap-3 mb-7">
+      <div class="flex flex-col items-start" style="grid-column: 1 / span 2;">
+        <div style="height:2px;background:var(--indigo);width:100%;border-radius:2px;" class="mb-2"></div>
+        <span class="pill pill-ind" style="font-size:0.72rem;">QA Lead enters here</span>
+        <p class="text-xs ink-mute mt-1 leading-snug">One person starts the process: measures baseline and designs the strategy.</p>
+      </div>
+      <div class="flex flex-col items-start" style="grid-column: 3 / span 1;">
+        <div style="height:2px;background:var(--ink);width:100%;border-radius:2px;opacity:0.85;" class="mb-2"></div>
+        <span class="pill pill-ink" style="font-size:0.72rem;">+2 QA join here</span>
+        <p class="text-xs ink-mute mt-1 leading-snug">Daily testing, requirements completeness, release support.</p>
+      </div>
+      <div class="flex flex-col items-start" style="grid-column: 4 / span 1;">
+        <div style="height:2px;background:var(--ink);width:100%;border-radius:2px;opacity:0.85;" class="mb-2"></div>
+        <span class="pill pill-ink" style="font-size:0.72rem;">+1 QA Automation</span>
+        <p class="text-xs ink-mute mt-1 leading-snug">Dedicated to Playwright automations and regression in CI/CD on Azure.</p>
+      </div>
+      <div style="grid-column: 5 / span 1;"></div>
+    </div>
+
+    <!-- baseline KPI strip -->
+    <div class="card-soft" style="padding:1.25rem 1.5rem;">
+      <div class="flex items-center gap-3 flex-wrap">
+        <span class="mono text-xs ink-mute uppercase tracking-[0.12em]">We measure before &amp; after — 3 KPIs</span>
+        <span class="ink-mute">·</span>
+        <span class="text-sm font-medium">Bugs on production <span class="ink-mute">(escape rate)</span></span>
+        <span class="ind">·</span>
+        <span class="text-sm font-medium">Regression coverage <span class="ink-mute">(% automated)</span></span>
+        <span class="ind">·</span>
+        <span class="text-sm font-medium">Sprints broken by hotfixes <span class="ink-mute">(rework)</span></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SLIDE 02 — AI IN TEST AUTOMATION: PLAYWRIGHT + CURSOR
+     ============================================================ -->
+<section class="slide bg-soft" data-slide="2">
+  <div class="chrome-top">
+    <div class="chrome-tag"><span class="chrome-tag-dot"></span> AI automation</div>
+    <div class="chrome-num">02 / 04</div>
+  </div>
+
+  <div class="flex-1 flex flex-col justify-center max-w-[1400px] mx-auto w-full">
+    <div class="flex items-center gap-3 mb-4 flex-wrap">
+      <span class="pill pill-ind">Playwright + Cursor</span>
+      <span class="mono text-xs ink-mute">stage 04 of the process · AI-assisted automation</span>
+    </div>
+    <h2 class="h-display text-[clamp(2rem,4.6vw,4.4rem)] mb-3">
+      Tests are written faster, maintenance costs <span class="ind">less</span>.
+    </h2>
+    <p class="text-base ink-mute mb-7 max-w-5xl leading-snug">
+      We combine <strong>Playwright</strong> (fast, stable E2E tests) with <strong>Cursor</strong> (AI in the editor). From acceptance criteria and recorded user flows AI generates a test skeleton, and QA verifies and hardens it. Result: regression coverage grows faster, and the QA engineer stops writing boilerplate and focuses on strategy and edge cases.
+    </p>
+
+    <!-- how it works — 4 step cards -->
+    <div class="grid grid-cols-4 gap-4 mb-6">
+      <div class="card" style="padding:1.4rem;">
+        <div class="mono text-xs ink-mute tracking-[0.1em] mb-2">01 · INPUT</div>
+        <h3 class="h-display text-xl mb-2">User story → test</h3>
+        <p class="text-sm leading-snug">Acceptance criteria and a recorded flow in Playwright Codegen become the input material for AI.</p>
+      </div>
+      <div class="card-soft" style="padding:1.4rem;">
+        <div class="mono text-xs ind tracking-[0.1em] mb-2">02 · GENERATION</div>
+        <h3 class="h-display text-xl mb-2">Cursor writes scaffold</h3>
+        <p class="text-sm leading-snug">AI in Cursor creates tests, assertions and Page Objects aligned with repo standards — in minutes, not hours.</p>
+      </div>
+      <div class="card-ind" style="padding:1.4rem;">
+        <div class="mono text-xs tracking-[0.1em] mb-2" style="color:rgba(255,255,255,0.85);">03 · VERIFICATION</div>
+        <h3 class="h-display text-xl mb-2">QA hardens it</h3>
+        <p class="text-sm leading-snug">Engineer reviews logic, adds edge cases and tames flaky tests — quality judgement stays with humans.</p>
+      </div>
+      <div class="card-dark" style="padding:1.4rem;">
+        <div class="mono text-xs tracking-[0.1em] mb-2" style="color:var(--indigo-glow);">04 · CI/CD</div>
+        <h3 class="h-display text-xl mb-2">Regression in pipeline</h3>
+        <p class="text-sm leading-snug">The suite grows and runs on every build on Azure. Cursor also helps maintain and fix broken selectors.</p>
+      </div>
+    </div>
+
+    <!-- efficiency stats -->
+    <div class="grid grid-cols-3 gap-4 mb-5">
+      <div class="card-elevated" style="padding:1.5rem;">
+        <div class="stat-num ind" style="font-size:clamp(2.6rem,5.5vw,4.4rem);">−60<span class="text-3xl">%</span></div>
+        <div class="stat-sub mt-2">Time to write an E2E test<br>(e.g. ~2 h → ~45 min)</div>
+      </div>
+      <div class="card-ind" style="padding:1.5rem;">
+        <div class="stat-num" style="font-size:clamp(2.6rem,5.5vw,4.4rem);color:#fff;">3<span class="text-3xl">×</span></div>
+        <div class="stat-sub mt-2" style="color:rgba(255,255,255,0.85);">Faster build-up of<br>regression coverage</div>
+      </div>
+      <div class="card-dark" style="padding:1.5rem;">
+        <div class="stat-num" style="font-size:clamp(2.6rem,5.5vw,4.4rem);color:var(--indigo-glow);">−50<span class="text-3xl">%</span></div>
+        <div class="stat-sub mt-2">Time maintaining and fixing<br>tests (flaky, selectors)</div>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-4 flex-wrap">
+      <span class="h-display-md text-2xl ind">QA shifts from writing boilerplate → to strategy and edge cases.</span>
+      <span class="mono text-[0.65rem] ink-mute">* representative values, project-dependent</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SLIDE 03 — CASE STUDY: LEADINGCOURSES
+     ============================================================ -->
+<section class="slide" data-slide="3">
+  <div class="chrome-top">
+    <div class="chrome-tag"><span class="chrome-tag-dot"></span> Case study</div>
+    <div class="chrome-num">03 / 04</div>
+  </div>
+
+  <div class="flex-1 flex flex-col justify-center max-w-[1400px] mx-auto w-full">
+    <div class="flex items-center gap-3 mb-4 flex-wrap">
+      <span class="pill pill-ind">Leadingcourses</span>
+      <span class="mono text-xs ink-mute">golf booking platform · 500k+ users / month · e-commerce</span>
+    </div>
+    <h2 class="h-display text-[clamp(2rem,4.6vw,4.4rem)] mb-3">
+      High traffic, zero regressions — once <span class="ind">QA entered from discovery</span>.
+    </h2>
+    <p class="text-base ink-mute mb-8 max-w-5xl leading-snug">
+      Europe's largest multilingual golf booking platform: 25,000 venues, a complex scoring algorithm, expansion to new markets. Every production bug hits bookings. No consistent testing strategy, no automated regression — releases went out on the happy path and problems surfaced days later. Sound familiar?
+    </p>
+
+    <div class="grid grid-cols-3 gap-4 mb-7">
+      <div class="card-elevated">
+        <div class="mono text-xs ink-mute tracking-[0.1em] mb-3">PRODUCTION BUGS / MONTH</div>
+        <div class="flex items-baseline gap-3">
+          <span class="h-display text-4xl strike ink-mute">18</span>
+          <span class="ind text-2xl">→</span>
+          <span class="stat-num ind" style="font-size:clamp(2.6rem,5vw,4rem);">4</span>
+        </div>
+        <p class="text-sm ink-mute mt-3 leading-snug">−78% bugs reaching the user after deploying automated and integration tests.</p>
+      </div>
+      <div class="card-ind">
+        <div class="mono text-xs tracking-[0.1em] mb-3" style="color:rgba(255,255,255,0.85);">REGRESSION COVERAGE (AUTOMATED)</div>
+        <div class="flex items-baseline gap-3">
+          <span class="h-display text-4xl" style="color:rgba(255,255,255,0.55);">0%</span>
+          <span class="text-2xl" style="color:#fff;">→</span>
+          <span class="stat-num" style="font-size:clamp(2.6rem,5vw,4rem);color:#fff;">65%</span>
+        </div>
+        <p class="text-sm mt-3 leading-snug" style="color:rgba(255,255,255,0.85);">Regression in CI running on every build — a safety net for critical booking paths.</p>
+      </div>
+      <div class="card-dark">
+        <div class="mono text-xs tracking-[0.1em] mb-3" style="color:var(--indigo-glow);">SPRINTS BROKEN BY HOTFIXES</div>
+        <div class="flex items-baseline gap-3">
+          <span class="h-display text-4xl strike strike-on-dark" style="color:rgba(255,255,255,0.5);">40%</span>
+          <span class="text-2xl" style="color:var(--indigo-glow);">→</span>
+          <span class="stat-num" style="font-size:clamp(2.6rem,5vw,4rem);color:var(--indigo-glow);">8%</span>
+        </div>
+        <p class="text-sm mt-3 leading-snug" style="color:rgba(255,255,255,0.7);">Fewer sprint interruptions for firefighting — the team returns to the roadmap.</p>
+      </div>
+    </div>
+
+    <div class="card-soft" style="padding:1.25rem 1.5rem;">
+      <div class="flex items-baseline gap-4">
+        <span class="mono text-xs ind tracking-[0.1em] font-medium flex-shrink-0">WHAT WE DID</span>
+        <p class="text-sm leading-snug font-medium">QA Lead from discovery: baseline measurement, test strategy and quadrants, Playwright regression automation (Cursor-assisted) in CI/CD pipelines. Then 2 QA Engineers for daily testing and requirements completeness, plus 1 QA for automation — quality built into the team, not glued on at the end.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SLIDE 04 — CASE STUDY: POLAVIS
+     ============================================================ -->
+<section class="slide bg-soft" data-slide="4">
+  <div class="chrome-top">
+    <div class="chrome-tag"><span class="chrome-tag-dot"></span> Case study</div>
+    <div class="chrome-num">04 / 04</div>
+  </div>
+
+  <div class="flex-1 flex flex-col justify-center max-w-[1400px] mx-auto w-full">
+    <div class="flex items-center gap-3 mb-4 flex-wrap">
+      <span class="pill pill-ind">Polavis</span>
+      <span class="mono text-xs ink-mute">patient portals for hospitals · Berlin · ISO 27001</span>
+    </div>
+    <h2 class="h-display text-[clamp(2rem,4.6vw,4.4rem)] mb-3">
+      Full <span class="ind">React/SPA</span> rewrite — zero regressions for 30 clients.
+    </h2>
+    <p class="text-base ink-mute mb-8 max-w-5xl leading-snug">
+      Berlin-based e-health platform: patient portals integrated with hospital systems, compliant with KHZG and ISO 27001, handling sensitive medical data. Full rebuild to React/SPA while maintaining complete functionality for 30 existing clients. Without a regression net, every change risked a production failure at a real hospital.
+    </p>
+
+    <div class="grid grid-cols-3 gap-4 mb-7">
+      <div class="card-elevated">
+        <div class="mono text-xs ink-mute tracking-[0.1em] mb-3">CRITICAL BUGS / MONTH</div>
+        <div class="flex items-baseline gap-3">
+          <span class="h-display text-4xl strike ink-mute">12</span>
+          <span class="ind text-2xl">→</span>
+          <span class="stat-num ind" style="font-size:clamp(2.6rem,5vw,4rem);">2</span>
+        </div>
+        <p class="text-sm ink-mute mt-3 leading-snug">−83% incidents touching patient data during a high-risk refactor.</p>
+      </div>
+      <div class="card-ind">
+        <div class="mono text-xs tracking-[0.1em] mb-3" style="color:rgba(255,255,255,0.85);">REGRESSION COVERAGE (AUTOMATED)</div>
+        <div class="flex items-baseline gap-3">
+          <span class="h-display text-4xl" style="color:rgba(255,255,255,0.55);">15%</span>
+          <span class="text-2xl" style="color:#fff;">→</span>
+          <span class="stat-num" style="font-size:clamp(2.6rem,5vw,4rem);color:#fff;">80%</span>
+        </div>
+        <p class="text-sm mt-3 leading-snug" style="color:rgba(255,255,255,0.85);">Automated tests protecting 30-client functionality on every commit during the React migration.</p>
+      </div>
+      <div class="card-dark">
+        <div class="mono text-xs tracking-[0.1em] mb-3" style="color:var(--indigo-glow);">MANUAL REGRESSION BEFORE RELEASE</div>
+        <div class="flex items-baseline gap-3">
+          <span class="h-display text-4xl strike strike-on-dark" style="color:rgba(255,255,255,0.5);">3 days</span>
+          <span class="text-2xl" style="color:var(--indigo-glow);">→</span>
+          <span class="stat-num" style="font-size:clamp(2.2rem,4vw,3.2rem);color:var(--indigo-glow);">½ day</span>
+        </div>
+        <p class="text-sm mt-3 leading-snug" style="color:rgba(255,255,255,0.7);">Shorter, safer release cycle — regression handed off to pipelines instead of people.</p>
+      </div>
+    </div>
+
+    <div class="card" style="padding:1.25rem 1.5rem;">
+      <div class="flex items-baseline gap-4">
+        <span class="mono text-xs ind tracking-[0.1em] font-medium flex-shrink-0">WHAT WE DID</span>
+        <p class="text-sm leading-snug font-medium">QA as safety net during refactor: baseline at start, regression strategy for critical clinical paths, Playwright automations in CI/CD wired to every build. QA in requirements and acceptance criteria ensured that no feature used by hospitals disappeared after migration to React/SPA.</p>
+      </div>
+    </div>
+
+    <p class="mono text-[0.65rem] ink-mute mt-4">* Representative data — to be updated with actual project metrics before presentation.</p>
+  </div>
+</section>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  const progress = document.getElementById('progress');
+  let current = 0;
+
+  function go(i) {
+    i = Math.max(0, Math.min(total - 1, i));
+    if (i === current && slides[current].classList.contains('active')) return;
+    slides[current].classList.remove('active', 'fade-in');
+    current = i;
+    void slides[current].offsetWidth;
+    slides[current].classList.add('active', 'fade-in');
+    progress.style.width = ((current + 1) / total * 100) + '%';
+  }
+
+  progress.style.width = (1 / total * 100) + '%';
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+      e.preventDefault();
+      go(current + 1);
+    } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+      e.preventDefault();
+      go(current - 1);
+    } else if (e.key === 'Home') {
+      go(0);
+    } else if (e.key === 'End') {
+      go(total - 1);
+    } else if (e.key === 'Escape') {
+      go(0);
+    }
+  });
+
+  document.addEventListener('click', (e) => {
+    const rect = document.body.getBoundingClientRect();
+    if (e.clientX > rect.width * 0.3) {
+      go(current + 1);
+    } else {
+      go(current - 1);
+    }
+  });
+</script>
+
+</body>
+</html>
