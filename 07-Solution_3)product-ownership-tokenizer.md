@@ -46,71 +46,83 @@ Produkt mostkujący product/business i developerów, skracający pętlę między
 
 # PREZENTACJA
 
----
+## Slide 1 — Product Overview
 
-## Slajd 1 — Title (bg-dark)
-
-**Pill:** Tokenizer
+**Pill:** Amsterdam Standard AI Tool
 
 **Heading:** From idea to ready-to-build. In minutes, not hours.
 
-**Subtitle:** The AI-native product workspace that bridges product ownership and development — shortening the loop between input, test and user feedback.
-
-**Footer:** Amsterdam Standard · AI Hub
+**Subtitle:** Our AI tool helps Product Owners turn ideas, meetings and notes into developer-ready tickets — so your AI-powered team ships faster, end to end.
 
 ---
 
-## Slajd 2 — The Problem (bg-soft)
+## Slide 2 — The Shift
 
-**Pill:** Context
+**Pill:** The shift
 
-**Heading:** AI accelerated code. The bottleneck moved upstream.
+**Heading:** AI made writing code fast. Requirements didn't keep up.
 
-**Body:** When developers ship at AI speed, the constraint shifts to product clarity. Overloaded product owners — without business analysts, without the right tooling — become the bottleneck. The gains from AI-accelerated development disappear before they reach end users.
+**Body:** Teams using AI tools now ship code at record speed. But that acceleration exposes a hidden constraint: unclear, incomplete or late requirements. Product Owners — without dedicated support, without the right tooling — become the critical path. The gains from AI-accelerated development evaporate before they reach end users.
 
-**Trzy karty (Goal cards):**
+**Card 1 — AI-generated code — 2026**
 
-- **Goal 01 — Bridge the gap**
-  Connect product intent to developer-ready tickets — without translation loss between business and engineering.
-
-- **Goal 02 — Shorten the loop**
-  Reduce cycle time between input, test and feedback so AI-accelerated development delivers end-to-end — not just at the code layer.
-
-- **Goal 03 — Unblock developers**
-  Clarity in hours, not days — so fast code generation is matched by equally fast, well-defined input.
+- Stat: 41% of all code
+- 41% of all production code is now AI-generated. Yet end-to-end delivery speed barely moved — because the bottleneck was never writing code.
+  **Card 2 — Requirements process**
+- Stat: Unchanged
+- Still gathered manually. Still written by hand. Now the critical path of every delivery.
 
 ---
 
-## Slajd 3 — Features (white)
+## Slide 3 — Our Response
 
-**Pill:** Available now
+**Pill:** What we built
 
-**Heading:** A complete workflow, ready to use.
+**Heading:** We built a tool to address exactly that gap.
 
-**Cztery karty (2×2 grid):**
+**Subtitle:** Amsterdam Standard AI Tool bridges product and engineering — turning ideas, calls and notes into developer-ready tickets, so AI-accelerated code generation is finally matched by AI-accelerated product clarity.
 
-- **AI Assistant — Toki** (karta biała)
-  In-product AI companion. Search tasks, refine requirements, create and edit tickets — all through natural conversation. Task-aware on every detail page, with structured question flows for guided enrichment.
+**Card 1 — Goal 01**
 
-- **Quality — Task Enrichment** (karta lawendowa)
-  AI identifies what's missing or unclear in a task, generates structured acceptance criteria, and pulls context from attachments and codebase analysis. Output: a task that's truly ready to build.
-
-- **Collaboration — Live Refinement** (karta indigo)
-  Run refinement sessions inside Tokenizer. Conversation is captured live, transcribed in real time, and decisions are applied directly to tasks — no notes lost after the call. Also analyzes existing transcripts to extract tasks.
-
-- **Developer Handoff — Open in IDE** (karta ciemna)
-  One click from a clarified task to the developer's IDE of choice — Cursor, VS Code, or any supported environment — complete with a ready-to-use prompt. Each person picks their own tool. Zero friction from ticket to code.
+- Bridge the gap
+- Connect product intent directly to developer-ready tickets — without translation loss between business and engineering.
+  **Card 2 — Goal 02**
+- Shorten the loop
+- Reduce cycle time between input, test and feedback so AI-accelerated development delivers end-to-end — not just at the code layer.
+  **Card 3 — Goal 03**
+- Unblock developers
+- Clarity in hours, not days — so fast code generation is matched by equally fast, well-defined input.
 
 ---
 
-## Slajd 4 — Roadmap (bg-indigo)
+## Slide 4 — Features & Flow
 
-**Pill:** Coming in V2
+**Pill:** How it works
+
+**Heading:** The full workflow, powered by AI.
+
+**AI assistant:** Available at every step. Ask questions, edit tasks and clarify requirements through natural conversation.
+
+**Integrations:** Jira, GitHub, Slack (coming), Gmail (coming), Notion (coming), Google Drive (coming), SharePoint (coming)
+
+**Flow:**
+
+- **01 — Task Idea**
+- **02 — Live Refinement** _(AI)_ — Run refinement sessions inside the tool. The conversation is transcribed live and decisions are applied directly to tasks — nothing lost after the call. Upload existing transcripts too.
+- **03 — Task Enrichment** _(AI)_ — AI identifies gaps, writes structured acceptance criteria and pulls context from your codebase and attachments. Every task arrives truly ready to build.
+- **04 — Send to IDE** _(AI)_ — One click opens the enriched task in the developer's IDE of choice — Cursor, VS Code or any supported environment — with a structured brief and ready-to-use prompt already waiting. No code is generated here: an experienced developer takes over with everything they need.
+- **05 — Done**
+
+---
+
+## Slide 5 — Roadmap
+
+**Pill:** Coming soon
 
 **Heading:** We're just getting started.
 
 **Body:** The roadmap closes the full loop — connecting product delivery with stakeholder input, risk intelligence, and long-term strategic direction.
 
-**Funkcje V2 (pills):** Feedback module · Cycles · Risks plugin · RFP plugin · Stakeholder bots · Goals support
+**Next features:** Feedback module · Cycles · Risks identification · Complexity · From RFP to tasks · Stakeholder bots · Goals support
 
-**Blok datowy:** Sep '26 — Tokenizer goes live for clients in September 2026. You'd be among the first to onboard.
+**Launch:** Sep '26 — Amsterdam Standard AI Tool goes live for clients in September 2026. You'd be among the first to onboard.
