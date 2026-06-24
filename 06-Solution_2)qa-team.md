@@ -1,4 +1,4 @@
-# Zespół QA — budowanie kompetencji i procesu
+# QA Process & Team
 
 # NOTATKI
 

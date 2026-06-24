@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>UX Scan — Jak działa audyt UI/UX</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@100..900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:           #ffffff;
+    --bg-soft:      #f1f1f7;
+    --bg-card:      #ffffff;
+    --indigo:       #5b4ee6;
+    --indigo-dark:  #4a3fd1;
+    --indigo-soft:  #ede9fe;
+    --indigo-glow:  #8b85f0;
+    --ink:          #1a1a2e;
+    --ink-mute:     #6b6987;
+    --ink-soft:     #a4a3bd;
+    --rule:         #e6e5ee;
+    --dark-card:    #1a1a2e;
+  }
+
+  html, body {
+    height: 100%; width: 100%;
+    overflow: hidden;
+    background: #080812;
+    font-family: 'Onest', sans-serif;
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .progress-bar {
+    position: fixed; top: 0; left: 0;
+    height: 2px; background: var(--indigo);
+    z-index: 1000; transition: width 0.4s ease;
+    box-shadow: 0 0 10px rgba(91,78,230,0.6);
+  }
+  .nav-hint {
+    position: fixed; bottom: 1.4rem; left: 50%;
+    transform: translateX(-50%);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: rgba(255,255,255,0.15);
+    z-index: 1000; pointer-events: none; white-space: nowrap;
+  }
+
+  .deck { position: relative; width: 100vw; height: 100vh; }
+
+  .slide {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    padding: clamp(2rem, 4.5vw, 4.5rem);
+    background: var(--bg);
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.42s ease;
+  }
+  .slide.active { opacity: 1; pointer-events: all; }
+  .bg-soft { background: var(--bg-soft); }
+  .bg-dark { background: var(--dark-card); }
+
+  .chrome-top {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: clamp(1.25rem, 2.2vh, 2.2rem);
+    flex-shrink: 0;
+  }
+  .chrome-tag {
+    display: flex; align-items: center; gap: 0.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.64rem; text-transform: uppercase; letter-spacing: 0.13em;
+    color: var(--ink-soft);
+  }
+  .chrome-tag-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--indigo); flex-shrink: 0; }
+  .chrome-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.64rem; letter-spacing: 0.06em; color: var(--ink-soft);
+  }
+  .bg-dark .chrome-tag, .bg-dark .chrome-num { color: rgba(255,255,255,0.28); }
+  .bg-dark .chrome-tag-dot { background: var(--indigo-glow); }
+
+  .slide-body { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+  .pill {
+    display: inline-flex; align-items: center; gap: 0.38rem;
+    padding: 0.28rem 0.8rem; border-radius: 999px;
+    font-size: 0.78rem; font-weight: 500; letter-spacing: 0.01em;
+  }
+  .pill::before { content: ''; width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+  .pill-ind         { background: var(--indigo-soft); color: var(--indigo); }
+  .pill-ind::before { background: var(--indigo); }
+  .pill-on-dark         { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.78); }
+  .pill-on-dark::before { background: var(--indigo-glow); }
+
+  .h-section { font-weight: 700; letter-spacing: -0.024em; line-height: 1.12; font-size: clamp(1.6rem, 2.8vw, 2.4rem); }
+  .body-lg   { font-size: clamp(0.95rem, 1.4vw, 1.12rem); line-height: 1.66; color: var(--ink-mute); }
+  .w-fit { width: fit-content; }
+
+  .card {
+    background: var(--bg-card); border: 1px solid var(--rule);
+    border-radius: 20px; padding: clamp(1rem, 1.6vw, 1.4rem);
+    display: flex; flex-direction: column;
+  }
+  .card-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.12em;
+    color: var(--ink-soft); margin-bottom: 0.28rem;
+  }
+  .card-title {
+    font-size: clamp(0.88rem, 1.2vw, 1rem);
+    font-weight: 600; letter-spacing: -0.01em; line-height: 1.22;
+    margin-bottom: 0.38rem; color: var(--ink);
+  }
+  .card-body { font-size: clamp(0.74rem, 0.92vw, 0.84rem); line-height: 1.6; color: var(--ink-mute); }
+
+  .split {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: clamp(2rem, 4vw, 4.5rem);
+    align-items: start; flex: 1;
+  }
+
+  .efekt-box {
+    border-left: 3px solid var(--indigo);
+    padding: 0.75rem 1rem;
+    background: var(--indigo-soft);
+    border-radius: 0 12px 12px 0;
+  }
+  .efekt-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.12em;
+    color: var(--indigo); margin-bottom: 0.28rem;
+  }
+  .efekt-box p { font-size: 0.84rem; color: var(--ink-mute); line-height: 1.6; }
+
+  /* icon box */
+  .ibox {
+    width: 40px; height: 40px; border-radius: 11px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .ibox-ind  { background: var(--indigo-soft); }
+  .ibox-dark { background: rgba(255,255,255,0.08); }
+  .ibox svg  { width: 20px; height: 20px; }
+
+  /* phase flow */
+  .phase-flow { display: flex; align-items: flex-start; gap: 0; margin-bottom: 1.4rem; }
+  .phase-node { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 0.6rem; text-align: center; }
+  .phase-icon-wrap {
+    width: 56px; height: 56px; border-radius: 16px;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--indigo-soft);
+  }
+  .phase-icon-wrap.accent { background: var(--indigo); }
+  .phase-icon-wrap svg { width: 26px; height: 26px; }
+  .phase-num  { font-family: 'JetBrains Mono', monospace; font-size: 0.56rem; color: var(--indigo); letter-spacing: 0.1em; margin-bottom: 0.08rem; }
+  .phase-label { font-size: 0.82rem; font-weight: 600; letter-spacing: -0.015em; color: var(--ink); line-height: 1.3; }
+  .phase-sub  { font-size: 0.71rem; color: var(--ink-mute); line-height: 1.4; margin-top: 0.3rem; }
+  .phase-arrow { font-size: 1rem; color: var(--indigo); opacity: 0.3; flex-shrink: 0; align-self: center; padding-bottom: 3rem; }
+
+  .grid2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.8rem; }
+
+  /* dark card item */
+  .dark-item {
+    display: flex; align-items: flex-start; gap: 0.75rem;
+    padding: 0.85rem 1rem; border-radius: 14px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .dark-item-title { font-size: 0.88rem; font-weight: 600; color: #fff; margin-bottom: 0.15rem; }
+  .dark-item-desc  { font-size: 0.75rem; color: rgba(255,255,255,0.42); line-height: 1.5; }
+
+  /* animations */
+  .slide.active.fade-in > * { animation: rise 0.72s ease both; }
+  .slide.active.fade-in > *:nth-child(1) { animation-delay:   0ms; }
+  .slide.active.fade-in > *:nth-child(2) { animation-delay:  75ms; }
+  .slide.active.fade-in > *:nth-child(3) { animation-delay: 150ms; }
+  .slide.active.fade-in > *:nth-child(4) { animation-delay: 225ms; }
+  @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+</head>
+<body>
+
+<svg style="display:none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <symbol id="ic-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 11a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .18h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.09-1.09a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+    </symbol>
+    <symbol id="ic-monitor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+    </symbol>
+    <symbol id="ic-clipboard" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/>
+    </symbol>
+    <symbol id="ic-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/>
+    </symbol>
+    <symbol id="ic-trending" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/>
+    </symbol>
+    <symbol id="ic-refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/>
+    </symbol>
+    <symbol id="ic-zap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+    </symbol>
+    <symbol id="ic-settings" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="3"/><path d="M19.07 4.93l-1.41 1.41M4.93 4.93l1.41 1.41M12 2v2M12 20v2M2 12h2M20 12h2M19.07 19.07l-1.41-1.41M4.93 19.07l1.41-1.41"/>
+    </symbol>
+    <symbol id="ic-file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+    </symbol>
+    <symbol id="ic-map" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/>
+    </symbol>
+    <symbol id="ic-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>
+    </symbol>
+    <symbol id="ic-bar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="progress-bar" id="progress"></div>
+<div class="nav-hint">← → nawigacja · spacja dalej</div>
+
+<div class="deck" id="deck">
+
+  <!-- ══════════════════════════════════════
+       SLAJD 1 · Proces · bg-soft
+  ══════════════════════════════════════ -->
+  <section class="slide bg-soft active fade-in" data-slide="1">
+    <div class="chrome-top">
+      <div class="chrome-tag"><span class="chrome-tag-dot"></span>UX Scan — Proces</div>
+      <div class="chrome-num">01 / 03</div>
+    </div>
+    <div class="slide-body">
+
+      <div style="margin-bottom:1.4rem;">
+        <span class="pill pill-ind w-fit" style="margin-bottom:0.85rem;">Jak to działa</span>
+        <h2 class="h-section" style="margin-bottom:0.4rem;">Cztery kroki — od pierwszej rozmowy<br>do gotowych wniosków.</h2>
+        <p class="body-lg" style="max-width:50rem;">Prosty i przewidywalny proces. Klient wie na każdym etapie, co się dzieje i co z tego wynika.</p>
+      </div>
+
+      <div class="phase-flow" style="margin-bottom:1.3rem;">
+        <div class="phase-node">
+          <div class="phase-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--indigo)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><use href="#ic-phone"/></svg>
+          </div>
+          <div>
+            <div class="phase-num">01</div>
+            <div class="phase-label">Introduction call</div>
+            <div class="phase-sub">Poznajemy wyzwania, cele i wizję produktu. Wspólnie ustalamy, jak możemy pomóc.</div>
+          </div>
+        </div>
+        <div class="phase-arrow">→</div>
+        <div class="phase-node">
+          <div class="phase-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--indigo)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><use href="#ic-monitor"/></svg>
+          </div>
+          <div>
+            <div class="phase-num">02</div>
+            <div class="phase-label">Demo meeting</div>
+            <div class="phase-sub">Oglądamy produkt na żywo. Oceniamy dojrzałość UX i obecny stan doświadczenia użytkownika.</div>
+          </div>
+        </div>
+        <div class="phase-arrow">→</div>
+        <div class="phase-node">
+          <div class="phase-icon-wrap accent">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><use href="#ic-clipboard"/></svg>
+          </div>
+          <div>
+            <div class="phase-num">03</div>
+            <div class="phase-label">Scan proposal</div>
+            <div class="phase-sub">Przygotowujemy opportunity scan dopasowany do konkretnych potrzeb i celów klienta.</div>
+          </div>
+        </div>
+        <div class="phase-arrow">→</div>
+        <div class="phase-node">
+          <div class="phase-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--indigo)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><use href="#ic-users"/></svg>
+          </div>
+          <div>
+            <div class="phase-num">04</div>
+            <div class="phase-label">Start collaboration</div>
+            <div class="phase-sub">Onboardujemy zespół i rozpoczynamy audyt. Identyfikujemy szanse na wzrost.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="efekt-box">
+        <div class="efekt-label">Podejście</div>
+        <p>Skupiamy się na krytycznych momentach customer journey — tam, gdzie produkt konwertuje, onboarduje i utrzymuje użytkowników. Projekt i strategia muszą przekładać się na wyniki: wyższą konwersję, niższy churn, szybszy time to value.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       SLAJD 2 · Co badamy · bg-white
+  ══════════════════════════════════════ -->
+  <section class="slide fade-in" data-slide="2">
+    <div class="chrome-top">
+      <div class="chrome-tag"><span class="chrome-tag-dot"></span>UX Scan — Obszary</div>
+      <div class="chrome-num">02 / 03</div>
+    </div>
+    <div class="slide-body">
+
+      <div style="margin-bottom:1.4rem;">
+        <span class="pill pill-ind w-fit" style="margin-bottom:0.85rem;">Co analizujemy</span>
+        <h2 class="h-section" style="margin-bottom:0.4rem;">Skupiamy się na miejscach, które<br>cicho blokują wzrost.</h2>
+        <p class="body-lg" style="max-width:50rem;">Większość produktów SaaS nie zawodzi z braku wysiłku — zawodzi, bo użytkownicy nie potrafią samodzielnie dojść do wartości. Właśnie to naprawiamy.</p>
+      </div>
+
+      <div class="grid2" style="flex:1; align-content:start;">
+        <div class="card" style="gap:0.9rem;">
+          <div style="display:flex;align-items:center;gap:0.7rem;">
+            <div class="ibox ibox-ind">
+              <svg viewBox="0 0 24 24" fill="none" stroke="var(--indigo)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><use href="#ic-trending"/></svg>
+            </div>
+            <div>
+              <div class="card-tag">Konwersja</div>
+              <div class="card-title">Conversion</div>
+            </div>
+          </div>
+          <div class="card-body">Czy użytkownicy szybko rozumieją, co produkt dla nich robi i jak samodzielnie doświadczyć tej wartości? Badamy, gdzie ta klarowność się urywa.</div>
+        </div>
+
+        <div class="card" style="gap:0.9rem;">
+          <div style="display:flex;align-items:center;gap:0.7rem;">
+            <div class="ibox ibox-ind">
+              <svg viewBox="0 0 24 24" fill="none" stroke="var(--indigo)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><use href="#ic-zap"/></svg>
+            </div>
+            <div>
+              <div class="card-tag">Aktywacja</div>
+              <div class="card-title">Onboarding &amp; activation</div>
+            </div>
+          </div>
+          <div class="card-body">Czy kluczowe funkcje są adoptowane? Czy użytkownicy trafiają na „aha moment" zanim zrezygnują? Analizujemy, gdzie użycie płaszczy się zanim wykształci się nawyk.</div>
+        </div>
+
+        <div class="card" style="gap:0.9rem;">
+          <div style="display:flex;align-items:center;gap:0.7rem;">
+            <div class="ibox ibox-ind">
+              <svg viewBox="0 0 24 24" fill="none" stroke="var(--indigo)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><use href="#ic-refresh"/></svg>
+            </div>
+            <div>
+              <div class="card-tag">Retencja</div>
+              <div class="card-title">Adoption &amp; retention</div>
+            </div>
+          </div>
+          <div class="card-body">Co powoduje churn? Identyfikujemy luki w adopcji funkcji, brakujące pętle nawyku i momenty, w których produkt traci użytkownika na rzecz konkurencji lub bezczynności.</div>
+        </div>
+
+        <div class="card" style="gap:0.9rem;">
+          <div style="display:flex;align-items:center;gap:0.7rem;">
+            <div class="ibox ibox-ind">
+              <svg viewBox="0 0 24 24" fill="none" stroke="var(--indigo)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><use href="#ic-settings"/></svg>
+            </div>
+            <div>
+              <div class="card-tag">Skalowalność</div>
+              <div class="card-title">Scalability &amp; self-serve</div>
+            </div>
+          </div>
+          <div class="card-body">Czy wzrost wymaga każdorazowego zaangażowania sprzedaży lub supportu? Oceniamy, czy produkt pozwala użytkownikom dojść do wartości bez ludzkiego pośrednictwa.</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       SLAJD 3 · Co klient dostaje · bg-dark
+  ══════════════════════════════════════ -->
+  <section class="slide bg-dark fade-in" data-slide="3">
+    <div class="chrome-top">
+      <div class="chrome-tag"><span class="chrome-tag-dot"></span>UX Scan — Efekty</div>
+      <div class="chrome-num">03 / 03</div>
+    </div>
+    <div class="slide-body">
+
+      <span class="pill pill-on-dark w-fit" style="margin-bottom:0.9rem;">Co klient dostaje</span>
+      <h2 class="white" style="font-weight:700;letter-spacing:-0.03em;line-height:1.1;font-size:clamp(1.5rem,2.6vw,2.2rem);margin-bottom:0.4rem;">
+        Opportunity scan dopasowany<br>do konkretnych potrzeb i celów.
+      </h2>
+      <p style="font-size:0.88rem;color:rgba(255,255,255,0.42);max-width:46rem;line-height:1.65;margin-bottom:1.4rem;">
+        Wynik audytu to gotowy dokument z zidentyfikowanymi szansami na wzrost — nie lista obserwacji, lecz podstawa do działania.
+      </p>
+
+      <div class="split" style="gap:2rem;align-items:start;">
+
+        <!-- LEFT: co konkretnie -->
+        <div style="display:flex;flex-direction:column;gap:0.5rem;">
+          <div style="font-size:0.6rem;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:0.13em;color:rgba(255,255,255,0.25);margin-bottom:0.4rem;">Deliverables</div>
+
+          <div class="dark-item">
+            <div class="ibox ibox-dark" style="flex-shrink:0;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="var(--indigo-glow)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><use href="#ic-file"/></svg>
+            </div>
+            <div>
+              <div class="dark-item-title">Opportunity scan</div>
+              <div class="dark-item-desc">Dokument z zidentyfikowanymi lukami i szansami wzrostu, dopasowany do celów klienta — nie szablon.</div>
+            </div>
+          </div>
+
+          <div class="dark-item">
+            <div class="ibox ibox-dark" style="flex-shrink:0;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="var(--indigo-glow)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><use href="#ic-map"/></svg>
+            </div>
+            <div>
+              <div class="dark-item-title">Analiza customer journey</div>
+              <div class="dark-item-desc">Ocena krytycznych momentów w lejku — od pierwszego kontaktu z produktem po długoterminowe użycie.</div>
+            </div>
+          </div>
+
+          <div class="dark-item">
+            <div class="ibox ibox-dark" style="flex-shrink:0;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="var(--indigo-glow)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><use href="#ic-target"/></svg>
+            </div>
+            <div>
+              <div class="dark-item-title">Rekomendacje gotowe do wdrożenia</div>
+              <div class="dark-item-desc">Priorytetyzowana lista działań, które zespół klienta może realizować niezależnie lub razem z YouSir.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: mierzalne efekty -->
+        <div style="display:flex;flex-direction:column;gap:0.5rem;">
+          <div style="font-size:0.6rem;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:0.13em;color:rgba(255,255,255,0.25);margin-bottom:0.4rem;">Mierzalne efekty</div>
+
+          <div class="dark-item" style="flex-direction:column;gap:0.7rem;">
+            <div style="display:flex;align-items:center;gap:0.7rem;">
+              <div class="ibox ibox-dark" style="flex-shrink:0;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="var(--indigo-glow)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><use href="#ic-trending"/></svg>
+              </div>
+              <div class="dark-item-title">Higher conversion</div>
+            </div>
+            <div class="dark-item-desc" style="padding-left:0;">Więcej użytkowników przechodzi przez lejek do płatności lub rejestracji.</div>
+          </div>
+
+          <div class="dark-item" style="flex-direction:column;gap:0.7rem;">
+            <div style="display:flex;align-items:center;gap:0.7rem;">
+              <div class="ibox ibox-dark" style="flex-shrink:0;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="var(--indigo-glow)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><use href="#ic-zap"/></svg>
+              </div>
+              <div class="dark-item-title">Faster time to value</div>
+            </div>
+            <div class="dark-item-desc" style="padding-left:0;">Użytkownicy szybciej docierają do momentu, w którym produkt staje się dla nich niezbędny.</div>
+          </div>
+
+          <div class="dark-item" style="flex-direction:column;gap:0.7rem;">
+            <div style="display:flex;align-items:center;gap:0.7rem;">
+              <div class="ibox ibox-dark" style="flex-shrink:0;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="var(--indigo-glow)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><use href="#ic-bar"/></svg>
+              </div>
+              <div class="dark-item-title">Stronger retention</div>
+            </div>
+            <div class="dark-item-desc" style="padding-left:0;">Niższy churn dzięki lepszej adopcji kluczowych funkcji i wykształceniu nawyku użycia.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const total  = slides.length;
+  let current  = 0;
+  const progress = document.getElementById('progress');
+
+  function goTo(n) {
+    slides[current].classList.remove('active');
+    current = Math.max(0, Math.min(total - 1, n));
+    slides[current].classList.add('active');
+    progress.style.width = ((current + 1) / total * 100) + '%';
+  }
+
+  document.addEventListener('keydown', e => {
+    if (['ArrowRight','ArrowDown','Space',' '].includes(e.key)) { e.preventDefault(); goTo(current + 1); }
+    if (['ArrowLeft','ArrowUp'].includes(e.key))                { e.preventDefault(); goTo(current - 1); }
+  });
+
+  let startX = 0;
+  document.addEventListener('touchstart', e => { startX = e.touches[0].clientX; });
+  document.addEventListener('touchend',   e => {
+    const dx = e.changedTouches[0].clientX - startX;
+    if (Math.abs(dx) > 40) goTo(current + (dx < 0 ? 1 : -1));
+  });
+
+  goTo(0);
+</script>
+</body>
+</html>
