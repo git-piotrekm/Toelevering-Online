@@ -387,8 +387,8 @@
   /* Slide 2 grid — tighter cards to host the fact lists */
   .s2-grid .card, .s2-grid .card-soft, .s2-grid .card-ind, .s2-grid .card-dark { padding:1.4rem 1.6rem; overflow:hidden; }
   /* Compact per-card fact list (slide 2) */
-  .s2-list { list-style:none; padding:0; margin:0.85rem 0 0; font-size:0.8rem; line-height:1.35; color:var(--ink-mute); }
-  .s2-list li { display:flex; gap:0.5rem; padding:0.3rem 0; border-top:1px solid var(--rule); }
+  .s2-list { list-style:none; padding:0; margin:0.85rem 0 0; font-size:0.9rem; line-height:1.45; color:var(--ink-mute); }
+  .s2-list li { display:flex; gap:0.5rem; padding:0.45rem 0; border-top:1px solid var(--rule); }
   .s2-list li:first-child { border-top:none; padding-top:0; }
   .s2-list li::before { content:''; flex:0 0 5px; width:5px; height:5px; margin-top:0.42rem; border-radius:50%; background:var(--indigo); }
   .card-ind .s2-list, .card-dark .s2-list { color:rgba(255,255,255,0.82); }
@@ -517,14 +517,12 @@
 
       <!-- Delivery (white) -->
       <div class="card flex flex-col">
-        <div class="flex items-center justify-between">
+        <div class="flex items-center">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width:2rem;height:2rem;color:var(--indigo);">
             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
           </svg>
-          <span class="mono text-xs ink-mute uppercase tracking-[0.12em]">Delivery</span>
         </div>
-        <h3 class="h-display text-2xl md:text-3xl mt-4 mb-2">Product Owners are the <span class="ind">bottleneck</span>.</h3>
-        <p class="text-sm ink-mute leading-snug">Strong roadmap and stack — but POs are overloaded and there are no Business Analysts.</p>
+        <h3 class="h-display text-2xl md:text-3xl mt-3 mb-2">Delivery</h3>
         <ul class="s2-list">
           <li>Well-defined, prioritised roadmap</li>
           <li>Diverse tech stack (PHP Laravel, .NET, React)</li>
@@ -537,7 +535,7 @@
 
       <!-- QA (soft) -->
       <div class="card-soft flex flex-col">
-        <div class="flex items-center justify-between">
+        <div class="flex items-center">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width:2rem;height:2rem;color:var(--indigo);">
             <ellipse cx="12" cy="14.5" rx="4.5" ry="6" stroke-width="1.5"/>
             <circle cx="12" cy="6.5" r="2" stroke-width="1.5"/>
@@ -546,10 +544,8 @@
             <path stroke-linecap="round" d="M7.5 11.5L5 10M7.5 14.5L5 14.5M7.5 17.5L5 19"/>
             <path stroke-linecap="round" d="M16.5 11.5L19 10M16.5 14.5L19 14.5M16.5 17.5L19 19"/>
           </svg>
-          <span class="mono text-xs ink-mute uppercase tracking-[0.12em]">Quality Assurance</span>
         </div>
-        <h3 class="h-display text-2xl md:text-3xl mt-4 mb-2">No safety net for <span class="ind">releases</span>.</h3>
-        <p class="text-sm ink-mute leading-snug">No dedicated QA and no test strategy — so bugs reach customers.</p>
+        <h3 class="h-display text-2xl md:text-3xl mt-3 mb-2">Quality Assurance</h3>
         <ul class="s2-list">
           <li>No dedicated QA engineers</li>
           <li>No testing strategy</li>
@@ -560,14 +556,12 @@
 
       <!-- AI (indigo) -->
       <div class="card-ind flex flex-col">
-        <div class="flex items-center justify-between">
+        <div class="flex items-center">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width:2rem;height:2rem;color:#fff;">
             <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 3v1.5M4.5 8.25H3m18 0h-1.5M4.5 12H3m18 0h-1.5m-15 3.75H3m18 0h-1.5M8.25 19.5V21M12 3v1.5m0 15V21m3.75-18v1.5m0 15V21m-9-1.5h10.5a2.25 2.25 0 0 0 2.25-2.25V6.75a2.25 2.25 0 0 0-2.25-2.25H6.75A2.25 2.25 0 0 0 4.5 6.75v10.5a2.25 2.25 0 0 0 2.25 2.25Zm.75-12h9v9h-9v-9Z" />
           </svg>
-          <span class="mono text-xs uppercase tracking-[0.12em]" style="color: rgba(255,255,255,0.75);">AI Implementation</span>
         </div>
-        <h3 class="h-display text-2xl md:text-3xl mt-4 mb-2">High adoption, <span style="color:#fff;opacity:0.7;">no governance</span>.</h3>
-        <p class="text-sm leading-snug" style="color: rgba(255,255,255,0.85);">~80% of front-end code is AI-generated — but no owner, no policy, no token control.</p>
+        <h3 class="h-display text-2xl md:text-3xl mt-3 mb-2">AI Implementation</h3>
         <ul class="s2-list">
           <li>No one owns AI adoption</li>
           <li>Bottom-up tool adoption, no governance</li>
@@ -578,14 +572,12 @@
 
       <!-- UX/UI (dark) -->
       <div class="card-dark flex flex-col">
-        <div class="flex items-center justify-between">
+        <div class="flex items-center">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width:2rem;height:2rem;color:var(--indigo-glow);">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9.53 16.122a3 3 0 0 0-5.78 1.128 2.25 2.25 0 0 1-2.4 2.245 4.5 4.5 0 0 0 8.4-2.245c0-.399-.078-.78-.22-1.128Zm0 0a15.998 15.998 0 0 0 3.388-1.62m-5.043-.025a15.994 15.994 0 0 1 1.622-3.395m3.42 3.42a15.995 15.995 0 0 0 4.764-4.648l3.876-5.814a1.151 1.151 0 0 0-1.597-1.597L14.146 6.32a15.996 15.996 0 0 0-4.649 4.763m3.42 3.42a6.776 6.776 0 0 0-3.42-3.42" />
           </svg>
-          <span class="mono text-xs uppercase tracking-[0.12em]" style="color: rgba(255,255,255,0.6);">UX/UI</span>
         </div>
-        <h3 class="h-display text-2xl md:text-3xl mt-4 mb-2">Time lost to <span class="ind-glow">operational work</span>.</h3>
-        <p class="text-sm leading-snug" style="color: rgba(255,255,255,0.7);">Little room for research or CRO, and AI is barely used.</p>
+        <h3 class="h-display text-2xl md:text-3xl mt-3 mb-2">UX/UI</h3>
         <ul class="s2-list">
           <li>Designers split into a separate Product Experience team</li>
           <li>Mostly operational work — little time for research &amp; CRO</li>
@@ -729,54 +721,112 @@
 
 <section class="slide bg-soft" data-slide="6">
   <div class="chrome-top">
-    <div class="chrome-tag"><span class="chrome-tag-dot"></span> Five pillars</div>
+    <div class="chrome-tag"><span class="chrome-tag-dot"></span> Proposed Solutions</div>
     <div class="chrome-num">06 / 28</div>
   </div>
-  <div class="flex-1 flex flex-col justify-center max-w-6xl mx-auto w-full">
-    <h2 class="h-display text-[clamp(2rem,4.5vw,3.8rem)] mb-3 text-center">Five pillars we can <span class="ind">address</span>.</h2>
-    <p class="text-lg ink-mute text-center mb-10 mx-auto" style="max-width:42rem;">Five ways we can lift your product &amp; tech org with AI — we'll open with the first.</p>
-    <div class="flex flex-wrap justify-center gap-4">
-      <div class="card-ind" style="flex:0 1 300px;max-width:330px;">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width:1.9rem;height:1.9rem;color:#fff;"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 3v1.5M4.5 8.25H3m18 0h-1.5M4.5 12H3m18 0h-1.5m-15 3.75H3m18 0h-1.5M8.25 19.5V21M12 3v1.5m0 15V21m3.75-18v1.5m0 15V21m-9-1.5h10.5a2.25 2.25 0 0 0 2.25-2.25V6.75a2.25 2.25 0 0 0-2.25-2.25H6.75A2.25 2.25 0 0 0 4.5 6.75v10.5a2.25 2.25 0 0 0 2.25 2.25Zm.75-12h9v9h-9v-9Z" /></svg>
+  <div class="flex-1 flex flex-col justify-center gap-5 max-w-7xl mx-auto w-full" style="padding-top:3.5rem;">
+
+    <div>
+      <span class="pill pill-ind mb-3 w-fit" style="display:inline-flex;">Solutions overview</span>
+      <h2 class="h-display" style="font-size:clamp(2.2rem,4vw,3.6rem);line-height:1.0;">
+        <span class="ind">Next steps</span> for Toelevering Online.
+      </h2>
+    </div>
+
+    <div class="grid grid-cols-4 gap-3" style="flex-shrink:0;">
+
+      <!-- 01 — Start here (card-ind) -->
+      <div class="card-ind flex flex-col" style="gap:1rem;padding:1.5rem;">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2.5">
+            <span class="mono h-display" style="font-size:2rem;line-height:1;color:rgba(255,255,255,0.9);">01</span>
+            <div style="width:1px;height:2rem;background:rgba(255,255,255,0.25);flex-shrink:0;"></div>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width:1.6rem;height:1.6rem;color:#ffffff;flex-shrink:0;">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 3v1.5M4.5 8.25H3m18 0h-1.5M4.5 12H3m18 0h-1.5m-15 3.75H3m18 0h-1.5M8.25 19.5V21M12 3v1.5m0 15V21m3.75-18v1.5m0 15V21m-9-1.5h10.5a2.25 2.25 0 0 0 2.25-2.25V6.75a2.25 2.25 0 0 0-2.25-2.25H6.75A2.25 2.25 0 0 0 4.5 6.75v10.5a2.25 2.25 0 0 0 2.25 2.25Zm.75-12h9v9h-9v-9Z" />
+            </svg>
+          </div>
           <span class="pill pill-on-indigo" style="font-size:0.6rem;padding:0.2rem 0.65rem;">Start here</span>
         </div>
-        <h3 class="h-bold text-xl mb-2" style="color:#fff;">AI productivity for devs</h3>
-        <p class="text-sm leading-snug" style="color:rgba(255,255,255,0.85);">Make AI use across the dev teams consistent, trusted and worth the spend.</p>
-      </div>
-      <div class="card" style="flex:0 1 300px;max-width:330px;">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width:1.9rem;height:1.9rem;color:var(--indigo);"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>
-          <span class="mono" style="font-size:0.62rem;letter-spacing:0.12em;color:var(--ink-soft);">02</span>
+        <div style="height:1px;background:rgba(255,255,255,0.2);"></div>
+        <div>
+          <div class="h-bold" style="font-size:0.95rem;line-height:1.3;margin-bottom:0.5rem;color:#fff;">AI Scan<br>Dev Team</div>
+          <p style="font-size:0.8rem;line-height:1.55;color:rgba(255,255,255,0.85);">Two-week analysis of current AI practices across development teams. AI tool standardisation, AI governance foundations, best practices, and building an internal AI Champions team.</p>
         </div>
-        <h3 class="h-bold text-xl mb-2">A QA team, installed</h3>
-        <p class="text-sm ink-mute leading-snug">Build the testing capability and process you're missing — strategy to automation.</p>
       </div>
-      <div class="card" style="flex:0 1 300px;max-width:330px;">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width:1.9rem;height:1.9rem;color:var(--indigo);"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.76c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 0 1 .778-.332 48.294 48.294 0 0 0 5.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" /></svg>
-          <span class="mono" style="font-size:0.62rem;letter-spacing:0.12em;color:var(--ink-soft);">03</span>
+
+      <!-- 02 -->
+      <div class="card-soft flex flex-col" style="gap:1rem;padding:1.5rem;">
+        <div class="flex items-center gap-2.5">
+          <span class="mono h-display" style="font-size:2rem;line-height:1;color:var(--indigo);">02</span>
+          <div style="width:1px;height:2rem;background:var(--rule-strong);flex-shrink:0;"></div>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width:1.6rem;height:1.6rem;color:var(--indigo);flex-shrink:0;">
+            <ellipse cx="12" cy="14.5" rx="4.5" ry="6" stroke-width="1.5"/>
+            <circle cx="12" cy="6.5" r="2" stroke-width="1.5"/>
+            <path stroke-linecap="round" d="M10.5 5L8 2.5M13.5 5L16 2.5"/>
+            <line x1="12" y1="8.5" x2="12" y2="20.5" stroke-width="1" stroke-dasharray="2 1.5"/>
+            <path stroke-linecap="round" d="M7.5 11.5L4 10M7.5 14.5L4 14M7.5 17.5L4 18"/>
+            <path stroke-linecap="round" d="M16.5 11.5L20 10M16.5 14.5L20 14M16.5 17.5L20 18"/>
+          </svg>
         </div>
-        <h3 class="h-bold text-xl mb-2">Our flagship for POs</h3>
-        <p class="text-sm ink-mute leading-snug">We built an AI product that turns raw input into build-ready tickets, fast.</p>
+        <div style="height:1px;background:var(--rule-strong);"></div>
+        <div>
+          <div class="h-bold" style="font-size:0.95rem;line-height:1.3;margin-bottom:0.5rem;">QA<br>Process &amp; Team</div>
+          <p style="font-size:0.8rem;line-height:1.55;color:var(--ink-mute);">QA knowledge transfer: hiring a QA Lead, defining a comprehensive testing strategy and implementing a full QA process. Followed by recruiting and building a team of QA Engineers.</p>
+        </div>
       </div>
-      <div class="card" style="flex:0 1 300px;max-width:330px;">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width:1.9rem;height:1.9rem;color:var(--indigo);"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" /></svg>
-          <span class="mono" style="font-size:0.62rem;letter-spacing:0.12em;color:var(--ink-soft);">04</span>
+
+      <!-- 03 — swapped to card (white) -->
+      <div class="card flex flex-col" style="gap:1rem;padding:1.5rem;">
+        <div class="flex items-center gap-2.5">
+          <span class="mono h-display" style="font-size:2rem;line-height:1;color:var(--indigo);">03</span>
+          <div style="width:1px;height:2rem;background:var(--rule-strong);flex-shrink:0;"></div>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width:1.6rem;height:1.6rem;color:var(--indigo);flex-shrink:0;">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z" />
+          </svg>
         </div>
-        <h3 class="h-bold text-xl mb-2">AI business scan</h3>
-        <p class="text-sm ink-mute leading-snug">Map operations and find the automations with the highest ROI.</p>
+        <div style="height:1px;background:var(--rule);"></div>
+        <div>
+          <div class="h-bold" style="font-size:0.95rem;line-height:1.3;margin-bottom:0.5rem;">Amsterdam Standard<br>AI Framework</div>
+          <p style="font-size:0.8rem;line-height:1.55;color:var(--ink-mute);">Pilot deployment of a system integrated with JIRA and the Code Base, supporting developers, QA and Product Owners in requirements preparation, estimation and ticket validation using AI.</p>
+        </div>
       </div>
-      <div class="card" style="flex:0 1 300px;max-width:330px;">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width:1.9rem;height:1.9rem;color:var(--indigo);"><path stroke-linecap="round" stroke-linejoin="round" d="M9.53 16.122a3 3 0 0 0-5.78 1.128 2.25 2.25 0 0 1-2.4 2.245 4.5 4.5 0 0 0 8.4-2.245c0-.399-.078-.78-.22-1.128Zm0 0a15.998 15.998 0 0 0 3.388-1.62m-5.043-.025a15.994 15.994 0 0 1 1.622-3.395m3.42 3.42a15.995 15.995 0 0 0 4.764-4.648l3.876-5.814a1.151 1.151 0 0 0-1.597-1.597L14.146 6.32a15.996 15.996 0 0 0-4.649 4.763m3.42 3.42a6.776 6.776 0 0 0-3.42-3.42" /></svg>
-          <span class="mono" style="font-size:0.62rem;letter-spacing:0.12em;color:var(--ink-soft);">05</span>
+
+      <!-- 04 -->
+      <div class="card-soft flex flex-col" style="gap:1rem;padding:1.5rem;">
+        <div class="flex items-center gap-2.5">
+          <span class="mono h-display" style="font-size:2rem;line-height:1;color:var(--indigo);">04</span>
+          <div style="width:1px;height:2rem;background:var(--rule-strong);flex-shrink:0;"></div>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width:1.6rem;height:1.6rem;color:var(--indigo);flex-shrink:0;">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9.53 16.122a3 3 0 0 0-5.78 1.128 2.25 2.25 0 0 1-2.4 2.245 4.5 4.5 0 0 0 8.4-2.245c0-.399-.078-.78-.22-1.128Zm0 0a15.998 15.998 0 0 0 3.388-1.62m-5.043-.025a15.994 15.994 0 0 1 1.622-3.395m3.42 3.42a15.995 15.995 0 0 0 4.764-4.648l3.876-5.814a1.151 1.151 0 0 0-1.597-1.597L14.146 6.32a15.996 15.996 0 0 0-4.649 4.763m3.42 3.42a6.776 6.776 0 0 0-3.42-3.42" />
+          </svg>
         </div>
-        <h3 class="h-bold text-xl mb-2">UX scan</h3>
-        <p class="text-sm ink-mute leading-snug">Simplify the product and the design-to-build flow.</p>
+        <div style="height:1px;background:var(--rule-strong);"></div>
+        <div>
+          <div class="h-bold" style="font-size:0.95rem;line-height:1.3;margin-bottom:0.5rem;">UX Scan</div>
+          <p style="font-size:0.8rem;line-height:1.55;color:var(--ink-mute);">Two-week workshops with the Product Experience team: process diagnosis, AI-assisted sketching, automation of repetitive tasks, better design-to-code integration and routines freeing time for research and CRO.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Banner 05 -->
+    <div class="card-dark flex items-center" style="gap:0;padding:0;flex-shrink:0;overflow:hidden;">
+      <div style="width:4px;height:100%;background:var(--indigo-glow);flex-shrink:0;align-self:stretch;"></div>
+      <div class="flex items-center gap-3" style="padding:1.25rem 1.5rem;flex-shrink:0;border-right:1px solid rgba(255,255,255,0.08);">
+        <span class="mono h-display" style="font-size:2rem;line-height:1;color:var(--indigo-glow);">05</span>
+        <div style="width:1px;height:2rem;background:rgba(255,255,255,0.15);flex-shrink:0;"></div>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width:1.6rem;height:1.6rem;color:var(--indigo-glow);flex-shrink:0;">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
+        </svg>
+      </div>
+      <div style="padding:1.25rem 1.5rem;flex-shrink:0;border-right:1px solid rgba(255,255,255,0.08);min-width:200px;">
+        <div class="h-bold" style="font-size:1rem;color:#ffffff;line-height:1.3;">AI Business Scan</div>
+      </div>
+      <div style="padding:1.25rem 1.5rem;flex:1;">
+        <p style="font-size:0.82rem;line-height:1.55;color:rgba(255,255,255,0.55);">Map operations and find the automations with the highest ROI across the business.</p>
       </div>
     </div>
+
   </div>
 </section>
 
@@ -788,7 +838,7 @@
   <div class="flex-1 flex flex-col justify-center max-w-6xl mx-auto w-full" style="color:#fff;">
     <span class="pill pill-on-indigo mb-8 w-fit">Pillar 01 of 05</span>
     <h2 class="h-display text-[clamp(3rem,8vw,8.5rem)] mb-8">
-      AI productivity <span style="color:#fff;opacity:0.7;">for devs</span>.
+      AI Scan <span style="color:#fff;opacity:0.7;">Dev Team</span>.
     </h2>
     <div style="height:1px;background:rgba(255,255,255,0.3);" class="mb-10 max-w-md"></div>
     <p class="text-xl md:text-2xl leading-relaxed max-w-4xl" style="color:rgba(255,255,255,0.92);">
@@ -797,97 +847,146 @@
   </div>
 </section>
 
-<section class="slide" data-slide="8">
+<!-- ═══════ SLIDE 08 — AI Scan for Devs ═══════ -->
+<section class="slide ideck bg-soft" data-slide="8">
   <div class="chrome-top">
-    <div class="chrome-tag"><span class="chrome-tag-dot"></span> AI productivity · Approach</div>
-    <div class="chrome-num">08 / 28</div>
+    <div class="chrome-tag"><span class="chrome-tag-dot"></span> AI Scan Dev Team</div>
+    <div class="chrome-num">08 / 29</div>
   </div>
-  <div class="flex-1 flex flex-col justify-center max-w-7xl mx-auto w-full">
-    <span class="pill pill-ind mb-5 w-fit">Where we start</span>
-    <h2 class="h-display text-[clamp(1.9rem,4vw,3.4rem)] mb-3">
-      First we assess <span class="ind">what works</span> — and what doesn't.
-    </h2>
-    <p class="text-lg ink-mute mb-6 max-w-4xl leading-snug">
-      We spend about a week getting to know the AI space your team uses today — an honest read of how AI really shows up in the work. From there we decide together where the leverage is:
-    </p>
+  <div class="slide-body" style="padding-top:3.5rem;">
 
-    <div class="flow8" style="height:clamp(330px,47vh,470px);">
+    <div style="display:grid;grid-template-columns:1fr 2fr;gap:clamp(2rem,4vw,4.5rem);flex:1;align-items:start;">
 
-      <!-- SOURCE — survey & assess -->
-      <div class="card-dark flow8-source flex flex-col">
-        <div class="flex items-center justify-between">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width:2rem;height:2rem;color:var(--indigo-glow);"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" /></svg>
-          <span class="mono text-xs uppercase tracking-[0.12em]" style="color:rgba(255,255,255,0.6);">Start here · Week 1</span>
-        </div>
-        <div class="mt-auto pt-5">
-          <h3 class="h-display text-2xl md:text-3xl mb-3">Survey &amp; <span class="ind-glow">assess</span>.</h3>
-          <p class="text-base leading-snug" style="color:rgba(255,255,255,0.72);">Talks with developers and key team members to map how AI is used today — and identify the <span style="color:#fff;font-weight:600;">AI champion</span> who'll own adoption and set the rules.</p>
-        </div>
+      <!-- LEFT: heading -->
+      <div>
+        <span class="pill pill-ind w-fit" style="margin-bottom:1.2rem;">AI Scan for Devs</span>
+        <h2 class="h-display-md" style="margin-bottom:1rem;">Two steps.<br><span class="ind">One clear picture.</span></h2>
+        <p class="body-lg">We start by understanding how AI is actually used across your dev teams today — before we propose anything.</p>
       </div>
 
-      <!-- CONNECTOR — branch up + down -->
-      <div class="flow8-connector">
-        <svg viewBox="0 0 100 100" preserveAspectRatio="none">
-          <g fill="none" stroke="var(--indigo)" stroke-width="2" vector-effect="non-scaling-stroke" stroke-linecap="round">
-            <path d="M0,50 H50"/>
-            <path d="M50,25 V75"/>
-            <path d="M50,25 H100"/>
-            <path d="M50,75 H100"/>
-          </g>
-        </svg>
-        <span class="flow8-arrow up"></span>
-        <span class="flow8-arrow down"></span>
-      </div>
+      <!-- RIGHT: timeline + document -->
+      <div style="display:flex;flex-direction:column;gap:0;">
 
-      <!-- TARGETS -->
-      <div class="flow8-right">
+        <!-- Timeline row: dots + cards + connectors + document -->
+        <div style="display:grid;grid-template-columns:12px 1fr 40px 160px;gap:0;align-items:stretch;">
 
-        <!-- WIDE — AI productivity session -->
-        <div class="card-ind flex flex-col" style="flex:1;">
-          <div class="flex items-center justify-between">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width:2rem;height:2rem;color:#fff;"><path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5" /></svg>
-            <span class="mono text-xs uppercase tracking-[0.12em]" style="color:rgba(255,255,255,0.75);">For everyone</span>
+          <!-- Col 1: vertical timeline -->
+          <div style="display:flex;flex-direction:column;align-items:center;padding-top:1.2rem;">
+            <div style="width:10px;height:10px;border-radius:50%;background:var(--indigo);flex-shrink:0;"></div>
+            <div style="width:2px;flex:1;background:linear-gradient(to bottom,var(--indigo),var(--indigo-glow));margin:0.3rem 0;"></div>
+            <div style="width:10px;height:10px;border-radius:50%;background:var(--indigo-glow);flex-shrink:0;"></div>
           </div>
-          <div class="mt-auto pt-4">
-            <h3 class="h-display text-2xl md:text-3xl mb-2">AI productivity <span style="color:#fff;opacity:0.7;">session</span>.</h3>
-            <p class="text-base leading-snug" style="color:rgba(255,255,255,0.85);">A 1–2h presentation and discussion with all devs — AI productivity, the top tips and tools, and our internal insights.</p>
+
+          <!-- Col 2: cards stacked -->
+          <div style="display:flex;flex-direction:column;gap:0.8rem;padding-left:1rem;">
+
+            <div class="card-elevated" style="position:relative;">
+              <div style="position:absolute;top:1rem;right:1rem;">
+                <span style="background:var(--indigo-soft);color:var(--indigo);font-family:'JetBrains Mono',monospace;font-size:0.58rem;text-transform:uppercase;letter-spacing:0.12em;padding:0.22rem 0.65rem;border-radius:999px;font-weight:600;">Free of charge</span>
+              </div>
+              <div class="card-tag">Week 1 — Survey</div>
+              <div class="card-title">Survey across dev teams</div>
+              <div class="card-body">A structured survey to map the current AI situation. No cost, no commitment — just an honest baseline.</div>
+            </div>
+
+            <div class="card-elevated">
+              <div class="card-tag">Week 2 — Conversations</div>
+              <div class="card-title">Team conversations &amp; AI Champions</div>
+              <div class="card-body">Talks with developers and key team members to understand how AI shows up in real work — and identify the AI Champions who'll own adoption.</div>
+            </div>
+
+          </div>
+
+          <!-- Col 3: SVG connectors from both cards to document -->
+          <svg viewBox="0 0 40 100" preserveAspectRatio="none" style="width:100%;height:100%;">
+            <g fill="none" stroke="var(--indigo)" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.5" stroke-linecap="round">
+              <!-- from top card (25%) to center (50%) -->
+              <path d="M0,25 C20,25 20,50 40,50"/>
+              <!-- from bottom card (75%) to center (50%) -->
+              <path d="M0,75 C20,75 20,50 40,50"/>
+            </g>
+            <!-- arrowhead -->
+            <polygon points="37,47 40,50 37,53" fill="var(--indigo)" opacity="0.5"/>
+          </svg>
+
+          <!-- Col 4: document -->
+          <div style="background:#fff;border:1px solid var(--rule);border-radius:20px;padding:1rem;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.6rem;box-shadow:0 4px 24px rgba(26,26,46,0.07);">
+            <svg viewBox="0 0 48 60" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:2.8rem;height:auto;">
+              <rect width="48" height="60" rx="6" fill="var(--indigo-soft)"/>
+              <rect x="8" y="10" width="32" height="3" rx="1.5" fill="var(--indigo)" opacity="0.7"/>
+              <rect x="8" y="17" width="24" height="3" rx="1.5" fill="var(--indigo)" opacity="0.4"/>
+              <rect x="8" y="24" width="28" height="3" rx="1.5" fill="var(--indigo)" opacity="0.4"/>
+              <rect x="8" y="31" width="20" height="3" rx="1.5" fill="var(--indigo)" opacity="0.3"/>
+              <rect x="8" y="40" width="32" height="2" rx="1" fill="var(--indigo)" opacity="0.15"/>
+              <rect x="8" y="45" width="24" height="2" rx="1" fill="var(--indigo)" opacity="0.15"/>
+              <circle cx="38" cy="50" r="8" fill="var(--indigo)"/>
+              <path d="M34.5 50l2.5 2.5 4.5-4.5" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <div style="font-size:0.68rem;font-weight:600;color:var(--ink);text-align:center;line-height:1.45;letter-spacing:-0.01em;">Improvement<br>proposals<br><span style="color:var(--indigo);">for the company<br>&amp; AI Champions</span></div>
+          </div>
+
+        </div>
+
+        <!-- Goal card below timeline -->
+        <div style="margin-top:1rem;background:var(--indigo);border-radius:20px;padding:1rem 1.4rem;display:flex;align-items:center;gap:1.2rem;">
+          <div style="flex-shrink:0;width:2rem;height:2rem;border-radius:8px;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:1rem;height:1rem;"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+          </div>
+          <div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:0.58rem;text-transform:uppercase;letter-spacing:0.12em;color:rgba(255,255,255,0.5);margin-bottom:0.15rem;">Goal</div>
+            <div style="font-size:0.95rem;font-weight:600;color:#fff;letter-spacing:-0.01em;">Build AI competence that compounds — <span style="opacity:0.75;font-weight:400;">develop AI Champions first, then watch expertise spread across all dev teams.</span></div>
           </div>
         </div>
 
-        <!-- PAIR — workflows + spend -->
-        <div class="flow8-pair">
-
-          <!-- AI workflows -->
-          <div class="card-soft flex flex-col">
-            <div class="flex items-center justify-between">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width:1.8rem;height:1.8rem;color:var(--indigo);"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" /></svg>
-              <span class="mono text-xs ink-mute uppercase tracking-[0.12em]">If it fits</span>
-            </div>
-            <div class="mt-auto pt-4">
-              <h3 class="h-display text-xl md:text-2xl mb-2">AI <span class="ind">workflows</span>.</h3>
-              <p class="text-sm ink-mute leading-snug">If it's a match, we spend a week installing our AI framework — <span style="color:var(--ink);font-weight:600;">TaskForge</span> or <span style="color:var(--ink);font-weight:600;">SpecKit</span>, depending on needs — and show the team how to use it.</p>
-            </div>
-          </div>
-
-          <!-- AI spend -->
-          <div class="card flex flex-col">
-            <div class="flex items-center justify-between">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width:1.8rem;height:1.8rem;color:var(--indigo);"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>
-              <span class="mono text-xs ink-mute uppercase tracking-[0.12em]">In parallel</span>
-            </div>
-            <div class="mt-auto pt-4">
-              <h3 class="h-display text-xl md:text-2xl mb-2">AI <span class="ind">spend</span>.</h3>
-              <p class="text-sm ink-mute leading-snug">Find where the cost goes — and whether it's normal for what you get back.</p>
-            </div>
-          </div>
-
-        </div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="slide bg-soft" data-slide="9">
+<!-- ═══════ SLIDE 09 — Next Steps ═══════ -->
+<section class="slide ideck" data-slide="9">
+  <div class="chrome-top">
+    <div class="chrome-tag"><span class="chrome-tag-dot"></span> AI Scan Dev Team — Next Steps</div>
+    <div class="chrome-num">09 / 29</div>
+  </div>
+  <div class="slide-body" style="padding-top:3.5rem;">
+    <span class="pill pill-ind w-fit mb-4">What follows</span>
+    <h2 class="h-section mb-6">Three next steps based on <span class="ind">what we find</span>.</h2>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:clamp(0.65rem,1vw,0.9rem);flex:1;">
+
+      <div class="card-ind" style="display:flex;flex-direction:column;padding:clamp(1.1rem,1.8vw,1.6rem);">
+        <div class="card-icon" style="background:rgba(255,255,255,0.14);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:1.1rem;height:1.1rem;"><path d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5"/></svg>
+        </div>
+        <div class="card-tag">For everyone</div>
+        <div class="card-title">AI productivity session</div>
+        <div class="card-body">A 1–2h presentation and discussion with all devs — AI productivity, the top tips and tools, and our internal insights.</div>
+      </div>
+
+      <div class="card-soft" style="display:flex;flex-direction:column;padding:clamp(1.1rem,1.8vw,1.6rem);">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--indigo)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:1.1rem;height:1.1rem;"><path d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"/></svg>
+        </div>
+        <div class="card-tag">If it fits</div>
+        <div class="card-title">AI workflows</div>
+        <div class="card-body">If it's a match, we spend a week installing our AI framework — <strong>TaskForge</strong> or <strong>SpecKit</strong>, depending on needs — and show the team how to use it.</div>
+      </div>
+
+      <div class="card" style="display:flex;flex-direction:column;padding:clamp(1.1rem,1.8vw,1.6rem);">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--indigo)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:1.1rem;height:1.1rem;"><path d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+        </div>
+        <div class="card-tag">In parallel</div>
+        <div class="card-title">AI spend</div>
+        <div class="card-body">Find where the cost goes — and whether it's normal for what you get back.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="slide bg-soft" data-slide="10">
   <div class="chrome-top">
     <div class="chrome-tag"><span class="chrome-tag-dot"></span> AI productivity · Reframe</div>
     <div class="chrome-num">09 / 28</div>
@@ -907,15 +1006,15 @@
   </div>
 </section>
 
-<section class="slide bg-indigo" data-slide="10">
+<section class="slide bg-indigo" data-slide="11">
   <div class="chrome-top">
     <div class="chrome-tag"><span class="chrome-tag-dot"></span> Pillar 02</div>
-    <div class="chrome-num">10 / 28</div>
+    <div class="chrome-num">10 / 29</div>
   </div>
   <div class="flex-1 flex flex-col justify-center max-w-6xl mx-auto w-full" style="color:#fff;">
     <span class="pill pill-on-indigo mb-8 w-fit">Pillar 02 of 05</span>
     <h2 class="h-display text-[clamp(3rem,8vw,8.5rem)] mb-8">
-      A QA team, <span style="color:#fff;opacity:0.7;">installed</span>.
+      QA <span style="color:#fff;opacity:0.7;">Process & Team</span>.
     </h2>
     <div style="height:1px;background:rgba(255,255,255,0.3);" class="mb-10 max-w-md"></div>
     <p class="text-xl md:text-2xl leading-relaxed max-w-4xl" style="color:rgba(255,255,255,0.92);">
@@ -924,10 +1023,10 @@
   </div>
 </section>
 
-<section class="slide" data-slide="11">
+<section class="slide" data-slide="12">
   <div class="chrome-top">
     <div class="chrome-tag"><span class="chrome-tag-dot"></span> QA Process</div>
-    <div class="chrome-num">11 / 28</div>
+    <div class="chrome-num">11 / 29</div>
   </div>
   <div class="flex-1 flex flex-col justify-center max-w-5xl mx-auto w-full">
     <div class="flex items-center gap-3 mb-4 flex-wrap">
@@ -984,10 +1083,10 @@
   </div>
 </section>
 
-<section class="slide bg-soft" data-slide="12">
+<section class="slide bg-soft" data-slide="13">
   <div class="chrome-top">
     <div class="chrome-tag"><span class="chrome-tag-dot"></span> AI in automation</div>
-    <div class="chrome-num">12 / 28</div>
+    <div class="chrome-num">12 / 29</div>
   </div>
   <div class="flex-1 flex flex-col justify-center max-w-7xl mx-auto w-full">
     <div class="flex items-center gap-3 mb-4 flex-wrap">
@@ -1020,10 +1119,10 @@
   </div>
 </section>
 
-<section class="slide" data-slide="13">
+<section class="slide" data-slide="14">
   <div class="chrome-top">
     <div class="chrome-tag"><span class="chrome-tag-dot"></span> Case study</div>
-    <div class="chrome-num">13 / 28</div>
+    <div class="chrome-num">13 / 29</div>
   </div>
   <div class="flex-1 flex flex-col justify-center max-w-7xl mx-auto w-full">
     <div class="flex items-center gap-3 mb-4 flex-wrap">
@@ -1050,10 +1149,10 @@
   </div>
 </section>
 
-<section class="slide bg-soft" data-slide="14">
+<section class="slide bg-soft" data-slide="15">
   <div class="chrome-top">
     <div class="chrome-tag"><span class="chrome-tag-dot"></span> Case study</div>
-    <div class="chrome-num">14 / 28</div>
+    <div class="chrome-num">14 / 29</div>
   </div>
   <div class="flex-1 flex flex-col justify-center max-w-7xl mx-auto w-full">
     <div class="flex items-center gap-3 mb-4 flex-wrap">
@@ -1080,15 +1179,15 @@
   </div>
 </section>
 
-<section class="slide bg-indigo" data-slide="15">
+<section class="slide bg-indigo" data-slide="16">
   <div class="chrome-top">
     <div class="chrome-tag"><span class="chrome-tag-dot"></span> Pillar 03</div>
-    <div class="chrome-num">15 / 28</div>
+    <div class="chrome-num">15 / 29</div>
   </div>
   <div class="flex-1 flex flex-col justify-center max-w-6xl mx-auto w-full" style="color:#fff;">
     <span class="pill pill-on-indigo mb-8 w-fit">Pillar 03 of 05</span>
     <h2 class="h-display text-[clamp(3rem,8vw,8.5rem)] mb-8">
-      Built for <span style="color:#fff;opacity:0.7;">Product Owners</span>.
+      Amsterdam Standard <span style="color:#fff;opacity:0.7;">AI Framework</span>.
     </h2>
     <div style="height:1px;background:rgba(255,255,255,0.3);" class="mb-10 max-w-md"></div>
     <p class="text-xl md:text-2xl leading-relaxed max-w-4xl" style="color:rgba(255,255,255,0.92);">
@@ -1097,10 +1196,10 @@
   </div>
 </section>
 
-<section class="slide ideck bg-soft" data-slide="16">
+<section class="slide ideck bg-soft" data-slide="17">
       <div class="chrome-top">
         <div class="chrome-tag"><span class="chrome-tag-dot"></span>The Shift</div>
-        <div class="chrome-num">16 / 28</div>
+        <div class="chrome-num">16 / 29</div>
       </div>
       <div class="slide-body">
 
@@ -1148,10 +1247,10 @@
       </div>
     </section>
 
-<section class="slide ideck" data-slide="17">
+<section class="slide ideck" data-slide="18">
       <div class="chrome-top">
         <div class="chrome-tag"><span class="chrome-tag-dot"></span>Our Response</div>
-        <div class="chrome-num">17 / 28</div>
+        <div class="chrome-num">17 / 29</div>
       </div>
       <div class="slide-body center">
 
@@ -1204,10 +1303,10 @@
       </div>
     </section>
 
-<section class="slide ideck" data-slide="18">
+<section class="slide ideck" data-slide="19">
       <div class="chrome-top">
         <div class="chrome-tag"><span class="chrome-tag-dot"></span>Features &amp; Flow</div>
-        <div class="chrome-num">18 / 28</div>
+        <div class="chrome-num">18 / 29</div>
       </div>
       <div class="slide-body center">
 
@@ -1315,10 +1414,10 @@
       </div>
     </section>
 
-<section class="slide ideck bg-indigo" data-slide="19">
+<section class="slide ideck bg-indigo" data-slide="20">
       <div class="chrome-top">
         <div class="chrome-tag"><span class="chrome-tag-dot"></span>Roadmap</div>
-        <div class="chrome-num">19 / 28</div>
+        <div class="chrome-num">19 / 29</div>
       </div>
       <div class="slide-body center">
 
@@ -1355,15 +1454,15 @@
       </div>
     </section>
 
-<section class="slide bg-indigo" data-slide="20">
+<section class="slide bg-indigo" data-slide="21">
   <div class="chrome-top">
     <div class="chrome-tag"><span class="chrome-tag-dot"></span> Pillar 04</div>
-    <div class="chrome-num">20 / 28</div>
+    <div class="chrome-num">20 / 29</div>
   </div>
   <div class="flex-1 flex flex-col justify-center max-w-6xl mx-auto w-full" style="color:#fff;">
     <span class="pill pill-on-indigo mb-8 w-fit">Pillar 04 of 05</span>
     <h2 class="h-display text-[clamp(3rem,8vw,8.5rem)] mb-8">
-      AI <span style="color:#fff;opacity:0.7;">business scan</span>.
+      AI <span style="color:#fff;opacity:0.7;">Business Scan</span>.
     </h2>
     <div style="height:1px;background:rgba(255,255,255,0.3);" class="mb-10 max-w-md"></div>
     <p class="text-xl md:text-2xl leading-relaxed max-w-4xl" style="color:rgba(255,255,255,0.92);">
@@ -1372,10 +1471,10 @@
   </div>
 </section>
 
-<section class="slide ideck bg-dark" data-slide="21">
+<section class="slide ideck bg-dark" data-slide="22">
     <div class="chrome-top">
       <div class="chrome-tag"><span class="chrome-tag-dot"></span>AI Business Scan</div>
-      <div class="chrome-num">21 / 28</div>
+      <div class="chrome-num">21 / 29</div>
     </div>
     <div class="slide-body">
       <div class="split" style="align-items: center; gap: clamp(2.5rem,5vw,5rem);">
@@ -1610,10 +1709,10 @@
     </div>
   </section>
 
-<section class="slide ideck bg-soft" data-slide="22">
+<section class="slide ideck bg-soft" data-slide="23">
     <div class="chrome-top">
       <div class="chrome-tag"><span class="chrome-tag-dot"></span>Business Case &amp; ROI</div>
-      <div class="chrome-num">22 / 28</div>
+      <div class="chrome-num">22 / 29</div>
     </div>
     <div class="slide-body" style="display:flex;flex-direction:column;">
 
@@ -1740,10 +1839,10 @@
     </div>
   </section>
 
-<section class="slide ideck bg-dark" data-slide="23">
+<section class="slide ideck bg-dark" data-slide="24">
     <div class="chrome-top">
       <div class="chrome-tag"><span class="chrome-tag-dot"></span>Proof of Concept · AI Hub</div>
-      <div class="chrome-num">23 / 28</div>
+      <div class="chrome-num">23 / 29</div>
     </div>
     <div class="slide-body">
       <div class="split" style="align-items: center;">
@@ -1909,15 +2008,15 @@
 
 
 <!-- ═══════ Pillar 05 divider — UX/UI Scan ═══════ -->
-<section class="slide bg-indigo" data-slide="24">
+<section class="slide bg-indigo" data-slide="25">
   <div class="chrome-top">
     <div class="chrome-tag"><span class="chrome-tag-dot"></span> Pillar 05</div>
-    <div class="chrome-num">24 / 28</div>
+    <div class="chrome-num">24 / 29</div>
   </div>
   <div class="flex-1 flex flex-col justify-center max-w-6xl mx-auto w-full" style="color:#fff;">
     <span class="pill pill-on-indigo mb-8 w-fit">Pillar 05 of 05</span>
     <h2 class="h-display text-[clamp(3rem,8vw,8.5rem)] mb-8">
-      UX/UI <span style="color:#fff;opacity:0.7;">scan</span>.
+      UX <span style="color:#fff;opacity:0.7;">Scan</span>.
     </h2>
     <div style="height:1px;background:rgba(255,255,255,0.3);" class="mb-10 max-w-md"></div>
     <p class="text-xl md:text-2xl leading-relaxed max-w-4xl" style="color:rgba(255,255,255,0.92);">
@@ -1927,10 +2026,10 @@
 </section>
 
 <!-- ═══════ UX Discovery intro ═══════ -->
-<section class="slide ideck bg-soft" data-slide="25">
+<section class="slide ideck bg-soft" data-slide="26">
   <div class="chrome-top">
     <div class="chrome-tag"><span class="chrome-tag-dot"></span>UX Discovery</div>
-    <div class="chrome-num">25 / 28</div>
+    <div class="chrome-num">25 / 29</div>
   </div>
   <div class="slide-body" style="padding-top: 3.5rem;">
 
@@ -1986,10 +2085,10 @@
 </section>
 
 <!-- ═══════ UX Discovery — Areas ═══════ -->
-<section class="slide ideck bg-soft" data-slide="26">
+<section class="slide ideck bg-soft" data-slide="27">
   <div class="chrome-top">
     <div class="chrome-tag"><span class="chrome-tag-dot"></span>UX Discovery — Areas</div>
-    <div class="chrome-num">26 / 28</div>
+    <div class="chrome-num">26 / 29</div>
   </div>
   <div class="slide-body" style="padding-top: 3.5rem;">
 
@@ -2061,10 +2160,10 @@
 </section>
 
 <!-- ═══════ AI Coaching on the Job ═══════ -->
-<section class="slide ideck bg-dark" data-slide="27">
+<section class="slide ideck bg-dark" data-slide="28">
   <div class="chrome-top">
     <div class="chrome-tag"><span class="chrome-tag-dot"></span>AI Coaching on the Job</div>
-    <div class="chrome-num">27 / 28</div>
+    <div class="chrome-num">27 / 29</div>
   </div>
   <div class="slide-body" style="padding-top: 3.5rem;">
 
@@ -2123,10 +2222,10 @@
 </section>
 
 <!-- ═══════ Closing — Questions & Discussion ═══════ -->
-<section class="slide bg-dark" data-slide="28">
+<section class="slide bg-dark" data-slide="29">
   <div class="chrome-top">
     <div class="chrome-tag"><span class="chrome-tag-dot"></span> Thank you</div>
-    <div class="chrome-num">28 / 28</div>
+    <div class="chrome-num">28 / 29</div>
   </div>
   <div class="flex-1 flex flex-col justify-center max-w-5xl mx-auto w-full" style="color:#fff;">
     <span class="pill pill-on-dark mb-8 w-fit">Let's talk</span>
