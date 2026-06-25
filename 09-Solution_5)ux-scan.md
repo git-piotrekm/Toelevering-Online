@@ -1,36 +1,29 @@
-# UX Scan — warsztat z designerami
+# UX Discovery — pierwsza rozmowa
 
 # NOTATKI
 
 ## Punkt wyjścia
 
-Designerzy pracują głównie w Figmie, czasem AI do szybkiego szkicowania. Emil powiedział wprost: są tu spore niewykorzystane możliwości. Ivo zrobił ważną zmianę — wyciągnął designerów z zespołu tech i stworzył osobny zespół Product Experience (UX/UI/CRO) z dwoma celami: (1) obsługa procesu developmentu, (2) — szczególnie podkreślony — realny research: gdzie największa przestrzeń do poprawy z perspektywy UX/UI i konwersji, własne inicjatywy trafiające do PO. Problem: dziś tkwią głównie w operacyjce i nie mają czasu na ten research. Tu wchodzi AI — przejmuje powtarzalność, by zwolnić czas na to, co twórcze.
+Designerzy pracują głównie w Figmie, czasem AI do szybkiego szkicowania. Emil powiedział wprost: są tu spore niewykorzystane możliwości. Ivo stworzył osobny zespół Product Experience (UX/UI/CRO) z ambicją robienia realnego researchu — ale dziś tkwią głównie w operacyjce.
 
-## Co robimy
+## Etap 1 — UX Discovery (2 godziny)
 
-Dwutygodniowe warsztaty z zespołem projektowym:
+Rozmowa z UX/UI designerami i Product Ownerami. Chcemy zobaczyć, jak wygląda praca dziś — procesy, narzędzia, tarcia, ambicje — i ocenić, czy możemy pomóc osiągnąć lepsze wyniki w obszarze UX/UI.
 
-1. **Diagnoza** — jak wygląda praca w Figmie, jak powstają projekty UX/UI, gdzie opóźnienia, jak współpraca z developerami i PO.
-2. **Konkretne narzędzia i techniki** — AI-wspomagane szkicowanie i generowanie wariantów, automatyzacja powtarzalnych zadań, lepsza integracja design-to-code (łączy się z Claude Code do drobnych poprawek front-endu z review).
-3. **Rutyny** — nawyki uwalniające czas na research i inicjatywy CRO; realizuje drugi cel zespołu Product Experience postawiony przez Ivo.
+To nie audyt. To rozmowa, z której obie strony wychodzą z konkretnym obrazem sytuacji.
 
-## Deliverables
+## Etap 2 — AI Coaching on the Job (jeśli widzimy potencjał)
 
-- Diagnoza obecnego procesu projektowego z punktami tarcia.
-- Rekomendowany zestaw narzędzi i technik AI dla designerów.
-- Usprawniony flow design-to-code.
-- Rutyny/playbook uwalniające czas na research i CRO.
+Jeśli podczas discovery wykryjemy realne możliwości rozwoju, oferujemy coaching wbudowany w codzienną pracę zespołu:
 
-**Rama czasowa:** 2 tygodnie warsztatów.
-
-**Wycena:** [do uzupełnienia]
-
-**Efekt:** Szybszy, bardziej niezależny zespół projektowy z realnym wpływem na produkt.
+- **Czas trwania:** 6 miesięcy
+- **Intensywność:** 16 godzin miesięcznie
+- **Forma:** on the job — pracujemy razem z zespołem przy realnych projektach, nie na szkoleniach
 
 ## Argumenty pod osoby
 
-- **Ivo** — stworzył zespół Product Experience właśnie po to, by designerzy robili research; AI zwalnia im na to czas. UX Scan domyka strukturalną zmianę, którą zacząłeś.
-- **Emil** — zauważył niewykorzystany potencjał; doceni lepszą integrację design-to-code zmniejszającą tarcia design ↔ front-end.
+- **Ivo** — discovery to szybki sposób żeby sprawdzić, czy ten nowy zespół Product Experience ma narzędzia i nawyki żeby realizować cel, który dla nich postawiłeś.
+- **Emil** — zobaczysz konkretne, niewykorzystane możliwości — nie teorie, tylko to co faktycznie można zrobić szybciej lub lepiej.
 
 ---
 
