@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tokenizer — Product Overview</title>
+  <title>Amsterdam Standard AI Tool — Product Overview</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Onest:wght@100..900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -272,6 +272,105 @@
       from { opacity: 0; transform: translateY(14px); }
       to   { opacity: 1; transform: translateY(0); }
     }
+
+    /* ── Feature flow (slide 3) ──────────────── */
+    .toki-bar {
+      background: var(--indigo-soft); border-radius: 12px;
+      padding: 0.55rem 1.1rem; margin-bottom: 1.1rem;
+      display: flex; align-items: center; gap: 0.65rem;
+      font-size: clamp(0.78rem, 1.1vw, 0.88rem); color: var(--indigo); flex-shrink: 0;
+    }
+    .toki-bar svg { width: 0.95rem; height: 0.95rem; flex-shrink: 0; color: var(--indigo); }
+    .toki-bar strong { font-weight: 700; }
+    .feature-flow {
+      display: flex; align-items: stretch; width: 100%;
+      flex: 0 0 auto;
+    }
+    .ff-card {
+      flex: 1; min-width: 0;
+      background: var(--bg-card); border: 1px solid var(--rule);
+      border-radius: 22px; padding: clamp(0.85rem, 1.4vw, 1.2rem);
+      display: flex; flex-direction: column; position: relative;
+    }
+    .ff-card.ff-soft { background: var(--bg-soft); border-color: transparent; }
+    .ff-card.ff-ind  { background: var(--indigo); color: #fff; border-color: transparent; }
+    .ff-card.ff-dark { background: var(--dark-card); color: #fff; border-color: transparent; }
+    .ff-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.57rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--ink-soft); margin-bottom: 0.7rem;
+    }
+    .ff-card.ff-ind  .ff-num { color: rgba(255,255,255,0.4); }
+    .ff-card.ff-dark .ff-num { color: rgba(255,255,255,0.3); }
+    .ff-ai {
+      position: absolute; top: clamp(0.75rem, 1.2vw, 1rem); right: clamp(0.75rem, 1.2vw, 1rem);
+      background: var(--indigo); color: #fff;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem; font-weight: 700; letter-spacing: 0.07em;
+      padding: 0.15rem 0.45rem; border-radius: 999px; text-transform: uppercase;
+    }
+    .ff-card.ff-ind  .ff-ai { background: rgba(255,255,255,0.22); color: #fff; }
+    .ff-card.ff-dark .ff-ai { background: rgba(91,78,230,0.55); color: var(--indigo-glow); }
+    .ff-icon {
+      width: 2rem; height: 2rem; border-radius: 10px;
+      background: var(--indigo-soft);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 0.85rem; flex-shrink: 0;
+    }
+    .ff-icon svg { width: 1.1rem; height: 1.1rem; color: var(--indigo); }
+    .ff-card.ff-ind  .ff-icon { background: rgba(255,255,255,0.14); }
+    .ff-card.ff-ind  .ff-icon svg { color: #fff; }
+    .ff-card.ff-dark .ff-icon { background: rgba(255,255,255,0.07); }
+    .ff-card.ff-dark .ff-icon svg { color: var(--indigo-glow); }
+    .ff-title {
+      font-size: clamp(0.88rem, 1.3vw, 1.05rem);
+      font-weight: 700; letter-spacing: -0.02em; line-height: 1.2;
+      color: var(--ink); margin-bottom: 0.6rem;
+    }
+    .ff-card.ff-ind  .ff-title { color: #fff; }
+    .ff-card.ff-dark .ff-title { color: #fff; }
+    .ff-body {
+      font-size: clamp(0.74rem, 0.95vw, 0.85rem);
+      line-height: 1.62; color: var(--ink-mute); flex: 1;
+    }
+    .ff-card.ff-ind  .ff-body { color: rgba(255,255,255,0.7); }
+    .ff-card.ff-dark .ff-body { color: rgba(255,255,255,0.5); }
+    .ff-arrow {
+      flex: 0 0 2.2rem;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .ff-arrow svg { width: 1.1rem; height: 1.1rem; color: var(--ink-soft); }
+    .integrations-row {
+      display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;
+      margin-bottom: 1rem; flex-shrink: 0;
+    }
+    .int-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.12em;
+      color: var(--ink-soft); margin-right: 0.25rem;
+    }
+    .int-badge {
+      background: var(--rule); color: var(--ink-mute);
+      border-radius: 999px; padding: 0.2rem 0.65rem;
+      font-size: 0.7rem; font-weight: 500;
+    }
+    .int-badge.soon {
+      background: transparent; border: 1px dashed var(--rule-strong);
+      color: var(--ink-soft);
+    }
+    .ff-card.ff-entry,
+    .ff-card.ff-done {
+      flex: 0 0 clamp(82px, 6.5vw, 102px);
+      align-items: center; justify-content: center; text-align: center;
+    }
+    .ff-card.ff-entry { background: var(--bg-soft); border-color: transparent; }
+    .ff-card.ff-entry .ff-icon { background: var(--rule); }
+    .ff-card.ff-entry .ff-icon svg { color: var(--ink-mute); }
+    .ff-card.ff-done  { background: #f0fdf4; border-color: #bbf7d0; }
+    .ff-card.ff-done  .ff-icon { background: rgba(22,163,74,0.12); }
+    .ff-card.ff-done  .ff-icon svg { color: #16a34a; }
+    .ff-card.ff-done  .ff-title { color: #166534; }
+    .ff-card.ff-done  .ff-num   { color: rgba(22,163,74,0.6); }
   </style>
 </head>
 <body>
@@ -287,11 +386,11 @@
     <section class="slide bg-dark active fade-in" data-slide="1">
       <div class="chrome-top">
         <div class="chrome-tag"><span class="chrome-tag-dot"></span>Product Overview</div>
-        <div class="chrome-num">01 / 04</div>
+        <div class="chrome-num">01 / 05</div>
       </div>
       <div class="slide-body center">
 
-        <span class="pill pill-on-dark w-fit mb-8">Tokenizer</span>
+        <span class="pill pill-on-dark w-fit mb-8">Amsterdam Standard AI Tool</span>
 
         <h1 class="h-display white mb-4">
           From idea to<br>
@@ -301,8 +400,8 @@
 
         <p class="body-lg mt-6"
            style="color: rgba(255,255,255,0.46); max-width: 44rem; line-height: 1.68;">
-          The AI-native product workspace that bridges product ownership and development —
-          shortening the loop between input, test and user feedback.
+          Our AI tool helps Product Owners turn ideas, meetings and notes into
+          developer-ready tickets — so your AI-powered team ships faster, end to end.
         </p>
 
         <p class="mono mt-10"
@@ -320,56 +419,48 @@
     ════════════════════════════════════════ -->
     <section class="slide bg-soft" data-slide="2">
       <div class="chrome-top">
-        <div class="chrome-tag"><span class="chrome-tag-dot"></span>The Problem</div>
-        <div class="chrome-num">02 / 04</div>
+        <div class="chrome-tag"><span class="chrome-tag-dot"></span>The Shift</div>
+        <div class="chrome-num">02 / 05</div>
       </div>
       <div class="slide-body">
 
-        <span class="pill pill-ind w-fit mb-6">Context</span>
+        <span class="pill pill-ind w-fit mb-6">The shift</span>
 
         <div class="split">
 
           <div>
             <h2 class="h-display-md mb-6">
-              AI accelerated code.<br>
-              The bottleneck<br>
-              <span class="ind">moved upstream</span>.
+              AI made writing code<br>
+              fast. Requirements<br>
+              <span class="ind">didn't keep up</span>.
             </h2>
             <p class="body-lg" style="max-width: 32rem;">
-              When developers ship at AI speed, the constraint shifts to product clarity.
-              Overloaded product owners — without business analysts, without the right
-              tooling — become the bottleneck. The gains from AI-accelerated development
-              disappear before they reach end users.
+              Teams using AI tools now ship code at record speed. But that
+              acceleration exposes a hidden constraint: unclear, incomplete or
+              late requirements. Product Owners — without dedicated support,
+              without the right tooling — become the critical path. The gains
+              from AI-accelerated development evaporate before they reach end users.
             </p>
           </div>
 
           <div class="split-col">
 
             <div class="card-elevated">
-              <div class="card-tag">Goal 01</div>
-              <div class="card-title">Bridge the gap</div>
-              <div class="card-body">
-                Connect product intent to developer-ready tickets — without translation
-                loss between business and engineering.
+              <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.6rem;">
+                <div class="card-tag" style="margin-bottom:0;">AI-generated code — 2026</div>
+                <span style="background:var(--indigo-soft);color:var(--indigo);font-size:0.62rem;font-weight:700;padding:0.15rem 0.55rem;border-radius:999px;">↑ AI</span>
               </div>
+              <div style="font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:700;letter-spacing:-0.04em;color:var(--indigo);line-height:1;margin-bottom:0.4rem;">41% of all code</div>
+              <div class="card-body">41% of all production code is now AI-generated. Yet end-to-end delivery speed barely moved — because the bottleneck was never writing code.</div>
             </div>
 
             <div class="card-elevated">
-              <div class="card-tag">Goal 02</div>
-              <div class="card-title">Shorten the loop</div>
-              <div class="card-body">
-                Reduce cycle time between input, test and feedback so AI-accelerated
-                development delivers end-to-end — not just at the code layer.
+              <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.6rem;">
+                <div class="card-tag" style="margin-bottom:0;">Requirements process</div>
+                <span style="background:var(--rule);color:var(--ink-soft);font-size:0.62rem;font-weight:700;padding:0.15rem 0.55rem;border-radius:999px;">→ same</span>
               </div>
-            </div>
-
-            <div class="card-elevated">
-              <div class="card-tag">Goal 03</div>
-              <div class="card-title">Unblock developers</div>
-              <div class="card-body">
-                Clarity in hours, not days — so fast code generation is matched by
-                equally fast, well-defined input.
-              </div>
+              <div style="font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:700;letter-spacing:-0.04em;color:var(--ink);line-height:1;margin-bottom:0.4rem;">Unchanged</div>
+              <div class="card-body">Still gathered manually. Still written by hand. Now the critical path of every delivery.</div>
             </div>
 
           </div>
@@ -379,112 +470,190 @@
 
 
     <!-- ════════════════════════════════════════
-         SLIDE 3 · Features today · white
+         SLIDE 3 · Our Response · white
     ════════════════════════════════════════ -->
     <section class="slide" data-slide="3">
       <div class="chrome-top">
-        <div class="chrome-tag"><span class="chrome-tag-dot"></span>Features</div>
-        <div class="chrome-num">03 / 04</div>
+        <div class="chrome-tag"><span class="chrome-tag-dot"></span>Our Response</div>
+        <div class="chrome-num">03 / 05</div>
       </div>
-      <div class="slide-body">
+      <div class="slide-body center">
 
-        <span class="pill pill-ind w-fit mb-4">Available now</span>
-        <h2 class="h-section mb-5">
-          A complete workflow, <span class="ind">ready to use</span>.
-        </h2>
+        <span class="pill pill-ind w-fit mb-5">What we built</span>
+        <h2 class="h-section mb-3">We built a tool to address <span class="ind">exactly that gap</span>.</h2>
+        <p class="body-lg mb-8" style="max-width:56rem;">
+          Amsterdam Standard AI Tool bridges product and engineering — turning ideas,
+          calls and notes into developer-ready tickets, so AI-accelerated code generation
+          is finally matched by AI-accelerated product clarity.
+        </p>
 
-        <div class="grid-2x2">
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;align-items:start;margin-top:1.5rem;">
 
-          <!-- Toki · card white -->
-          <div class="card">
-            <div class="card-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                   stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          <div class="card-elevated" style="display:flex;flex-direction:column;">
+            <div class="card-icon" style="margin-bottom:0.85rem;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3m8 0h3a2 2 0 0 0 2-2v-3"/>
               </svg>
             </div>
-            <div class="card-tag">AI Assistant</div>
-            <div class="card-title">Toki</div>
-            <div class="card-body">
-              In-product AI companion. Search tasks, refine requirements, create and edit
-              tickets — all through natural conversation. Task-aware on every detail page,
-              with structured question flows for guided enrichment.
-            </div>
+            <div class="card-tag">Goal 01</div>
+            <div class="card-title">Bridge the gap</div>
+            <div class="card-body">Connect product intent directly to developer-ready tickets — without translation loss between business and engineering.</div>
           </div>
 
-          <!-- Task Enrichment · card-soft lavender -->
-          <div class="card-soft">
-            <div class="card-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                   stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <div class="card-soft" style="display:flex;flex-direction:column;border-radius:24px;padding:clamp(1.1rem,1.8vw,1.5rem);">
+            <div class="card-icon" style="margin-bottom:0.85rem;background:var(--indigo-soft);">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="1 4 1 10 7 10"/>
+                <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/>
+              </svg>
+            </div>
+            <div class="card-tag">Goal 02</div>
+            <div class="card-title">Shorten the loop</div>
+            <div class="card-body">Reduce cycle time between input, test and feedback so AI-accelerated development delivers end-to-end — not just at the code layer.</div>
+          </div>
+
+          <div class="card-ind" style="display:flex;flex-direction:column;border-radius:24px;padding:clamp(1.1rem,1.8vw,1.5rem);">
+            <div class="card-icon" style="margin-bottom:0.85rem;background:rgba(255,255,255,0.15);">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 9.9-1"/>
+              </svg>
+            </div>
+            <div class="card-tag" style="color:rgba(255,255,255,0.45);">Goal 03</div>
+            <div class="card-title" style="color:#fff;">Unblock developers</div>
+            <div class="card-body" style="color:rgba(255,255,255,0.7);">Clarity in hours, not days — so fast code generation is matched by equally fast, well-defined input.</div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ════════════════════════════════════════
+         SLIDE 3 · Features & Flow · white
+    ════════════════════════════════════════ -->
+    <section class="slide" data-slide="4">
+      <div class="chrome-top">
+        <div class="chrome-tag"><span class="chrome-tag-dot"></span>Features &amp; Flow</div>
+        <div class="chrome-num">04 / 05</div>
+      </div>
+      <div class="slide-body center">
+
+        <span class="pill pill-ind w-fit mb-4">How it works</span>
+        <h2 class="h-section mb-5">The full workflow, <span class="ind">powered by AI</span>.</h2>
+
+        <div class="toki-bar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+          </svg>
+          <span><strong>AI assistant</strong> — available at every step. Ask questions, edit tasks and clarify requirements through natural conversation.</span>
+        </div>
+
+        <div class="integrations-row">
+          <span class="int-label">Integrates with</span>
+          <span class="int-badge">Jira</span>
+          <span class="int-badge">GitHub</span>
+          <span class="int-badge soon">Slack</span>
+          <span class="int-badge soon">Gmail</span>
+          <span class="int-badge soon">Notion</span>
+          <span class="int-badge soon">Google Drive</span>
+          <span class="int-badge soon">SharePoint</span>
+        </div>
+
+        <div class="feature-flow">
+
+          <!-- 01 · Task Idea · entry -->
+          <div class="ff-card ff-entry">
+            <div class="ff-num">01</div>
+            <div class="ff-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/>
+                <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/>
+                <line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/>
+                <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"/><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"/>
+              </svg>
+            </div>
+            <div class="ff-title">Task Idea</div>
+          </div>
+
+          <div class="ff-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></div>
+
+          <!-- 02 · Live Refinement · white -->
+          <div class="ff-card">
+            <div class="ff-num">02</div>
+            <div class="ff-ai">AI</div>
+            <div class="ff-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                <line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/>
+              </svg>
+            </div>
+            <div class="ff-title">Live Refinement</div>
+            <div class="ff-body">Run refinement sessions inside the tool. The conversation is transcribed live and decisions are applied directly to tasks — nothing lost after the call. Upload existing transcripts too.</div>
+          </div>
+
+          <div class="ff-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></div>
+
+          <!-- 02 · Task Enrichment · soft -->
+          <div class="ff-card ff-soft">
+            <div class="ff-num">03</div>
+            <div class="ff-ai">AI</div>
+            <div class="ff-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="9 11 12 14 22 4"/>
                 <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
               </svg>
             </div>
-            <div class="card-tag">Quality</div>
-            <div class="card-title">Task Enrichment</div>
-            <div class="card-body">
-              AI identifies what's missing or unclear in a task, generates structured
-              acceptance criteria, and pulls context from attachments and codebase analysis.
-              Output: a task that's truly ready to build.
-            </div>
+            <div class="ff-title">Task Enrichment</div>
+            <div class="ff-body">AI identifies gaps, writes structured acceptance criteria and pulls context from your codebase and attachments. Every task arrives truly ready to build.</div>
           </div>
 
-          <!-- Live Refinement · card-ind indigo -->
-          <div class="card-ind">
-            <div class="card-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                   stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
-                <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
-                <line x1="12" y1="19" x2="12" y2="23"/>
-                <line x1="8"  y1="23" x2="16" y2="23"/>
-              </svg>
-            </div>
-            <div class="card-tag">Collaboration</div>
-            <div class="card-title">Live Refinement</div>
-            <div class="card-body">
-              Run refinement sessions inside Tokenizer. Conversation is captured live,
-              transcribed in real time, and decisions are applied directly to tasks —
-              no notes lost after the call. Also analyzes existing transcripts to extract tasks.
-            </div>
-          </div>
+          <div class="ff-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></div>
 
-          <!-- Open in IDE · card-dark near-black -->
-          <div class="card-dark">
-            <div class="card-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                   stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <!-- 04 · Send to IDE · dark -->
+          <div class="ff-card ff-dark">
+            <div class="ff-num">04</div>
+            <div class="ff-ai">AI</div>
+            <div class="ff-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="16 18 22 12 16 6"/>
                 <polyline points="8 6 2 12 8 18"/>
               </svg>
             </div>
-            <div class="card-tag">Developer Handoff</div>
-            <div class="card-title">Open in IDE</div>
-            <div class="card-body">
-              One click from a clarified task to the developer's IDE of choice —
-              Cursor, VS Code, or any supported environment — complete with a
-              ready-to-use prompt. Each person picks their own tool. Zero friction
-              from ticket to code.
+            <div class="ff-title">Send to IDE</div>
+            <div class="ff-body">One click opens the enriched task in the developer's IDE of choice — Cursor, VS Code or any supported environment — with a structured brief and ready-to-use prompt already waiting. No code is generated here: an experienced developer takes over with everything they need.</div>
+          </div>
+
+          <div class="ff-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></div>
+
+          <!-- 05 · Done · exit -->
+          <div class="ff-card ff-done">
+            <div class="ff-num">05</div>
+            <div class="ff-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                <polyline points="22 4 12 14.01 9 11.01"/>
+              </svg>
             </div>
+            <div class="ff-title">Done</div>
           </div>
 
         </div>
       </div>
     </section>
 
-
     <!-- ════════════════════════════════════════
          SLIDE 4 · Roadmap · bg-indigo
     ════════════════════════════════════════ -->
-    <section class="slide bg-indigo" data-slide="4">
+    <section class="slide bg-indigo" data-slide="5">
       <div class="chrome-top">
         <div class="chrome-tag"><span class="chrome-tag-dot"></span>Roadmap</div>
-        <div class="chrome-num">04 / 04</div>
+        <div class="chrome-num">05 / 05</div>
       </div>
       <div class="slide-body center">
 
-        <span class="pill pill-on-indigo w-fit mb-8">Coming in V2</span>
+        <span class="pill pill-on-indigo w-fit mb-8">Coming soon</span>
 
         <h2 class="h-display white mb-4">
           We're just<br>getting started.
@@ -499,8 +668,9 @@
         <div class="pill-row mb-12">
           <span class="pill pill-on-indigo pill-lg">Feedback module</span>
           <span class="pill pill-on-indigo pill-lg">Cycles</span>
-          <span class="pill pill-on-indigo pill-lg">Risks plugin</span>
-          <span class="pill pill-on-indigo pill-lg">RFP plugin</span>
+          <span class="pill pill-on-indigo pill-lg">Risks identification</span>
+          <span class="pill pill-on-indigo pill-lg">Complexity</span>
+          <span class="pill pill-on-indigo pill-lg">From RFP to tasks</span>
           <span class="pill pill-on-indigo pill-lg">Stakeholder bots</span>
           <span class="pill pill-on-indigo pill-lg">Goals support</span>
         </div>
@@ -508,13 +678,15 @@
         <div class="metric-box">
           <div class="metric-num">Sep '26</div>
           <div class="metric-label">
-            Tokenizer goes live for clients in September 2026.
+            Amsterdam Standard AI Tool goes live for clients in September 2026.
             You'd be among the first to onboard.
           </div>
         </div>
 
       </div>
     </section>
+
+
 
   </div>
 
